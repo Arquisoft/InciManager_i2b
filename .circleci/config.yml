@@ -44,7 +44,4 @@ jobs:
 
       - store_artifacts:
           path: target/InciManager_i2b-0.0.1-SNAPSHOT.jar
-
-  test:
-    post:
       - bash <(curl -s https://codecov.io/bash)
