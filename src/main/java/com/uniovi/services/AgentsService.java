@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class DefaultAgentsService implements IAgentsService {
+public class AgentsService {
+	
+	private final static String AGENTS_URL = "http://localhost:8080/agent";
 
-	@Override
 	public boolean existsAgent(String username, String password) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -24,9 +25,8 @@ public class DefaultAgentsService implements IAgentsService {
 		request.put("kind", "Person"); // TODO: ask about this next Monday
 
         HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
-        String url = "http://localhost:8080/agent";
 
-        ResponseEntity<String> response = new RestTemplate().exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = new RestTemplate().exchange(AGENTS_URL, HttpMethod.POST, entity, String.class);
         HttpStatus responseCode = response.getStatusCode();
         return responseCode.equals(HttpStatus.OK);
 	}
