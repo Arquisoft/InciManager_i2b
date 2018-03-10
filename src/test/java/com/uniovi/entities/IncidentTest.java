@@ -3,10 +3,7 @@ package com.uniovi.entities;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
-
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class IncidentTest {
 	
