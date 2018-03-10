@@ -1,19 +1,23 @@
-package com.uniovi.entities;
+package com.uniovi.main.entities;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.uniovi.entities.Incident;
 import com.uniovi.main.InciManagerI2bApplication;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class
 })
-//@DataJpaTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class IncidentTest {
 	
@@ -63,14 +67,14 @@ public class IncidentTest {
 	}
 	
 	@Test
-	public void testMoreInfo() {
+	public void testProperties() {
 		Incident inci = new Incident("cArmeEn","2018#","BrokenFountain-10MAR","Plaza Nautico, Gijón");
-		inci.addMoreInfo("image", "BrokenFountain-10MAR.png");
-		inci.addMoreInfo("description", "Leaks at the base");
+		inci.addProperty("image", "BrokenFountain-10MAR.png");
+		inci.addProperty("description", "Leaks at the base");
 		
-		assertEquals(2, inci.getMoreInfo().size());
-		assertEquals("image/BrokenFountain-10MAR.png", inci.getMoreInfo().get(0));
-		assertEquals("description/Leaks at the base", inci.getMoreInfo().get(1));
+		assertEquals(2, inci.getProperties().size());
+		assertEquals("BrokenFountain-10MAR.png", inci.getProperties().get("image"));
+		assertEquals("Leaks at the base", inci.getProperties().get("description"));
 
 	}
 
