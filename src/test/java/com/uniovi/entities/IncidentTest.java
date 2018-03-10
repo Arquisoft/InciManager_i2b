@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.uniovi.InciManagerI2bApplication;
+import com.uniovi.main.InciManagerI2bApplication;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class
@@ -33,30 +33,29 @@ public class IncidentTest {
 		String name = "nameIncident";
 		String locat = "gijon";
 		
-		Incident inci;
 		try {
-			inci = new Incident("", passw, name, locat);
+			new Incident("", passw, name, locat);
 			fail("A IllegalArgumentException should have been thrown");
 		} catch (IllegalArgumentException e) {
 			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
 		}
 		
 		try {
-			inci = new Incident(username, "", name, locat);
+			new Incident(username, "", name, locat);
 			fail("A IllegalArgumentException should have been thrown");
 		} catch (IllegalArgumentException e) {
 			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
 		}
 		
 		try {
-			inci = new Incident(username, passw, "", locat);
+			new Incident(username, passw, "", locat);
 			fail("A IllegalArgumentException should have been thrown");
 		} catch (IllegalArgumentException e) {
 			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
 		}
 		
 		try {
-			inci = new Incident(username, passw, name, "");
+			new Incident(username, passw, name, "");
 			fail("A IllegalArgumentException should have been thrown");
 		} catch (IllegalArgumentException e) {
 			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	

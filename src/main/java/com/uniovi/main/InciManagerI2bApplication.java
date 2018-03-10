@@ -1,4 +1,4 @@
-package com.uniovi;
+package com.uniovi.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

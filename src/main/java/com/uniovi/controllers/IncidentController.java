@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.uniovi.entities.Incident;
 import com.uniovi.services.IAgentsService;
-import com.uniovi.services.IncidentsService;
+import com.uniovi.services.KafkaService;
+import com.uniovi.util.exception.AgentNotFoundException;
 
 @Controller
 public class IncidentController {
@@ -18,7 +20,7 @@ public class IncidentController {
 	IAgentsService agentsService;
 	
 	@Autowired
-	IncidentsService incidentsService;
+	KafkaService kafkaService;
 	
 	@RequestMapping(value="/incident/create", method=RequestMethod.POST)
 	public void createIncident(@ModelAttribute Incident incident) {
@@ -27,7 +29,7 @@ public class IncidentController {
 		boolean existsAgent = agentsService.existsAgent(username, password);
 		
 		if (existsAgent) {
-			incidentsService.sendToKafka(incident);
+			kafkaService.sendToKafka(incident);
 		} else {
 			throw new AgentNotFoundException();
 		}
