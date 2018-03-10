@@ -9,7 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 	"com.uniovi.repositories",
 	"com.uniovi.controllers",
 	"com.uniovi.entities",
-	"com.uniovi.services"
+	"com.uniovi.services",
+	"com.uniovi.util"
 })
 public class InciManagerI2bApplication {
 

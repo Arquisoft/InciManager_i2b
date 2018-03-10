@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class IncidentPropertiesConverter implements AttributeConverter<Map<String, Object>, String> {
 
 	@Autowired
-	JsonHelper jsonHelper;
+	JSONHelper jsonHelper;
 	
 	@Override
 	public String convertToDatabaseColumn(Map<String, Object> properties) {

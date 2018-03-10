@@ -1,6 +1,5 @@
 package com.uniovi.util;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -12,9 +11,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 @Component
-public class JsonHelper {
+public class JSONHelper {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(JsonHelper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JSONHelper.class);
 	
 	public <K, V> String mapToJson(Map<String, Object> map) {
 		Gson gson = new GsonBuilder().create();
@@ -25,7 +24,7 @@ public class JsonHelper {
 	
 	public <K, V> Map<K, V> jsonToMap(String json) {
 		Gson gson = new Gson();
-		Map<K, V> map = gson.fromJson(json, new TypeToken<List<Map<K, V>>>(){}.getType());
+		Map<K, V> map = gson.fromJson(json, new TypeToken<Map<K, V>>(){}.getType());
 		LOG.info("Converting json string to map. From {} to {}", json, map);
 		return map;
 	}
