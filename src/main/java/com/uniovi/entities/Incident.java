@@ -1,15 +1,17 @@
 package com.uniovi.entities;
-import com.uniovi.util.JasyptEncryptor;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import com.uniovi.util.IncidentPropertiesConverter;
+import com.uniovi.util.JasyptEncryptor;
 
 @Entity
 public class Incident {
@@ -19,8 +21,14 @@ public class Incident {
 	
 	private String username, password;
 	private String inciName, location;
+	
+	@ElementCollection(targetClass=String.class)
 	private List<String> tags= new ArrayList<String>();
+	
+	@ElementCollection(targetClass=String.class)
 	private List<String> moreInfo= new ArrayList<String>();
+	
+	@Convert(converter=IncidentPropertiesConverter.class)
 	private Map<String, Object> properties = new HashMap<String, Object>();
 
 	public Incident() {}
@@ -33,8 +41,7 @@ public class Incident {
 	 * @param name - of the incident, either descriptive or a code
 	 * @param location - of the incident 
 	 */
-	public Incident(String username, String passw, String name, String location)
-	{
+	public Incident(String username, String passw, String name, String location) {
 		if (username=="" || passw=="" ||name=="" || location=="")
 			throw new IllegalArgumentException("Incident fields cannot be empty");
 		
@@ -44,9 +51,12 @@ public class Incident {
 		this.location = location;
 	}
 	
-	public void addMoreInfo(String property, Object value)
-	{
-		properties.put(property, value);
+	public void addMoreInfo(String info) {
+		this.moreInfo.add(info);
+	}
+
+	public void addProperty(String property, Object value) {
+		this.properties.put(property, value);
 	}
 
 	public Map<String, Object> getProperties() {
@@ -58,7 +68,7 @@ public class Incident {
 	}
 
 	public void setPassword(String password) {
-		this.password = encryptPass(password);
+		this.password = password;
 	}
 
 	public void setInciName(String inciName) {

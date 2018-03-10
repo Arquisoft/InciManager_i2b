@@ -1,22 +1,19 @@
 -------------------------------------------------------------------------------
 Test set: com.uniovi.entities.IncidentTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 7.327 s <<< FAILURE! - in com.uniovi.entities.IncidentTest
-testCorrectInstatiation(com.uniovi.entities.IncidentTest)  Time elapsed: 0.003 s  <<< ERROR!
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 16.734 s <<< FAILURE! - in com.uniovi.entities.IncidentTest
+testProperties(com.uniovi.entities.IncidentTest)  Time elapsed: 0.039 s  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: org.hibernate.MappingException: Could not determine type for: java.util.List, at table: incident, for columns: [org.hibernate.mapping.Column(more_info)]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'incidentController': Unsatisfied dependency expressed through field 'agentsService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
+
+testCorrectInstatiation(com.uniovi.entities.IncidentTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'incidentController': Unsatisfied dependency expressed through field 'agentsService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
 
 testEmptyFields(com.uniovi.entities.IncidentTest)  Time elapsed: 0 s  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: org.hibernate.MappingException: Could not determine type for: java.util.List, at table: incident, for columns: [org.hibernate.mapping.Column(more_info)]
-
-testMoreInfo(com.uniovi.entities.IncidentTest)  Time elapsed: 0 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: org.hibernate.MappingException: Could not determine type for: java.util.List, at table: incident, for columns: [org.hibernate.mapping.Column(more_info)]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'incidentController': Unsatisfied dependency expressed through field 'agentsService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
 

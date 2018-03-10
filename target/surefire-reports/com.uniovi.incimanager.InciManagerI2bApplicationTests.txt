@@ -1,10 +1,9 @@
 -------------------------------------------------------------------------------
 Test set: com.uniovi.incimanager.InciManagerI2bApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.1 s <<< FAILURE! - in com.uniovi.incimanager.InciManagerI2bApplicationTests
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.408 s <<< FAILURE! - in com.uniovi.incimanager.InciManagerI2bApplicationTests
 contextLoads(com.uniovi.incimanager.InciManagerI2bApplicationTests)  Time elapsed: 0 s  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
-Caused by: org.hibernate.MappingException: Could not determine type for: java.util.List, at table: incident, for columns: [org.hibernate.mapping.Column(more_info)]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'incidentController': Unsatisfied dependency expressed through field 'agentsService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.uniovi.services.IAgentsService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=DefaultAgentsService)}
 
