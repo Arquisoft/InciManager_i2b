@@ -3,7 +3,9 @@ import com.uniovi.util.JasyptEncryptor;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ public class Incident {
 	private String username, password;
 	private String inciName, location;
 	private List<String> tags= new ArrayList<String>();
-	private List<String> moreInfo= new ArrayList<String>();
+	private Map<String, Object> moreInfo = new HashMap<String, Object>();
 
 	public Incident() {}
 	
@@ -41,9 +43,13 @@ public class Incident {
 		this.location = location;
 	}
 	
-	public void addMoreInfo(String property, String value)
+	public void addMoreInfo(String property, Object value)
 	{
-		moreInfo.add(property +"/"+value);
+		moreInfo.put(property, value);
+	}
+
+	public Map<String, Object> getMoreInfo() {
+		return moreInfo;
 	}
 
 	public void setUsername(String username) {
@@ -86,9 +92,6 @@ public class Incident {
 		return tags;
 	}
 
-	public List<String> getMoreInfo() {
-		return moreInfo;
-	}
 
 	@Override
 	public String toString() {
