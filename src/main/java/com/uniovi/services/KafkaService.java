@@ -22,7 +22,7 @@ public class KafkaService {
 	
 	public void sendToKafka(Incident incident) {
 		String message = this.toKafkaMessage(incident);
-		LOG.info("seding message='{}' to topic='{}'", message, topic);
+		LOG.info("sending message='{}' to topic='{}'", message, topic);
 		kafkaTemplate.send(topic, message);
 	}
 	

@@ -1,9 +1,8 @@
 package com.uniovi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,23 +15,23 @@ import com.uniovi.util.exception.AgentNotFoundException;
 public class IncidentController {
 	
 	@Autowired
-	@Qualifier("DefaultAgentsService")
 	IAgentsService agentsService;
 	
 	@Autowired
 	KafkaService kafkaService;
 	
 	@RequestMapping(value="/incident/create", method=RequestMethod.POST)
-	public void createIncident(@ModelAttribute Incident incident) {
+	public String createIncident(@RequestBody Incident incident) throws Exception {
+		System.out.println(incident.toString());
 		String username = incident.getUsername();
 		String password = incident.getPassword();
-		boolean existsAgent = agentsService.existsAgent(username, password);
-		
-		if (existsAgent) {
-			kafkaService.sendToKafka(incident);
-		} else {
+		if (!agentsService.existsAgent(username, password)) {
 			throw new AgentNotFoundException();
 		}
+		
+		
+		kafkaService.sendToKafka(incident);
+		return "home";
 	}
 
 }

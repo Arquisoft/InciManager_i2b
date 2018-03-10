@@ -68,7 +68,7 @@ public class Incident {
 	}
 
 	public void setPassword(String password) {
-		this.password = encryptPass(password);
+		this.password = password;
 	}
 
 	public void setInciName(String inciName) {

@@ -1,39 +1,34 @@
 package com.uniovi.services;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class DefaultAgentsService implements IAgentsService {
 
 	@Override
-	public boolean existsAgent(String username, String password) {
-		MultiValueMap<String, String> headers = prepareHeaders();
+	public boolean existsAgent(String username, String password) throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		JSONObject request = new JSONObject();
+		request.put("login", username);
+        request.put("password", password);
+		request.put("kind", "Person"); // TODO: ask about this next Monday
 
-        Map<String, String> payload = new HashMap<String, String>();
-        payload.put("username", username);
-        payload.put("password", password);
+        HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
+        String url = "http://localhost:8080/agent";
 
-        HttpEntity<?> request = new HttpEntity<>(payload, headers);
-        String url = "http://localhost:8080/";
-
-        ResponseEntity<?> response = new RestTemplate().postForEntity(url, request, String.class);
+        ResponseEntity<String> response = new RestTemplate().exchange(url, HttpMethod.POST, entity, String.class);
         HttpStatus responseCode = response.getStatusCode();
         return responseCode.equals(HttpStatus.OK);
-	}
-	
-	private MultiValueMap<String, String> prepareHeaders() {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("Content-Type", "application/json");
-        headers.setAll(map);
-        return headers;
 	}
 
 }
