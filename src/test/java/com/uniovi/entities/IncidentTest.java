@@ -1,15 +1,14 @@
 package com.uniovi.entities;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class IncidentTest {
-
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
 	
 	@Test
 	public void testCorrectInstatiation() {
@@ -20,23 +19,40 @@ public class IncidentTest {
 	}
 	
 	@Test
-	public void testEmptyUsername() {
+	public void testEmptyFields() {
 		String username = "car";
 		String passw = "2018";
 		String name = "nameIncident";
 		String locat = "gijon";
 		
-		exception.expect(IllegalArgumentException.class);
-		Incident inci = new Incident("",passw, name, locat);
-
-		exception.expect(IllegalArgumentException.class);
-		inci = new Incident(username, "", name, locat);
+		Incident inci;
+		try {
+			inci = new Incident("", passw, name, locat);
+			fail("A IllegalArgumentException should have been thrown");
+		} catch (IllegalArgumentException e) {
+			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
+		}
 		
-		exception.expect(IllegalArgumentException.class);
-		inci = new Incident(username, passw, "", locat);
+		try {
+			inci = new Incident(username, "", name, locat);
+			fail("A IllegalArgumentException should have been thrown");
+		} catch (IllegalArgumentException e) {
+			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
+		}
 		
-		exception.expect(IllegalArgumentException.class);
-		inci = new Incident(username, passw, name, "");
+		try {
+			inci = new Incident(username, passw, "", locat);
+			fail("A IllegalArgumentException should have been thrown");
+		} catch (IllegalArgumentException e) {
+			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
+		}
+		
+		try {
+			inci = new Incident(username, passw, name, "");
+			fail("A IllegalArgumentException should have been thrown");
+		} catch (IllegalArgumentException e) {
+			assertThat(e.getMessage(), is("Incident fields cannot be empty"));	
+		}
 	}
 	
 	@Test
