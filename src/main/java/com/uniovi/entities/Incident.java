@@ -20,7 +20,8 @@ public class Incident {
 	private String username, password;
 	private String inciName, location;
 	private List<String> tags= new ArrayList<String>();
-	private Map<String, Object> moreInfo = new HashMap<String, Object>();
+	private List<String> moreInfo= new ArrayList<String>();
+	private Map<String, Object> properties = new HashMap<String, Object>();
 
 	public Incident() {}
 	
@@ -45,11 +46,11 @@ public class Incident {
 	
 	public void addMoreInfo(String property, Object value)
 	{
-		moreInfo.put(property, value);
+		properties.put(property, value);
 	}
 
-	public Map<String, Object> getMoreInfo() {
-		return moreInfo;
+	public Map<String, Object> getProperties() {
+		return properties;
 	}
 
 	public void setUsername(String username) {
@@ -91,19 +92,25 @@ public class Incident {
 	public List<String> getTags() {
 		return tags;
 	}
-
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Incident [username=").append(username).append(", password=").append(password)
-				.append(", inciName=").append(inciName).append(", location=").append(location).append(", tags=")
-				.append(tags).append(", moreInfo=").append(moreInfo).append("]");
-		return builder.toString();
-	}
 	
+	public List<String> getMoreInfo() {
+		return moreInfo;
+	}
+
 	private String encryptPass(String password){
 		JasyptEncryptor encryptor = new JasyptEncryptor();
 		return encryptor.encryptPassword(password);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Incident [id=").append(id).append(", username=").append(username).append(", password=")
+				.append(password).append(", inciName=").append(inciName).append(", location=").append(location)
+				.append(", tags=").append(tags).append(", moreInfo=").append(moreInfo).append(", properties=")
+				.append(properties).append("]");
+		return builder.toString();
+	}
+	
+	
 }

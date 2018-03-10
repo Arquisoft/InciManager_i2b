@@ -21,6 +21,7 @@ public class IncidentTest {
 	public void testCorrectInstatiation() {
 		Incident inci = new Incident("cArmeEn","2018#","BrokenFountain-10MAR","Plaza Nautico, Gijón");
 		assertFalse(inci.getPassword().equals("2018#"));
+		assertTrue(inci.getProperties().isEmpty());
 		assertTrue(inci.getMoreInfo().isEmpty());
 		assertTrue(inci.getTags().isEmpty());
 	}
