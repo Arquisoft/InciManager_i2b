@@ -11,8 +11,7 @@ import com.uniovi.entities.Incident;
 public interface IncidentsRepository extends MongoRepository<Incident, Long>{
 	
 	List<Incident> findByUsername (String username);
-	List<Incident> findAllByUsernameAndPassword (String username, String Password);
-	
-	Incident findByInciName (String inciName);
+	List<Incident> findAllByUsernameAndPassword(String username, String encryptPassword);
 
+	Incident findByInciName (String inciName);
 }

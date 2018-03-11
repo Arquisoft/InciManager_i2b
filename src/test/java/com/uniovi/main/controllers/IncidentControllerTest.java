@@ -13,12 +13,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.uniovi.controllers.IncidentController;
+import com.uniovi.entities.Incident;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
@@ -36,6 +38,7 @@ public class IncidentControllerTest {
     @Mock
     IncidentsService incidentsService;
     
+
     @Mock
     KafkaService kafkaService;
 
@@ -50,6 +53,7 @@ public class IncidentControllerTest {
         when(agentsService.existsAgent("Son", "prueba")).thenReturn(true);
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
+                
     }
 
     @Test
@@ -72,6 +76,9 @@ public class IncidentControllerTest {
     public void testAgentInfoCorrect() throws Exception {
     		String payload = buildPayload("Son", "prueba", "Test Incident", "Seoul",
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
+    		
+    		System.out.println(payload);
+    		
         
     		MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
@@ -84,6 +91,26 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.OK.value(), status);
     }
     
+    @Test
+    public void testIncidentsInfo() throws Exception {
+			
+    		Incident testIncident = new Incident ("Son", "prueba", "testIncident", "testLocation");
+    		incidentsService.addIncident(testIncident);
+    	    		    		
+    		MockHttpServletRequestBuilder request = post("/incidentsinfo")
+    				.param("username", "Son").param("password", "prueba")
+    				.contentType(MediaType.APPLICATION_JSON);
+    		
+    		MockHttpServletResponse response = mockMvc.perform(request)
+        						.andReturn()
+        						.getResponse();
+    		
+    		assertEquals(HttpStatus.OK.value(), response.getStatus());
+    		
+
+    		
+    }
+    
     private String buildPayload(String name, String password, String inciName, String location,
     							   String tags, String moreInfo, String properties) {
     	
@@ -92,4 +119,5 @@ public class IncidentControllerTest {
 					+ "\"moreInfo\": [%s], \"properties\": {%s}}",
 					name, password, inciName, location, tags, moreInfo, properties);
     }
+
 }
