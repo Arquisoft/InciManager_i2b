@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.uniovi.controllers.IncidentController;
-import com.uniovi.entities.Incident;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
@@ -93,23 +92,23 @@ public class IncidentControllerTest {
     
     @Test
     public void testIncidentsInfo() throws Exception {
-			
-    		Incident testIncident = new Incident ("Son", "prueba", "testIncident", "testLocation");
-    		incidentsService.addIncident(testIncident);
+			//Request not working for a non-existing agent
     	    		    		
     		MockHttpServletRequestBuilder request = post("/incidentsinfo")
-    				.param("username", "Son").param("password", "prueba")
+    				.param("username", "anyName").param("password", "anyPass")
     				.contentType(MediaType.APPLICATION_JSON);
     		
     		MockHttpServletResponse response = mockMvc.perform(request)
         						.andReturn()
         						.getResponse();
     		
-    		assertEquals(HttpStatus.OK.value(), response.getStatus());
+    		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
     		
 
     		
     }
+    
+    
     
     private String buildPayload(String name, String password, String inciName, String location,
     							   String tags, String moreInfo, String properties) {
