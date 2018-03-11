@@ -1,0 +1,4 @@
+com/uniovi/main/entities/IncidentTest.class
+com/uniovi/main/util/JSONHelperTest.class
+com/uniovi/main/incimanager/InciManagerI2bApplicationTests.class
+com/uniovi/main/controllers/IncidentControllerTest.class
