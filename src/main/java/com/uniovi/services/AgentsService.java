@@ -1,6 +1,9 @@
 package com.uniovi.services;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,13 +15,18 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AgentsService {
+
+	@Value("${agents_url}")
+	private String agentsUrl;
 	
-	private final static String AGENTS_URL = "http://localhost:8080/agent";
+	private static final Logger LOG = LoggerFactory.getLogger(AgentsService.class);
 
 	public boolean existsAgent(String username, String password) throws Exception {
+		LOG.info("Sending POST request to url: {}", agentsUrl);
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		
+
 		JSONObject request = new JSONObject();
 		request.put("login", username);
         request.put("password", password);
@@ -26,7 +34,7 @@ public class AgentsService {
 
         HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
 
-        ResponseEntity<String> response = new RestTemplate().exchange(AGENTS_URL, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = new RestTemplate().exchange(agentsUrl, HttpMethod.POST, entity, String.class);
         HttpStatus responseCode = response.getStatusCode();
         return responseCode.equals(HttpStatus.OK);
 	}
