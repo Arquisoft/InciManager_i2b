@@ -1,4 +1,4 @@
-package repositories;
+package com.uniovi.main.repositories;
 
 import static org.junit.Assert.assertEquals;
 
