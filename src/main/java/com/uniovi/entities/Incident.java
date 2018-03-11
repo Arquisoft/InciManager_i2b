@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.bson.types.ObjectId;
+
 import com.uniovi.util.IncidentPropertiesConverter;
 import com.uniovi.util.JasyptEncryptor;
 
@@ -17,7 +19,7 @@ import com.uniovi.util.JasyptEncryptor;
 public class Incident {
 	
 	@Id @GeneratedValue
-	private Long id;
+	private ObjectId id;
 	
 	private String username, password;
 	private String inciName, location;
@@ -79,7 +81,7 @@ public class Incident {
 		this.location = location;
 	}
 
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
