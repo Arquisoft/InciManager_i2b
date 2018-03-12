@@ -4,12 +4,9 @@ import java.util.Map;
 
 import javax.persistence.AttributeConverter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 public class IncidentPropertiesConverter implements AttributeConverter<Map<String, Object>, String> {
 
-	@Autowired
-	JSONHelper jsonHelper;
+	JSONHelper jsonHelper = new JSONHelper();
 	
 	@Override
 	public String convertToDatabaseColumn(Map<String, Object> properties) {
