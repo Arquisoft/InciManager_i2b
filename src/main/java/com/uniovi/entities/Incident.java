@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -30,6 +32,9 @@ public class Incident {
 	
 	@Convert(converter=IncidentPropertiesConverter.class)
 	private Map<String, Object> properties = new HashMap<String, Object>();
+	
+	@Enumerated(EnumType.STRING)
+	private IncidentState state;
 
 	public Incident() {}
 	
@@ -105,6 +110,14 @@ public class Incident {
 	
 	public List<String> getMoreInfo() {
 		return moreInfo;
+	}
+
+	public IncidentState getState() {
+		return state;
+	}
+
+	public void setState(IncidentState state) {
+		this.state = state;
 	}
 
 	private String encryptPass(String password){
