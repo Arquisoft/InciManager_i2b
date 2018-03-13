@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.uniovi.entities.AgentInfo;
+
 @Service
 public class AgentsService {
 
@@ -21,16 +23,16 @@ public class AgentsService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentsService.class);
 
-	public boolean existsAgent(String username, String password) throws Exception {
+	public boolean existsAgent(AgentInfo agent) throws Exception {
 		LOG.info("Sending POST request to url: {}", agentsUrl);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		JSONObject request = new JSONObject();
-		request.put("login", username);
-        request.put("password", password);
-		request.put("kind", "Person"); // TODO: ask about this next Monday
+		request.put("login", agent.getUsername());
+        request.put("password", agent.getPassword());
+		request.put("kind", agent.getKind());
 
         HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
 

@@ -34,7 +34,6 @@ public class IncidentAccessTest {
     
     JasyptEncryptor encryptor;
 
-
     @Before
     public void setup() throws Exception {
         encryptor = new JasyptEncryptor();
@@ -42,26 +41,26 @@ public class IncidentAccessTest {
 
     
     @Test
-    public void _01testInsertIncident() throws Exception {
-
-    	//Check if the SampleDataService insertions worked.
+    public void T01testInsertIncident() throws Exception {
+    		//Check if the SampleDataService insertions worked.
 		assertEquals(5, incidentsService.getIncidents().size());
     }
     
     @Test
-    public void _02testReadIncident() throws Exception {
-		
-		List<Incident> incidentsUser1 = incidentsService.getIncidentsByUsername("user1");
+    public void T02testReadIncident() throws Exception {
+		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent);
 		assertEquals(1, incidentsUser1.size());
 		Incident inci1 = incidentsUser1.get(0);
 		
-		assertEquals("user1", inci1.getUsername());
-		assertEquals(true, encryptor.checkPassword("passwd1", inci1.getPassword()));
+		assertEquals("user1", inci1.getAgent().getUsername());
+		assertEquals(true, encryptor.checkPassword("passwd1", inci1.getAgent().getPassword()));
+		assertEquals("", inci1.getAgent().getKind());
 		assertEquals("inci1", inci1.getInciName());
 		assertEquals("location1", inci1.getLocation());
 		assertEquals(0, inci1.getProperties().size());
 		
 		//Add a second incident to user1
+		
 		Incident incident6 = new Incident ("user1", "passwd1", "inci6", "location1");
 		incidentsService.addIncident(incident6);
 		
@@ -72,7 +71,7 @@ public class IncidentAccessTest {
     }
     
     @Test
-    public void _03testDeleteIncident() throws Exception {
+    public void T03testDeleteIncident() throws Exception {
 		
 		List<Incident> incidents = incidentsService.getIncidents();
 		assertEquals(6, incidents.size());
@@ -93,7 +92,6 @@ public class IncidentAccessTest {
 		incidents = incidentsService.getIncidentsByUsername("user1");
 		assertEquals("user1", incidents.get(0).getUsername());
 		assertEquals("inci6", incidents.get(0).getInciName());
-
     }
 
   
