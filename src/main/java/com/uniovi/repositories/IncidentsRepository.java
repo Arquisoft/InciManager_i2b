@@ -13,9 +13,11 @@ import com.uniovi.entities.Incident;
 public interface IncidentsRepository extends CrudRepository<Incident, Long>{
 	
 	@Query("SELECT i FROM Incident i WHERE i.agent = ?1")
-	List<Incident> findAllByAgent(AgentInfo agent);
+	public List<Incident> findAllByAgent(AgentInfo agent);
 	
-	List<Incident> findAll();
+	public List<Incident> findAll();
 
-	Incident findByInciName (String inciName);
+	public Incident findByInciName (String inciName);
+
+	public void deleteByInciName(String inciName);
 }

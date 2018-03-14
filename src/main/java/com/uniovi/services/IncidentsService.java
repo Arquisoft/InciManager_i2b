@@ -27,13 +27,15 @@ public class IncidentsService {
 	}
 
 	public void deleteIncidentByName(String inciName) {
-		Incident i = incidentsRepository.findByInciName(inciName);
-		if (i != null)
-			incidentsRepository.delete(i);
+		incidentsRepository.deleteByInciName(inciName);
 	}
 
 	public List<Incident> getIncidentsByAgent(AgentInfo agent) {
 		return incidentsRepository.findAllByAgent(agent);
+	}	
+	
+	public Incident getIncidentByName(String name) {
+		return incidentsRepository.findByInciName(name);
 	}
 
 	public List<Incident> getIncidents() {
