@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
+import com.uniovi.entities.LatLng;
 
 @Service
 public class InsertSampleDataService {
@@ -27,11 +28,11 @@ public class InsertSampleDataService {
 		agent2 = new AgentInfo("agent2", "pruebas456", "Entity");
 		agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
 		
-		Incident incident1 = new Incident("inci1", "location1");
-		Incident incident2 = new Incident("inci2", "location2");
-		Incident incident3 = new Incident("inci3", "location3");
-		Incident incident4 = new Incident("inci4", "location4");
-		Incident incident5 = new Incident("inci5", "location5");
+		Incident incident1 = new Incident("inci1", new LatLng(124, 152));
+		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780));
+		Incident incident3 = new Incident("inci3", new LatLng(15, 12));
+		Incident incident4 = new Incident("inci4", new LatLng(100, 200));
+		Incident incident5 = new Incident("inci5", new LatLng(52, 42));
 		
 		agent1.addIncident(incident1);
 		agent1.addIncident(incident4);

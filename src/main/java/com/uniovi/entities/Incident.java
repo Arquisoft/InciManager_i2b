@@ -22,7 +22,8 @@ public class Incident {
 	@Id @GeneratedValue
 	private Long id;
 	
-	private String inciName, location;
+	private String inciName;
+	private LatLng location;
 	
 	@ManyToOne
 	@JoinColumn(name="agent_id")
@@ -50,8 +51,8 @@ public class Incident {
 	 * @param name - of the incident, either descriptive or a code
 	 * @param location - of the incident 
 	 */
-	public Incident(String name, String location) {
-		if (name=="" || location=="")
+	public Incident(String name, LatLng location) {
+		if (name=="" || location==null)
 			throw new IllegalArgumentException("Incident fields cannot be empty");
 		
 		this.inciName = name;
@@ -74,7 +75,7 @@ public class Incident {
 		this.inciName = inciName;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(LatLng location) {
 		this.location = location;
 	}
 
@@ -86,7 +87,7 @@ public class Incident {
 		return inciName;
 	}
 
-	public String getLocation() {
+	public LatLng getLocation() {
 		return location;
 	}
 

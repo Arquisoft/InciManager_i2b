@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.uniovi.controllers.IncidentController;
 import com.uniovi.entities.AgentInfo;
+import com.uniovi.entities.LatLng;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
@@ -56,7 +57,7 @@ public class IncidentControllerTest {
 
     @Test
     public void testAgentNotExists() throws Exception {
-		String payload = buildPayload("NotAnAgent", "prueba", "Test Incident","Person", "Seoul",
+		String payload = buildPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
 				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
 		
 		MockHttpServletRequestBuilder request = post("/incident/create")
@@ -72,7 +73,7 @@ public class IncidentControllerTest {
 
     @Test
     public void testAgentInfoCorrect() throws Exception {
-    		String payload = buildPayload("Son", "prueba", "Person", "Test Incident", "Seoul",
+    		String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
     		
     		System.out.println(payload);
@@ -108,11 +109,12 @@ public class IncidentControllerTest {
     
     
     private String buildPayload(String name, String password, String kind, String inciName,
-    				String location, String tags, String moreInfo, String properties) {
+    				LatLng location, String tags, String moreInfo, String properties) {
 		return String.format("{\"username\": \"%s\", \"password\": \"%s\", "
-					+ "\"kind\": \"%s\", \"inciName\": \"%s\", \"location\": \"%s\", "
-					+ "\"tags\": [%s], \"moreInfo\": [%s], \"properties\": {%s}}",
-					name, password, kind, inciName, location, tags, moreInfo, properties);
+					+ "\"kind\": \"%s\", \"inciName\": \"%s\", \"location.latitude\": %f, "
+					+ "\"location.longitude\": %f, \"tags\": [%s], \"moreInfo\": [%s], \"properties\": {%s}}",
+					name, password, kind, inciName, location.latitude, location.longitude,
+					tags, moreInfo, properties);
     }
 
 }

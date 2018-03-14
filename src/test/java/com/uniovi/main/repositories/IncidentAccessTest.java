@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
+import com.uniovi.entities.LatLng;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
@@ -61,11 +62,12 @@ public class IncidentAccessTest {
 		
 		assertEquals(agent1, inci1.getAgent());
 		assertEquals("inci1", inci1.getInciName());
-		assertEquals("location1", inci1.getLocation());
+		assertEquals(124, inci1.getLocation().latitude, 0.01);
+		assertEquals(152, inci1.getLocation().longitude, 0.01);
 		assertEquals(0, inci1.getProperties().size());
 		
 		//Add a second incident to agent1
-		Incident incident6 = new Incident("inci6", "location1");
+		Incident incident6 = new Incident("inci6", new LatLng(155, 42));
 		agent1.addIncident(incident6);
 		agentsService.addAgent(agent1);
 		

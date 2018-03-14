@@ -4,7 +4,6 @@ com/uniovi/services/KafkaService.class
 com/uniovi/util/JasyptEncryptor.class
 com/uniovi/util/JSONHelper.class
 com/uniovi/util/exception/AgentNotFoundException.class
-com/uniovi/repositories/IncidentRepository.class
 com/uniovi/entities/Incident.class
 com/uniovi/main/InciManagerI2bApplication.class
 com/uniovi/controllers/IncidentController.class
