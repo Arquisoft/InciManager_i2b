@@ -7,16 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
+import com.uniovi.entities.IncidentState;
 import com.uniovi.repositories.IncidentsRepository;
-import com.uniovi.util.JasyptEncryptor;
 
 @Service
 public class IncidentsService {
 
 	@Autowired
-	IncidentsRepository incidentsRepository;
-
-	JasyptEncryptor encryptor = new JasyptEncryptor();
+	private IncidentsRepository incidentsRepository;
 
 	public void addIncident(Incident incident) {
 		incidentsRepository.save(incident);
@@ -40,6 +38,11 @@ public class IncidentsService {
 
 	public List<Incident> getIncidents() {
 		return incidentsRepository.findAll();
+	}
+
+	public void addNewIncident(Incident incident) {
+		incident.setState(IncidentState.OPEN);
+		this.addIncident(incident);
 	}
 
 }

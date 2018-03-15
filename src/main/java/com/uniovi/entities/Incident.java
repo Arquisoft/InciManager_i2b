@@ -59,7 +59,7 @@ public class Incident {
 	 * @param location - of the incident 
 	 */
 	public Incident(String name, LatLng location) {
-		if (name=="" || location==null)
+		if (name.equals("") || location == null)
 			throw new IllegalArgumentException("Incident fields cannot be empty");
 		
 		this.inciName = name;
@@ -135,12 +135,9 @@ public class Incident {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((inciName == null) ? 0 : inciName.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((moreInfo == null) ? 0 : moreInfo.hashCode());
-		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		return result;
 	}
 
@@ -153,6 +150,11 @@ public class Incident {
 		if (getClass() != obj.getClass())
 			return false;
 		Incident other = (Incident) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (inciName == null) {
 			if (other.inciName != null)
 				return false;
@@ -162,23 +164,6 @@ public class Incident {
 			if (other.location != null)
 				return false;
 		} else if (!location.equals(other.location))
-			return false;
-		if (moreInfo == null) {
-			if (other.moreInfo != null)
-				return false;
-		} else if (!moreInfo.equals(other.moreInfo))
-			return false;
-		if (properties == null) {
-			if (other.properties != null)
-				return false;
-		} else if (!properties.equals(other.properties))
-			return false;
-		if (state != other.state)
-			return false;
-		if (tags == null) {
-			if (other.tags != null)
-				return false;
-		} else if (!tags.equals(other.tags))
 			return false;
 		return true;
 	}

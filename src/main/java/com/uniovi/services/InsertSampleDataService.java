@@ -2,7 +2,6 @@ package com.uniovi.services;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +19,11 @@ public class InsertSampleDataService {
 	@Autowired
 	private AgentsService agentsService;
 	
-	private AgentInfo agent1;
-	private AgentInfo agent2;
-	private AgentInfo agent3;
-	
 	@PostConstruct
-	@Transactional
 	public void init() {
-		agent1 = new AgentInfo("agent1", "pruebas123", "Person");
-		agent2 = new AgentInfo("agent2", "pruebas456", "Entity");
-		agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
+		AgentInfo agent1 = new AgentInfo("agent1", "pruebas123", "Person");
+		AgentInfo agent2 = new AgentInfo("agent2", "pruebas456", "Entity");
+		AgentInfo agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
 		
 		Incident incident1 = new Incident("inci1", new LatLng(124, 152), agent1);
 		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), agent2);

@@ -21,7 +21,7 @@ import com.uniovi.main.InciManagerI2bApplication;
 public class JSONHelperTest {
 	
 	@Autowired
-	JSONHelper jsonHelper;
+	private JSONHelper jsonHelper;
 	
 	@Test
 	public void testJSONToMap() {

@@ -17,13 +17,13 @@ import com.uniovi.util.exception.AgentNotFoundException;
 public class IncidentController {
 	
 	@Autowired
-	AgentsService agentsService;
+	private AgentsService agentsService;
 	
 	@Autowired
-	IncidentsService incidentsService;
+	private IncidentsService incidentsService;
 	
 	@Autowired
-	KafkaService kafkaService;
+	private KafkaService kafkaService;
 	
 	@RequestMapping(value="/incident/create", method=RequestMethod.POST)
 	@ResponseBody
@@ -31,9 +31,9 @@ public class IncidentController {
 		if (!agentsService.existsAgent(incident.getAgent())) {
 			throw new AgentNotFoundException();
 		}
-		
+
 		agentsService.addAgent(incident.getAgent());
-		incidentsService.addIncident(incident);
+		incidentsService.addNewIncident(incident);
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";
 	}

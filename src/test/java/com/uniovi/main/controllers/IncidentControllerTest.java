@@ -34,16 +34,16 @@ import com.uniovi.services.KafkaService;
 public class IncidentControllerTest {
 	
     @Mock
-    AgentsService agentsService;
+    private AgentsService agentsService;
     
     @Mock
-    IncidentsService incidentsService;
+    private IncidentsService incidentsService;
 
     @Mock
-    KafkaService kafkaService;
+    private KafkaService kafkaService;
 
     @InjectMocks
-    IncidentController incidentController;
+    private IncidentController incidentController;
 
     private MockMvc mockMvc;
 
