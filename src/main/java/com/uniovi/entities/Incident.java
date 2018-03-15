@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class Incident {
 	private String inciName;
 	private LatLng location;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="agent_id")
 	private AgentInfo agent;
 	
@@ -59,6 +60,11 @@ public class Incident {
 		this.location = location;
 	}
 	
+	public Incident(String name, LatLng latLng, AgentInfo agent) {
+		this(name, latLng);
+		this.setAgent(agent);
+	}
+
 	public void addMoreInfo(String info) {
 		this.moreInfo.add(info);
 	}

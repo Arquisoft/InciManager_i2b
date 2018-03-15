@@ -1,16 +1,9 @@
 package com.uniovi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class AgentInfo {
@@ -19,13 +12,9 @@ public class AgentInfo {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column(unique=true)
 	private String username;
 	private String password;
 	private String kind;
-	
-	@OneToMany(mappedBy="agent", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	List<Incident> incidents = new ArrayList<Incident>();
 	
 	public AgentInfo() {}
 	
@@ -67,25 +56,6 @@ public class AgentInfo {
 		this.id = id;
 	}
 
-	public List<Incident> getIncidents() {
-		return incidents;
-	}
-
-	public void setIncidents(List<Incident> incidents) {
-		this.incidents = incidents;
-	}
-	
-	public void addIncident(Incident incident) {
-		assert(!this.incidents.contains(incident));
-		this.incidents.add(incident);
-		incident.setAgent(this);
-	}
-	
-	public void removeIncident(Incident incident) {
-		incident.setAgent(null);
-		this.incidents.remove(incident);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -118,8 +88,7 @@ public class AgentInfo {
 
 	@Override
 	public String toString() {
-		return "AgentInfo [id=" + id + ", username=" + username + ", password=" + password + ", kind=" + kind
-				+ ", incidents=" + incidents + "]";
+		return "AgentInfo [id=" + id + ", username=" + username + ", password=" + password + ", kind=" + kind + "]";
 	}
 
 }

@@ -33,6 +33,7 @@ public class IncidentController {
 			throw new AgentNotFoundException();
 		}
 		
+		agentsService.addAgent(agent);
 		incidentsService.addIncident(incident);
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";

@@ -15,6 +15,9 @@ import com.uniovi.entities.LatLng;
 public class InsertSampleDataService {
 	
 	@Autowired
+	private IncidentsService incidentsService;
+	
+	@Autowired
 	private AgentsService agentsService;
 	
 	private AgentInfo agent1;
@@ -28,28 +31,30 @@ public class InsertSampleDataService {
 		agent2 = new AgentInfo("agent2", "pruebas456", "Entity");
 		agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
 		
-		Incident incident1 = new Incident("inci1", new LatLng(124, 152));
-		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780));
-		Incident incident3 = new Incident("inci3", new LatLng(15, 12));
-		Incident incident4 = new Incident("inci4", new LatLng(100, 200));
-		Incident incident5 = new Incident("inci5", new LatLng(52, 42));
-		
-		agent1.addIncident(incident1);
-		agent1.addIncident(incident4);
-		agent2.addIncident(incident2);
-		agent3.addIncident(incident3);
-		agent3.addIncident(incident5);
+		Incident incident1 = new Incident("inci1", new LatLng(124, 152), agent1);
+		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), agent2);
+		Incident incident3 = new Incident("inci3", new LatLng(15, 12), agent3);
+		Incident incident4 = new Incident("inci4", new LatLng(100, 200), agent1);
+		Incident incident5 = new Incident("inci5", new LatLng(52, 42), agent3);
 		
 		agentsService.addAgent(agent1);
 		agentsService.addAgent(agent2);
 		agentsService.addAgent(agent3);
+		
+		incidentsService.addIncident(incident1);
+		incidentsService.addIncident(incident2);
+		incidentsService.addIncident(incident3);
+		incidentsService.addIncident(incident4);
+		incidentsService.addIncident(incident5);
 	}
 	
 	@PreDestroy
 	public void finalize() {
-		agentsService.deleteAgent(agent1);
-		agentsService.deleteAgent(agent2);
-		agentsService.deleteAgent(agent3);
+		incidentsService.deleteIncidentByName("inci1");
+		incidentsService.deleteIncidentByName("inci2");
+		incidentsService.deleteIncidentByName("inci3");
+		incidentsService.deleteIncidentByName("inci4");
+		incidentsService.deleteIncidentByName("inci5");
 	}
 
 }

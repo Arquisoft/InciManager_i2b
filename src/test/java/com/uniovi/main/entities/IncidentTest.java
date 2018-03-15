@@ -26,13 +26,11 @@ public class IncidentTest {
 	
 	@Test
 	public void testCorrectInstatiation() {
-		Incident inci = new Incident("BrokenFountain-10MAR", new LatLng(55, 42));
-		carmen.addIncident(inci);
+		Incident inci = new Incident("BrokenFountain-10MAR", new LatLng(55, 42), carmen);
 		assertTrue(inci.getAgent().getUsername().equals("cArmeEn"));
 		assertTrue(inci.getProperties().isEmpty());
 		assertTrue(inci.getMoreInfo().isEmpty());
 		assertTrue(inci.getTags().isEmpty());
-		carmen.removeIncident(inci);
 	}
 	
 	@Test
@@ -57,15 +55,13 @@ public class IncidentTest {
 	
 	@Test
 	public void testProperties() {
-		Incident inci = new Incident("BrokenFountain-10MAR", new LatLng(34, 87));
-		carmen.addIncident(inci);
+		Incident inci = new Incident("BrokenFountain-10MAR", new LatLng(34, 87), carmen);
 		inci.addProperty("image", "BrokenFountain-10MAR.png");
 		inci.addProperty("description", "Leaks at the base");
 		
 		assertEquals(2, inci.getProperties().size());
 		assertEquals("BrokenFountain-10MAR.png", inci.getProperties().get("image"));
 		assertEquals("Leaks at the base", inci.getProperties().get("description"));
-		carmen.removeIncident(inci);
 	}
 
 }

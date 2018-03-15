@@ -67,9 +67,8 @@ public class IncidentAccessTest {
 		assertEquals(0, inci1.getProperties().size());
 		
 		//Add a second incident to agent1
-		Incident incident6 = new Incident("inci6", new LatLng(155, 42));
-		agent1.addIncident(incident6);
-		agentsService.addAgent(agent1);
+		Incident incident6 = new Incident("inci6", new LatLng(155, 42), agent1);
+		incidentsService.addIncident(incident6);
 		
 		incidentsUser1 = incidentsService.getIncidentsByAgent(agent1);
 		assertEquals(3, incidentsUser1.size());
@@ -81,11 +80,6 @@ public class IncidentAccessTest {
 		List<Incident> incidents = incidentsService.getIncidents();
 		assertEquals(6, incidents.size());
 
-		AgentInfo agent2 = agentsService.findByUsername("agent2"); 
-		Incident incident2 = incidentsService.getIncidentByName("inci2");
-		
-		agent2.removeIncident(incident2);
-		agentsService.addAgent(agent2);
 		incidentsService.deleteIncidentByName("inci2");
 		incidents = incidentsService.getIncidents();
 		assertEquals(5, incidents.size());
@@ -96,14 +90,10 @@ public class IncidentAccessTest {
 		assertEquals(0, incidents.size());
 		
 		AgentInfo agent1 = agentsService.findByUsername("agent1");
-		Incident incident1 = incidentsService.getIncidentByName("inci1");
-		agent1.removeIncident(incident1);
 		incidentsService.deleteIncidentByName("inci1");
 		incidents = incidentsService.getIncidentsByAgent(agent1);
+		
 		assertEquals(2, incidents.size());
-		
-		
-		incidents = incidentsService.getIncidentsByAgent(agent1);
 		assertEquals("agent1", incidents.get(0).getAgent().getUsername());
 		assertEquals("inci4", incidents.get(0).getInciName());
     }
