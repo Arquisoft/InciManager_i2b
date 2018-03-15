@@ -76,8 +76,6 @@ public class IncidentControllerTest {
     		String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
     		
-    		System.out.println(payload);
-    		
         
     		MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
@@ -110,9 +108,9 @@ public class IncidentControllerTest {
     
     private String buildPayload(String name, String password, String kind, String inciName,
     				LatLng location, String tags, String moreInfo, String properties) {
-		return String.format("{\"username\": \"%s\", \"password\": \"%s\", "
-					+ "\"kind\": \"%s\", \"inciName\": \"%s\", \"location.latitude\": %f, "
-					+ "\"location.longitude\": %f, \"tags\": [%s], \"moreInfo\": [%s], \"properties\": {%s}}",
+		return String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
+					+ "\"kind\": \"%s\"}, \"inciName\": \"%s\", \"location\": {\"lat\": %f, "
+					+ "\"lon\": %f}, \"tags\": [%s], \"moreInfo\": [%s], \"properties\": {%s}}",
 					name, password, kind, inciName, location.latitude, location.longitude,
 					tags, moreInfo, properties);
     }

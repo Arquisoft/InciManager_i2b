@@ -3,8 +3,9 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/JasyptEncryptor.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/services/KafkaService.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/IncidentState.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/IncidentSerializer.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/services/AgentsService.java
-/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/JSONHelper.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/JSONHelper.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/IncidentPropertiesConverter.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/Incident.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/exception/AgentNotFoundException.java
@@ -15,5 +16,7 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/services/InsertSampleDataService.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/LatLng.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/repositories/AgentsRepository.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/IncidentJSONModule.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/repositories/IncidentsRepository.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/main/InciManagerI2bApplication.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/IncidentDeserializer.java

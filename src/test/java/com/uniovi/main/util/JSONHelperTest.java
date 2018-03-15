@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.uniovi.json.JSONHelper;
 import com.uniovi.main.InciManagerI2bApplication;
-import com.uniovi.util.JSONHelper;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class

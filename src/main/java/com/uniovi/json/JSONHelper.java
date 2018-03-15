@@ -1,4 +1,4 @@
-package com.uniovi.util;
+package com.uniovi.json;
 
 import java.util.Map;
 

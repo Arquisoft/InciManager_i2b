@@ -15,8 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.uniovi.json.IncidentDeserializer;
+import com.uniovi.json.IncidentSerializer;
 import com.uniovi.util.IncidentPropertiesConverter;
 
+@JsonDeserialize(using = IncidentDeserializer.class)
+@JsonSerialize(using = IncidentSerializer.class)
 @Entity
 public class Incident {
 	
@@ -75,6 +81,10 @@ public class Incident {
 
 	public Map<String, Object> getProperties() {
 		return properties;
+	}
+
+	public void setProperties(Map<String, Object> properties) {
+		this.properties = properties;
 	}
 
 	public void setInciName(String inciName) {
