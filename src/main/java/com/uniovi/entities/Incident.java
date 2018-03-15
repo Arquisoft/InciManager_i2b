@@ -4,32 +4,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.uniovi.json.IncidentDeserializer;
+import com.uniovi.json.IncidentSerializer;
 import com.uniovi.util.IncidentPropertiesConverter;
-import com.uniovi.util.JasyptEncryptor;
 
+@JsonDeserialize(using = IncidentDeserializer.class)
+@JsonSerialize(using = IncidentSerializer.class)
 @Entity
 public class Incident {
 	
 	@Id @GeneratedValue
 	private Long id;
 	
-	private String username, password;
-	private String inciName, location;
+	private String inciName;
+	private LatLng location;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name="agent_id")
+	private AgentInfo agent;
 	
 	@ElementCollection(targetClass=String.class)
-	private List<String> tags= new ArrayList<String>();
+	private List<String> tags = new ArrayList<String>();
 	
 	@ElementCollection(targetClass=String.class)
-	private List<String> moreInfo= new ArrayList<String>();
+	private List<String> moreInfo = new ArrayList<String>();
 	
 	@Convert(converter=IncidentPropertiesConverter.class)
 	private Map<String, Object> properties = new HashMap<String, Object>();
+	
+	@Enumerated(EnumType.STRING)
+	private IncidentState state;
 
 	public Incident() {}
 	
@@ -41,16 +58,19 @@ public class Incident {
 	 * @param name - of the incident, either descriptive or a code
 	 * @param location - of the incident 
 	 */
-	public Incident(String username, String passw, String name, String location) {
-		if (username=="" || passw=="" ||name=="" || location=="")
+	public Incident(String name, LatLng location) {
+		if (name.equals("") || location == null)
 			throw new IllegalArgumentException("Incident fields cannot be empty");
 		
-		this.username = username;
-		this.password = encryptPass(passw);
 		this.inciName = name;
 		this.location = location;
 	}
 	
+	public Incident(String name, LatLng latLng, AgentInfo agent) {
+		this(name, latLng);
+		this.setAgent(agent);
+	}
+
 	public void addMoreInfo(String info) {
 		this.moreInfo.add(info);
 	}
@@ -63,19 +83,15 @@ public class Incident {
 		return properties;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setProperties(Map<String, Object> properties) {
+		this.properties = properties;
 	}
 
 	public void setInciName(String inciName) {
 		this.inciName = inciName;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(LatLng location) {
 		this.location = location;
 	}
 
@@ -83,19 +99,11 @@ public class Incident {
 		return id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
 	public String getInciName() {
 		return inciName;
 	}
 
-	public String getLocation() {
+	public LatLng getLocation() {
 		return location;
 	}
 
@@ -107,17 +115,56 @@ public class Incident {
 		return moreInfo;
 	}
 
-	private String encryptPass(String password){
-		JasyptEncryptor encryptor = new JasyptEncryptor();
-		return encryptor.encryptPassword(password);
+	public IncidentState getState() {
+		return state;
+	}
+
+	public void setState(IncidentState state) {
+		this.state = state;
+	}
+
+	public AgentInfo getAgent() {
+		return agent;
+	}
+
+	public void setAgent(AgentInfo agent) {
+		this.agent = agent;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((inciName == null) ? 0 : inciName.hashCode());
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		Incident other = (Incident) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Incident [id=").append(id).append(", username=").append(username).append(", password=")
-				.append(password).append(", inciName=").append(inciName).append(", location=").append(location)
-				.append(", tags=").append(tags).append(", moreInfo=").append(moreInfo).append(", properties=")
+		builder.append("Incident [id=").append(id).append(", inciName=").append(inciName)
+				.append(", location=").append(location).append(", tags=").append(tags)
+				.append(", moreInfo=").append(moreInfo).append(", properties=")
 				.append(properties).append("]");
 		return builder.toString();
 	}

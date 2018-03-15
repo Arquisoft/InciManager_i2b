@@ -3,6 +3,7 @@ package com.uniovi.services;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,24 +14,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.uniovi.entities.AgentInfo;
+import com.uniovi.repositories.AgentsRepository;
+
 @Service
 public class AgentsService {
 
 	@Value("${agents_url}")
 	private String agentsUrl;
 	
+	@Autowired
+	private AgentsRepository agentsRepository;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentsService.class);
 
-	public boolean existsAgent(String username, String password) throws Exception {
+	public boolean existsAgent(AgentInfo agent) throws Exception {
 		LOG.info("Sending POST request to url: {}", agentsUrl);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		JSONObject request = new JSONObject();
-		request.put("login", username);
-        request.put("password", password);
-		request.put("kind", "Person"); // TODO: ask about this next Monday
+		request.put("login", agent.getUsername());
+        request.put("password", agent.getPassword());
+		request.put("kind", agent.getKind());
 
         HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
 
@@ -38,5 +45,19 @@ public class AgentsService {
         HttpStatus responseCode = response.getStatusCode();
         return responseCode.equals(HttpStatus.OK);
 	}
+	
+	public AgentInfo findByUsername(String username) {
+		return this.agentsRepository.findByUsername(username);
+	}
+
+	public void addAgent(AgentInfo agent) {
+		this.agentsRepository.save(agent);
+	}
+
+	public void deleteAgent(AgentInfo agent) {
+		this.agentsRepository.delete(agent);
+	}
+	
+	
 
 }

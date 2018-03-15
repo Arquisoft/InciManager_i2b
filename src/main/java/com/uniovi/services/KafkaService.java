@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniovi.entities.Incident;
 
 @Service
@@ -27,7 +29,16 @@ public class KafkaService {
 	}
 	
 	private String toKafkaMessage(Incident incident) {
-		return incident.toString();
+		ObjectMapper mapper = new ObjectMapper();
+		String result = "";
+		try {
+			result = mapper.writeValueAsString(incident);
+		} catch (JsonProcessingException e) {
+			LOG.error("Couldn't serialize incident: ", incident.toString());
+			LOG.error(e.getMessage());
+			result = incident.toString();
+		}
+		return result;
 	}
 	
 }

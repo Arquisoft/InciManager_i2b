@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uniovi.entities.Incident;
 import com.uniovi.services.AgentsService;
+import com.uniovi.services.IncidentsService;
 import com.uniovi.services.KafkaService;
 import com.uniovi.util.exception.AgentNotFoundException;
 
@@ -16,22 +17,23 @@ import com.uniovi.util.exception.AgentNotFoundException;
 public class IncidentController {
 	
 	@Autowired
-	AgentsService agentsService;
+	private AgentsService agentsService;
 	
 	@Autowired
-	KafkaService kafkaService;
+	private IncidentsService incidentsService;
+	
+	@Autowired
+	private KafkaService kafkaService;
 	
 	@RequestMapping(value="/incident/create", method=RequestMethod.POST)
 	@ResponseBody
 	public String createIncident(@RequestBody Incident incident) throws Exception {
-		System.out.println(incident.toString());
-		String username = incident.getUsername();
-		String password = incident.getPassword();
-		if (!agentsService.existsAgent(username, password)) {
+		if (!agentsService.existsAgent(incident.getAgent())) {
 			throw new AgentNotFoundException();
 		}
-		
-		
+
+		agentsService.addAgent(incident.getAgent());
+		incidentsService.addNewIncident(incident);
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";
 	}

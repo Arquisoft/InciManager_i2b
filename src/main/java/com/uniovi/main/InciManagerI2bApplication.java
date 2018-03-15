@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	"com.uniovi.repositories",
 	"com.uniovi.controllers",
 	"com.uniovi.entities",
+	"com.uniovi.json",
 	"com.uniovi.services",
 	"com.uniovi.util"
 })

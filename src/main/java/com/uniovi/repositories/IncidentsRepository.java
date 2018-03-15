@@ -2,17 +2,22 @@ package com.uniovi.repositories;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 
 @Repository("IncidentsRepository")
 public interface IncidentsRepository extends CrudRepository<Incident, Long>{
 	
-	List<Incident> findByUsername (String username);
-	List<Incident> findAllByUsernameAndPassword(String username, String encryptPassword);
-	List<Incident> findAll();
+	@Query("SELECT i FROM Incident i WHERE i.agent = ?1")
+	public List<Incident> findAllByAgent(AgentInfo agent);
+	
+	public List<Incident> findAll();
 
-	Incident findByInciName (String inciName);
+	public Incident findByInciName (String inciName);
+
+	public void deleteByInciName(String inciName);
 }
