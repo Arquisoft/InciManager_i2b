@@ -149,21 +149,12 @@ public class Incident {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		
 		Incident other = (Incident) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (inciName == null) {
-			if (other.inciName != null)
-				return false;
-		} else if (!inciName.equals(other.inciName))
-			return false;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
 			return false;
 		return true;
 	}

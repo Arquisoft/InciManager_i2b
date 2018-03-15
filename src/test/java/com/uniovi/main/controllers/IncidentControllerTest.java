@@ -37,10 +37,10 @@ public class IncidentControllerTest {
     private AgentsService agentsService;
     
     @Mock
-    private IncidentsService incidentsService;
+    public IncidentsService incidentsService;
 
     @Mock
-    private KafkaService kafkaService;
+    public KafkaService kafkaService;
 
     @InjectMocks
     private IncidentController incidentController;

@@ -21,7 +21,6 @@ import com.uniovi.entities.LatLng;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
-import com.uniovi.services.InsertSampleDataService;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class
