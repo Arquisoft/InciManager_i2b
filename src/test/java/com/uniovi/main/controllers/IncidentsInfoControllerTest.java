@@ -47,7 +47,7 @@ public class IncidentsInfoControllerTest {
 	private MockMvc mockMvc;
 
 	@Before
-	public void setup() {
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		testInfo = new AgentInfo("Ejemplo", "pass", "Person");
 		try {
