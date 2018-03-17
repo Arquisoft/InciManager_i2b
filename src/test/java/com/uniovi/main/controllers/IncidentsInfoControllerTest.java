@@ -65,7 +65,7 @@ public class IncidentsInfoControllerTest {
 	@Test
 	public void testIncidentsInfoRequestSuccesfull() throws Exception {
 
-		MockHttpServletRequestBuilder request = post("/incidents/info")
+		MockHttpServletRequestBuilder request = post("/incidentsinfo")
 				.accept(MediaType.APPLICATION_JSON_VALUE)
 				.param("username", "Ejemplo").param("password", "pass").param("kind", "Person")
 				.contentType(MediaType.APPLICATION_JSON);
@@ -83,7 +83,7 @@ public class IncidentsInfoControllerTest {
 	public void testIncidentsInfoContentOK() throws Exception {
 
 		
-		MockHttpServletRequestBuilder request = post("/incidents/info")
+		MockHttpServletRequestBuilder request = post("/incidentsinfo")
 				.accept(MediaType.APPLICATION_JSON_VALUE)
 				.param("username", "Ejemplo").param("password", "pass").param("kind", "Person")
 				.contentType(MediaType.APPLICATION_JSON);
@@ -93,7 +93,6 @@ public class IncidentsInfoControllerTest {
 		// Succesfull request
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 		// Correct content returned
-		System.out.println(response.getContentAsString());
 		assertEquals(response.getContentAsString(), "[{\"agent\":{\"username\":\""+testInfo.getUsername()+"\","
 				+ "\"password\":\""+testInfo.getPassword()+"\",\"kind\":\""+testInfo.getKind()+"\"},\"inciName\""
 				+ ":\"testIncident0\",\"location\":{\"lat\":1.0,\"lon\":1.0},\"tags\""
@@ -108,7 +107,7 @@ public class IncidentsInfoControllerTest {
 	public void testIncidentsInfoNotFound() throws Exception {
 
 		
-		MockHttpServletRequestBuilder request = post("/incidents/info")
+		MockHttpServletRequestBuilder request = post("/incidentsinfo")
 				.accept(MediaType.APPLICATION_JSON_VALUE)
 				.param("username", "notAnAgent").param("password", "fail").param("kind", "Person")
 				.contentType(MediaType.APPLICATION_JSON);
