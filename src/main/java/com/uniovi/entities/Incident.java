@@ -130,25 +130,7 @@ public class Incident {
 	public void setAgent(AgentInfo agent) {
 		this.agent = agent;
 	}
-	
-	
-	
-	public void setTags(List<String> tags) {
-		this.tags = tags;
-	}
 
-	public String getTextState() {
-		if (this.state == IncidentState.CANCELLED)
-			return "Cancelled";
-		else if (this.state == IncidentState.CLOSED)
-			return "Closed";
-		else if (this.state == IncidentState.IN_PROCESS)
-			return "In process";
-		else if (this.state == IncidentState.OPEN)
-			return "Open";
-		else
-			return "Non assigned";
-	}
 
 	@Override
 	public int hashCode() {

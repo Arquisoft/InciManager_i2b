@@ -65,10 +65,12 @@ public class IncidentsInfoController {
 		if (!agentsService.existsAgent(ainfo)) {
 			return "redirect: /agentform?error=true";
 		}
+		else {
 		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
 
 		model.addAttribute("incidentsList", agentIncidents);
 		return "incidents";
+		}
 
 	}
 
