@@ -27,9 +27,16 @@ public class InsertSampleDataService {
 		
 		Incident incident1 = new Incident("inci1", new LatLng(124, 152), agent1);
 		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), agent2);
-		Incident incident3 = new Incident("inci3", new LatLng(15, 12), agent3);
 		Incident incident4 = new Incident("inci4", new LatLng(100, 200), agent1);
+		
+		Incident incident3 = new Incident("inci3", new LatLng(15, 12), agent3);
+		incident3.getTags().add("pollution");
+		incident3.getProperties().put("value", 20.0);
+		
 		Incident incident5 = new Incident("inci5", new LatLng(52, 42), agent3);
+		incident5.getTags().add("temperature");
+		incident5.getProperties().put("value", 35.0);
+
 		
 		agentsService.addAgent(agent1);
 		agentsService.addAgent(agent2);
