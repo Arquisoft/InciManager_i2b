@@ -51,6 +51,7 @@ public class IncidentsInfoControllerTest {
 		MockitoAnnotations.initMocks(this);
 		testInfo = new AgentInfo("Ejemplo", "pass", "Person");
 		when(agentsService.existsAgent(testInfo)).thenReturn(true);
+		when(agentsService.findByUsername(testInfo.getUsername())).thenReturn(testInfo);
 
 		// Test incidents, list to be returned
 		List<Incident> testIncidents = new ArrayList<Incident>();
@@ -67,7 +68,7 @@ public class IncidentsInfoControllerTest {
 
 		MockHttpServletRequestBuilder request = post("/incidentsinfo")
 				.accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "Ejemplo").param("password", "pass").param("kind", "Person")
+				.param("username", "Ejemplo").param("password", "pass")
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
@@ -85,7 +86,7 @@ public class IncidentsInfoControllerTest {
 		
 		MockHttpServletRequestBuilder request = post("/incidentsinfo")
 				.accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "Ejemplo").param("password", "pass").param("kind", "Person")
+				.param("username", "Ejemplo").param("password", "pass")
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();

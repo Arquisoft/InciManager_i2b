@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.services.AgentsService;
@@ -30,40 +31,43 @@ public class IncidentsInfoController {
 	@RequestMapping(value = "/incidentsinfo", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseBody
-	public List<Incident> getIncidentsInfoJSON(@ModelAttribute AgentInfo ainfo) throws Exception {
+	public String getIncidentsInfoJSON(@RequestParam(name = "username", required = true) String username,
+			@RequestParam(name = "password", required = true) String password) throws Exception {
+		
+		AgentInfo ainfo = agentsService.findByUsername(username);
 
 		if (!agentsService.existsAgent(ainfo)) {
 			throw new AgentNotFoundException();
 		}
 
 		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(agentIncidents);
 
-		return agentIncidents;
+//		return agentIncidents;
 
 	}
 
 	@RequestMapping(value = "/agentform", method = RequestMethod.GET)
-	public String getIncidentsInfo(Model model, @RequestParam String error) {
+	public String getIncidentsInfo(Model model, @RequestParam(name = "error", required = false) String error) {
 
-		if (error != null && error.equals("true"))
+		if (error != null)
 			model.addAttribute("authError", true);
 
-		return "agentform";
+		return "authentication_form";
 
 	}
 
 	@RequestMapping(value = "/agentform", method = RequestMethod.POST)
 	public String showIncidentsInfo(Model model, @ModelAttribute AgentInfo ainfo) throws Exception {
 
-		// Quick way to notice a bad login
+//		 Quick way to notice a bad login
 		if (!agentsService.existsAgent(ainfo)) {
 			return "redirect: /agentform?error=true";
 		}
-
 		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
 
 		model.addAttribute("incidentsList", agentIncidents);
-
 		return "incidents";
 
 	}
