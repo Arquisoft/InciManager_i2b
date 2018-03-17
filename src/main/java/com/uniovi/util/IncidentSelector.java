@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 import org.json.simple.JSONArray;
@@ -38,11 +37,9 @@ public class IncidentSelector {
 			try {
 				reader = new FileReader(confPath);
 				JSONObject jsonObject = (JSONObject) parser.parse(reader);
-				//Set<String> keySet = jsonObject.keySet();
-				if (jsonObject.containsKey("kind"))
-					conditionsKind(conditions, jsonObject);
-				
-				
+				for (Object obj : jsonObject.keySet()) {
+					obtainCondition(conditions, jsonObject, (String) obj);
+				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -53,6 +50,15 @@ public class IncidentSelector {
 		return conditions;
 	}
 
+	private void obtainCondition(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String key) {
+		if (key.equals("kind"))
+			conditionsKind(conditions, jsonObject);
+		else if (key.equals("temperature"))
+			conditionsSensor(conditions, jsonObject, key);
+		else if (key.equals("pollution"))
+			conditionsSensor(conditions, jsonObject, key);
+	}
+	
 	private void conditionsKind(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject) {
 		JSONObject kindContents = (JSONObject) jsonObject.get("kind");
 		JSONArray kinds = (JSONArray) kindContents.get("important");
@@ -62,5 +68,22 @@ public class IncidentSelector {
 			conditions.add(function);
 		}
 	}
-
+	
+	private void conditionsSensor(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String sensorType) {
+		JSONObject jsonContents = (JSONObject) jsonObject.get(sensorType);
+		if (jsonContents.get("type").equals("range"))
+			conditionRange(sensorType, conditions, jsonContents);		
+	}
+	
+	private void conditionRange(String sensorType, List<Function<Incident, Boolean>> conditions, JSONObject jsonObject) {
+		Long min =  (Long) jsonObject.get("min");
+		Long max =  (Long) jsonObject.get("max");
+		
+		Function<Incident, Boolean> func = 
+				i -> i.getTags().contains(sensorType) 
+						&& (((Double) i.getProperties().get("value")) < min 
+								|| ((Double) i.getProperties().get("value")) > max );
+						
+		conditions.add(func);
+	}
 }
