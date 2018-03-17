@@ -51,11 +51,11 @@ public class IncidentSelector {
 	}
 
 	private void obtainCondition(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String key) {
-		if (key.equals("kind"))
+		if ("kind".equals(key))
 			conditionsKind(conditions, jsonObject);
-		else if (key.equals("temperature"))
+		else if ("temperature".equals(key))
 			conditionsSensor(conditions, jsonObject, key);
-		else if (key.equals("pollution"))
+		else if ("pollution".equals(key))
 			conditionsSensor(conditions, jsonObject, key);
 	}
 	
