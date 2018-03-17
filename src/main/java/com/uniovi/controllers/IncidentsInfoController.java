@@ -33,7 +33,7 @@ public class IncidentsInfoController {
 	@ResponseBody
 	public String getIncidentsInfoJSON(@RequestParam(name = "username", required = true) String username,
 			@RequestParam(name = "password", required = true) String password) throws Exception {
-		
+
 		AgentInfo ainfo = agentsService.findByUsername(username);
 
 		if (!agentsService.existsAgent(ainfo)) {
@@ -44,7 +44,7 @@ public class IncidentsInfoController {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(agentIncidents);
 
-//		return agentIncidents;
+		// return agentIncidents;
 
 	}
 
@@ -61,15 +61,14 @@ public class IncidentsInfoController {
 	@RequestMapping(value = "/agentform", method = RequestMethod.POST)
 	public String showIncidentsInfo(Model model, @ModelAttribute AgentInfo ainfo) throws Exception {
 
-//		 Quick way to notice a bad login
+		// Quick way to notice a bad login
 		if (!agentsService.existsAgent(ainfo)) {
 			return "redirect: /agentform?error=true";
-		}
-		else {
-		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
+		} else {
+			List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
 
-		model.addAttribute("incidentsList", agentIncidents);
-		return "incidents";
+			model.addAttribute("incidentsList", agentIncidents);
+			return "incidents";
 		}
 
 	}

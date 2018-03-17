@@ -47,16 +47,20 @@ public class IncidentsInfoControllerTest {
 	private MockMvc mockMvc;
 
 	@Before
-	public void setup() throws Exception {
+	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		testInfo = new AgentInfo("Ejemplo", "pass", "Person");
-		when(agentsService.existsAgent(testInfo)).thenReturn(true);
+		try {
+			when(agentsService.existsAgent(testInfo)).thenReturn(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		when(agentsService.findByUsername(testInfo.getUsername())).thenReturn(testInfo);
 
 		// Test incidents, list to be returned
 		List<Incident> testIncidents = new ArrayList<Incident>();
 		testIncidents.add(new Incident("testIncident0", new LatLng(1.0, 1.0), testInfo));
-		
+
 		when(incidentsService.getIncidentsByAgent(testInfo)).thenReturn(testIncidents);
 
 		this.mockMvc = MockMvcBuilders.standaloneSetup(incidentsInfoController).build();
@@ -66,59 +70,52 @@ public class IncidentsInfoControllerTest {
 	@Test
 	public void testIncidentsInfoRequestSuccesfull() throws Exception {
 
-		MockHttpServletRequestBuilder request = post("/incidentsinfo")
-				.accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "Ejemplo").param("password", "pass")
-				.contentType(MediaType.APPLICATION_JSON);
+		MockHttpServletRequestBuilder request = post("/incidentsinfo").accept(MediaType.APPLICATION_JSON_VALUE)
+				.param("username", "Ejemplo").param("password", "pass").contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
 		// Succesfull request
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
-	
+
 	/*
-	 * Send request with a couple of incidents to be returned, compared real and expected output
+	 * Send request with a couple of incidents to be returned, compared real and
+	 * expected output
 	 */
 	@Test
 	public void testIncidentsInfoContentOK() throws Exception {
 
-		
-		MockHttpServletRequestBuilder request = post("/incidentsinfo")
-				.accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "Ejemplo").param("password", "pass")
-				.contentType(MediaType.APPLICATION_JSON);
+		MockHttpServletRequestBuilder request = post("/incidentsinfo").accept(MediaType.APPLICATION_JSON_VALUE)
+				.param("username", "Ejemplo").param("password", "pass").contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
 		// Succesfull request
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 		// Correct content returned
-		assertEquals(response.getContentAsString(), "[{\"agent\":{\"username\":\""+testInfo.getUsername()+"\","
-				+ "\"password\":\""+testInfo.getPassword()+"\",\"kind\":\""+testInfo.getKind()+"\"},\"inciName\""
-				+ ":\"testIncident0\",\"location\":{\"lat\":1.0,\"lon\":1.0},\"tags\""
-				+ ":[],\"moreInfo\":[],\"properties\":{}}]");
-		
+		assertEquals(response.getContentAsString(),
+				"[{\"agent\":{\"username\":\"" + testInfo.getUsername() + "\"," + "\"password\":\""
+						+ testInfo.getPassword() + "\",\"kind\":\"" + testInfo.getKind() + "\"},\"inciName\""
+						+ ":\"testIncident0\",\"location\":{\"lat\":1.0,\"lon\":1.0},\"tags\""
+						+ ":[],\"moreInfo\":[],\"properties\":{}}]");
+
 	}
-	
+
 	/*
 	 * Send request with a non-valid agent, check NOT FOUND status of response
 	 */
 	@Test
 	public void testIncidentsInfoNotFound() throws Exception {
 
-		
-		MockHttpServletRequestBuilder request = post("/incidentsinfo")
-				.accept(MediaType.APPLICATION_JSON_VALUE)
+		MockHttpServletRequestBuilder request = post("/incidentsinfo").accept(MediaType.APPLICATION_JSON_VALUE)
 				.param("username", "notAnAgent").param("password", "fail").param("kind", "Person")
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
-		
+
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
-		
+
 	}
-	
-	
 
 }

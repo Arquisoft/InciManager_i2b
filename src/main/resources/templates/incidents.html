@@ -59,12 +59,13 @@
 							</div>
 
 							<div>
-								<button type="button" class="btn btn-elegant btn-md"
+								<button type="button" class="btn btn-primary btn-md"
 									th:id="${'btnIncident' + incident.getId()}"
 									style="float: right; font: 12px arial, sans-serif;">
 									<i class="fa fa-eye"
 										style="vertical-align: middle; font-size: inherit;">&#160;&#160;</i>
-									<span th:text="${incident.getState().name()}"></span>
+									<span th:if = "${incident.getState() != null}" th:text="${incident.getState().name()}"></span>
+									<span th:unless = "${incident.getState() != null}">Status unassigned</span>
 								</button>
 							</div>
 						</div>
