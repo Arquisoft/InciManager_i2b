@@ -27,29 +27,27 @@ public class DataToSaveTest {
 		assertTrue(selector.isRelevant(incidentPerson));
 		assertTrue(selector.isRelevant(incidentEntity));
 		
-		//Even though it is a sensor, its tags don't contain 'temperature' or 'pollution'
+		//Even though it is a sensor, it doesn't contain relevant information
 		assertFalse(selector.isRelevant(incidentSensor));
 	}
 	
 	@Test
 	public void testPollutionSelector() {
 		Incident incidentPollution = new Incident("inci1", new LatLng(15, 12), agent3);
-		incidentPollution.getTags().add("pollution");
-		incidentPollution.getProperties().put("value", 20.0);
+		incidentPollution.getProperties().put("pollution", 20.0);
 		assertTrue(selector.isRelevant(incidentPollution));
 		
-		incidentPollution.getProperties().put("value", 56.0);
+		incidentPollution.getProperties().put("pollution", 56.0);
 		assertFalse(selector.isRelevant(incidentPollution));
 	}
 	
 	@Test
 	public void testTemperatureSelector() {
 		Incident incidentTemperature = new Incident("incident", new LatLng(15,12), agent3);
-		incidentTemperature.getTags().add("temperature");
-		incidentTemperature.getProperties().put("value", 23.0);
+		incidentTemperature.getProperties().put("temperature", 23.0);
 		assertFalse(selector.isRelevant(incidentTemperature));
 		
-		incidentTemperature.getProperties().put("value", 35.0);
+		incidentTemperature.getProperties().put("temperature", 35.0);
 		assertTrue(selector.isRelevant(incidentTemperature));
 	}
 }

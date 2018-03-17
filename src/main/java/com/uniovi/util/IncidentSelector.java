@@ -83,9 +83,9 @@ public class IncidentSelector {
 		Long max =  (Long) jsonObject.get("max");
 		
 		Function<Incident, Boolean> func = 
-				i -> i.getTags().contains(sensorType) 
-						&& (((Double) i.getProperties().get("value")) < min 
-								|| ((Double) i.getProperties().get("value")) > max );
+				i -> i.getProperties().containsKey(sensorType)
+						&& (((Double) i.getProperties().get(sensorType)) < min 
+								|| ((Double) i.getProperties().get(sensorType)) > max );
 						
 		conditions.add(func);
 	}
