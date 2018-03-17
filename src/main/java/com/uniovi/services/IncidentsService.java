@@ -9,15 +9,19 @@ import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.entities.IncidentState;
 import com.uniovi.repositories.IncidentsRepository;
+import com.uniovi.util.IncidentSelector;
 
 @Service
 public class IncidentsService {
 
 	@Autowired
 	private IncidentsRepository incidentsRepository;
-
+	
+	private IncidentSelector incSelector= new IncidentSelector();
+	
 	public void addIncident(Incident incident) {
-		incidentsRepository.save(incident);
+		if (incSelector.isRelevant(incident))
+			incidentsRepository.save(incident);
 	}
 
 	public void deleteIncidentById(Long id) {
