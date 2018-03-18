@@ -14,10 +14,12 @@ before_install:
 - nohup bash -c "cd kafka && bin/zookeeper-server-start.sh config/zookeeper.properties &"
 - nohup bash -c "cd kafka && bin/kafka-server-start.sh config/server.properties &"
 - sleep 5
-- kafka/bin/kafka-topics.sh --create --partitions 1 --replication-factor 1 --topic incidents --zookeeper localhost:2181
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+- nohup bash -c "cd kafka && bin/kafka-server-stop.sh config/server.properties &"
+- sleep 10
+- nohup bash -c "cd kafka && bin/zookeeper-server-stop.sh config/zookeeper.properties &"
 
 before_script:
 - "export DISPLAY=:99.0"

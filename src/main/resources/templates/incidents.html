@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+
+<body>
+	<nav th:replace="fragments/nav" />
+
+	<div class="container" id="listIncidents">
+
+		<div th:if="${#lists.isEmpty(incidentsList)}">
+			<h2>No incidents to display</h2>
+		</div>
+		<div th:unless="${#lists.isEmpty(incidentsList)}">
+			<h2>Incidents</h2>
+			<p>This agent's incidents are the following:</p>
+		</div>
+
+
+
+		<div th:unless="${#lists.isEmpty(incidentsList)}">
+			<div id="outer" style="display: flex;">
+				<div class="d-inline-flex flex-column justify-content-center"
+					style="margin: 0 auto; width: 50%">
+
+					<div th:each="incident : ${incidentsList}" class="card mb-4 p-2">
+						<div class="card-body">
+							<!--Title-->
+							<h4 class="card-title" th:text="${incident.getInciName()}">Name:</h4>
+
+
+							<div th:if="${incident.getLocation() != null}" id="location">
+								<p class="card-text" style="font-size: 14px;">Location:</p>
+								<span class="card-text" style="font-size: 14px; margin-left:2em;"
+									th:text="'Latitude: ' + ${incident.getLocation().latitude}">Latitude</span>
+								<span class="card-text" style="font-size: 14px; margin-left:2em;"
+									th:text="'Longitude: ' + ${incident.getLocation().longitude}">Longitude<br/></span>
+							</div>
+							
+							<div th:unless="${#lists.isEmpty(incident.getTags())}">
+								<br/>
+								<p class="card-text" style="font-size: 14px;">Tags:</p>
+								<ul th:each="tag : ${incident.getTags()}">
+									<li class="card-text" th:text="${tag}"
+										style="font-size: 13px; margin-left: 2em;">Incident tag.</li>
+								</ul>
+
+							</div>
+							
+							<div th:unless="${#lists.isEmpty(incident.getMoreInfo())}">
+								<br/>
+								<p class="card-text" style="font-size: 14px;">Additional
+									information:</p>
+								<div th:each="info : ${incident.getMoreInfo()}">
+									<p class="card-text" th:text="${info}"
+										style="font-size: 13px; margin-left: 2em">Incident info.</p>
+								</div>
+
+							</div>
+
+							<div>
+								<button type="button" class="btn btn-primary btn-md"
+									th:id="${'btnIncident' + incident.getId()}"
+									style="float: right; font: 12px arial, sans-serif;">
+									<i class="fa fa-eye"
+										style="vertical-align: middle; font-size: inherit;">&#160;&#160;</i>
+									<span th:if = "${incident.getState() != null}" th:text="${incident.getState().name()}"></span>
+									<span th:unless = "${incident.getState() != null}">Status unassigned</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<footer th:replace="fragments/footer"></footer>
+</html>

@@ -131,6 +131,7 @@ public class Incident {
 		this.agent = agent;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -168,6 +169,4 @@ public class Incident {
 				.append(properties).append("]");
 		return builder.toString();
 	}
-	
-	
 }
