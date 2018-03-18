@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+<link href="/css/chat.css" rel="stylesheet"/>
+
+<body>
+    <nav th:replace="fragments/nav" />
+
+    <div class="container clearfix">
+        <div class="chat panel panel-default">
+          <div class="chat-history panel-body">
+            <ul class="chat-ul">
+              <h2>InciManager official support service</h2>
+              <li class="clearfix">
+                <div class="message-data align-right">
+                  <span class="message-data-name">Julia, your InciManager assistant</span> <i class="fa fa-circle me"></i>
+                </div>
+                <div class="message me-message float-right">
+                  Hello, how can I help you?
+                </div>
+              </li>
+              <li>
+                <div class="message-data">
+                  <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
+                </div>
+                <div class="message you-message">
+                  Hello, there was an incident in Oviedo.
+                </div>
+              </li>
+            </ul>
+          </div> <!-- end chat-history -->
+        </div> <!-- end chat -->
+
+        <div class="row">
+          <div class="input-group col-md-8 col-md-offset-2" id="areaInput">
+              <textarea class="form-control custom-control" rows="3" style="resize:none"></textarea>
+              <span class="input-group-addon btn btn-primary" onclick="chat.obtenerMensajeUsuario()">Send</span>
+          </div>
+        </div>
+      </div>
+
+</body>
+<footer th:replace="fragments/footer"></footer>
+
+</html>
