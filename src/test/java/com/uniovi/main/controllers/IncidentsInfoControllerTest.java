@@ -2,6 +2,7 @@ package com.uniovi.main.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.ArrayList;
@@ -115,6 +116,66 @@ public class IncidentsInfoControllerTest {
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+
+	}
+
+	/*
+	 * Send get request to html form
+	 */
+	@Test
+	public void testIncidentsInfoGetForm() throws Exception {
+
+		MockHttpServletRequestBuilder request = get("/agentform").param("error", "true");
+
+		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+
+	}
+
+	/*
+	 * Send get request to html form with the error flagged
+	 */
+	@Test
+	public void testIncidentsInfoGetFormError() throws Exception {
+
+		MockHttpServletRequestBuilder request = get("/agentform").param("error", "true");
+
+		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+
+	}
+
+	/*
+	 * Send poat request after login with a valid agent
+	 */
+	@Test
+	public void testIncidentsInfoPost() throws Exception {
+
+		MockHttpServletRequestBuilder request = post("/agentform").param("username", "Ejemplo")
+				.param("password", "pass");
+
+		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+
+		//Accepted post
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+
+	}
+
+	/*
+	 * Send poat request after login with a non valid agent
+	 */
+	@Test
+	public void testIncidentsInfoPostNonExists() throws Exception {
+
+		MockHttpServletRequestBuilder request = post("/agentform").param("username", "badExample")
+				.param("password", "fail").param("kind", "Person");
+
+		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+
+		// Redirected to Login
+		assertEquals(HttpStatus.FOUND.value(), response.getStatus());
 
 	}
 
