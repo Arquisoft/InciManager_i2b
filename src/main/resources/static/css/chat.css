@@ -95,6 +95,21 @@ content: "";
   text-align: center;
 }
 
+.pre-scrollable {
+    max-height: 70vh;
+    overflow-y: scroll;
+}
+
+.chat-history {
+  height: 70vh;
+}
+
+#areaInput {
+  margin-top: 2vh;
+  margin-bottom: 2.5vh;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Raleway", sans-serif;
     color: #003366;
