@@ -37,5 +37,10 @@ public class IncidentController {
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";
 	}
+	
+	@RequestMapping(value="/incident/create", method=RequestMethod.GET)
+	public String createIncident() throws Exception {
+		return "chatroom.html";
+	}
 
 }
