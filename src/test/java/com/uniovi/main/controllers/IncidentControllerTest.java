@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -86,24 +85,7 @@ public class IncidentControllerTest {
         						.getStatus();
         
         assertEquals(HttpStatus.OK.value(), status);
-    }
-    
-    @Test
-    public void testIncidentsInfo() throws Exception {
-    		// TODO: this test makes no sense until the incidentsinfo controller is implemented
-    	
-	    	// Request not working for a non-existing agent
-    		MockHttpServletRequestBuilder request = post("/incidentsinfo")
-    				.param("username", "anyName").param("password", "anyPass")
-    				.contentType(MediaType.APPLICATION_JSON);
-    		
-    		MockHttpServletResponse response = mockMvc.perform(request)
-        						.andReturn()
-        						.getResponse();
-    		
-    		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());    		
-    }
-    
+    }    
     
     
     private String buildPayload(String name, String password, String kind, String inciName,

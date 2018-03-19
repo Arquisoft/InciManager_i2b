@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+
+<body>
+    <nav th:replace="fragments/nav" />
+
+    <div style="height: 70%">
+        <div class="flex-center flex-column">
+
+            <div class="card animated fadeIn" style="width: 35%">
+                <div class="card-header stylish-color white-text h4 text-center">Agent data</div>
+                <div class="card-body">
+
+                    <form method="post" action="/agentform">
+                        <i class="fa fa-user">&#160;</i>
+                        <label for="authUsername" class="grey-text" text="Username">Username</label>
+                        <input type="text" id="authUsername" class="form-control" name="username"></input>
+                        
+                        <br/> 
+                        <i class="fa fa-lock">&#160;</i>
+                        <label for="authPassword" class="grey-text" text="Password">Password</label>
+                        <input type="password" id="authPassword" class="form-control" name="password"></input>
+                        <br/> 
+                        
+                        <span class="text-danger" th:if="${authError == true}" text="Mismatched authentication data">
+                        Mismatched authentication data</span>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-elegant btn-rounded" type="submit">See incidents
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<footer th:replace="fragments/footer"></footer>
+
+</html>
