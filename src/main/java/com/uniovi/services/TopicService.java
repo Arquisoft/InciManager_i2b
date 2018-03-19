@@ -17,7 +17,7 @@ public class TopicService
 			aux.add("geolocated");
 		if(hasOperator(incident))
 			aux.add("withOperator");
-		if(!incident.getAgent().getKind().toLowerCase().equals("sensor"))
+		if(!("sensor".equalsIgnoreCase(incident.getAgent().getKind())))
 			aux.add("sensor");
 		aux.add("standard");
 		return aux;
@@ -27,7 +27,7 @@ public class TopicService
 	{
 		for (String key : incident.getProperties().keySet()) 
 		{
-		    if(key.toLowerCase().equals("operators"))
+		    if("operators".equalsIgnoreCase(key))
 		    {
 		        return true;
 		    }

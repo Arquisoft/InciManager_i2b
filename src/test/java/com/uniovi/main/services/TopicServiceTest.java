@@ -11,12 +11,11 @@ import com.uniovi.services.TopicService;
 
 public class TopicServiceTest 
 {
-	TopicService service = new TopicService();
-	Incident inciPerson = new Incident("BrokenThing", new LatLng(42, 45),
+	private Incident inciPerson = new Incident("BrokenThing", new LatLng(42, 45),
 			new AgentInfo("Alvaro","password","Person"));
-	Incident inciSensor = new Incident("BrokenSensor", new LatLng(9, 34),
+	private Incident inciSensor = new Incident("BrokenSensor", new LatLng(9, 34),
 			new AgentInfo("Sensor1","sensor1","Sensor"));
-	Incident inciOperator = new Incident("BrokenThingWithOperator", new LatLng(15, 37),
+	private Incident inciOperator = new Incident("BrokenThingWithOperator", new LatLng(15, 37),
 			new AgentInfo("Paco","Fernandez","Person"));
 	
 	@Test
