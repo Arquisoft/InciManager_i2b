@@ -169,4 +169,5 @@ public class Incident {
 				.append(properties).append("]");
 		return builder.toString();
 	}
+
 }

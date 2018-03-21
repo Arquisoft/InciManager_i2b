@@ -69,8 +69,8 @@ public class IncidentsInfoController {
 
 			model.addAttribute("incidentsList", agentIncidents);
 			return "incidents";
+
 		}
 
 	}
-
 }
