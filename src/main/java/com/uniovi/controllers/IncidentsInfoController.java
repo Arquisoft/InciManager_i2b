@@ -1,6 +1,5 @@
 package com.uniovi.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
-import com.uniovi.entities.LatLng;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.util.exception.AgentNotFoundException;
@@ -63,36 +61,16 @@ public class IncidentsInfoController {
 	@RequestMapping(value = "/agentform", method = RequestMethod.POST)
 	public String showIncidentsInfo(Model model, @ModelAttribute AgentInfo ainfo) throws Exception {
 
-//		// Quick way to notice a bad login
-//		if (!agentsService.existsAgent(ainfo)) {
-//			return "redirect: /agentform?error=true";
-//		} else {
-//			List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
-		
-		
-		List<Incident> agentIncidents = new ArrayList<Incident> ();
-		
-		Incident incident1 = new Incident("inci1", new LatLng(124, 152), ainfo);
-		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), ainfo);
-		Incident incident4 = new Incident("inci4", new LatLng(100, 200), ainfo);
-		
-		List<String> tags = new ArrayList<String>();
-		tags.add("tag1");
-		tags.add("tag2");
-		
-		incident1.setTags(tags);
-		incident2.setTags(tags);
-		
-		agentIncidents.add(incident1);
-		agentIncidents.add(incident2);
-
-		agentIncidents.add(incident4);
-
+		// Quick way to notice a bad login
+		if (!agentsService.existsAgent(ainfo)) {
+			return "redirect: /agentform?error=true";
+		} else {
+			List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
 
 			model.addAttribute("incidentsList", agentIncidents);
 			return "incidents";
-		
+
+		}
 
 	}
-
 }
