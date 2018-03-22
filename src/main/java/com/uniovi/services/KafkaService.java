@@ -34,7 +34,7 @@ public class KafkaService {
         }
 	}
 	
-	private String toKafkaMessage(Incident incident) {
+	public String toKafkaMessage(Incident incident) {
 		ObjectMapper mapper = new ObjectMapper();
 		String result = "";
 		try {
