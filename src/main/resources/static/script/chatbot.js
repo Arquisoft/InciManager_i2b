@@ -1,6 +1,6 @@
 "use strict";
 
-var dialogFlowAPI = 'bd8c76c71b394ad3a76fe57b61e0ca09';
+var dialogFlowAPI = '4054726dff944193a7fcb8b9c8c203ef';
 var dialogFlowUrl = 'https://api.dialogflow.com/v1/';
 
 class ChatBot {
@@ -31,6 +31,7 @@ class ChatBot {
     processAnswer(data) {
         console.log(data);
         var answer = data.result.speech;
+        this.chatRoom.createBotMessage(answer);
     }
 
 }

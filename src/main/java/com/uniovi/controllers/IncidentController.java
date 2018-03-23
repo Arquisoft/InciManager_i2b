@@ -1,12 +1,16 @@
 package com.uniovi.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
@@ -39,7 +43,14 @@ public class IncidentController {
 	}
 	
 	@RequestMapping(value="/incident/create", method=RequestMethod.GET)
-	public String createIncident() throws Exception {
+	public String createIncident(HttpSession session, Model model) throws Exception {
+		Object info = session.getAttribute("agentInfo");
+		if (info == null) {
+			return "redirect:/agentform";
+		}
+		
+		AgentInfo agentInfo = (AgentInfo) info;
+		model.addAttribute("agentInfo", agentInfo);
 		return "chatroom.html";
 	}
 

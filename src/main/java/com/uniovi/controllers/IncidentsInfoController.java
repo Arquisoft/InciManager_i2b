@@ -1,12 +1,16 @@
 package com.uniovi.controllers;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,42 +35,37 @@ public class IncidentsInfoController {
 	@RequestMapping(value = "/incidentsinfo", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseBody
-	public String getIncidentsInfoJSON(@RequestParam(name = "username", required = true) String username,
-			@RequestParam(name = "password", required = true) String password) throws Exception {
-
-		AgentInfo ainfo = agentsService.findByUsername(username);
-
+	public String getIncidentsInfoJSON(@RequestBody AgentInfo ainfo ) throws Exception {
 		if (!agentsService.existsAgent(ainfo)) {
 			throw new AgentNotFoundException();
 		}
 
-		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
+		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo.getUsername());
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(agentIncidents);
-
-		// return agentIncidents;
-
 	}
 
 	@RequestMapping(value = "/agentform", method = RequestMethod.GET)
-	public String getIncidentsInfo(Model model, @RequestParam(name = "error", required = false) String error) {
+	public String getIncidentsInfo(Model model, @RequestParam(name = "error", required = false) String error) throws IOException {
 
 		if (error != null)
 			model.addAttribute("authError", true);
 
+		model.addAttribute("kindNames", agentsService.getAvailableKindNames());
 		return "authentication_form";
 
 	}
 
 	@RequestMapping(value = "/agentform", method = RequestMethod.POST)
-	public String showIncidentsInfo(Model model, @ModelAttribute AgentInfo ainfo) throws Exception {
-
+	public String showIncidentsInfo(HttpSession session, Model model,
+			                        @ModelAttribute AgentInfo ainfo) throws Exception {
 		// Quick way to notice a bad login
 		if (!agentsService.existsAgent(ainfo)) {
 			return "redirect: /agentform?error=true";
 		} else {
-			List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo);
+			List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo.getUsername());
 
+			session.setAttribute("agentInfo", ainfo);
 			model.addAttribute("incidentsList", agentIncidents);
 			return "incidents";
 		}

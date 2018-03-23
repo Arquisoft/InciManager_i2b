@@ -1,5 +1,8 @@
 package com.uniovi.services;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.repositories.AgentsRepository;
+import com.uniovi.repositories.MasterFileParser;
 
 @Service
 public class AgentsService {
@@ -25,6 +29,9 @@ public class AgentsService {
 	
 	@Autowired
 	private AgentsRepository agentsRepository;
+	
+	@Autowired
+	private MasterFileParser fileParser;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentsService.class);
 
@@ -58,6 +65,9 @@ public class AgentsService {
 		this.agentsRepository.delete(agent);
 	}
 	
+	public List<String> getAvailableKindNames() throws IOException {
+		return fileParser.getKindNames();
+	}
 	
 
 }

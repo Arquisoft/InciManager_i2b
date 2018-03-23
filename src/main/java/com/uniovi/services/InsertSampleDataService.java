@@ -21,12 +21,14 @@ public class InsertSampleDataService {
 	
 	@PostConstruct
 	public void init() {
-		AgentInfo agent1 = new AgentInfo("agent1", "pruebas123", "Person");
-		AgentInfo agent2 = new AgentInfo("agent2", "pruebas456", "Entity");
+		AgentInfo agent1 = new AgentInfo("pacoo", "123456", "Person");
+		AgentInfo agent2 = new AgentInfo("pruebas", "cocoKiko", "Entity");
 		AgentInfo agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
 		
 		Incident incident1 = new Incident("inci1", new LatLng(124, 152), agent1);
+		incident1.addTag("fire").addTag("important");
 		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), agent2);
+		incident2.addTag("earthquake").addTag("unassigned");
 		Incident incident4 = new Incident("inci4", new LatLng(100, 200), agent1);
 		
 		Incident incident3 = new Incident("inci3", new LatLng(15, 12), agent3);
