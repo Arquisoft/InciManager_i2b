@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,29 @@ public class IncidentsServiceTest {
 
 	@Autowired
 	private AgentsService agentsService;
+	
+	private AgentInfo testInfo1;
+	private AgentInfo testInfo2;
+	private AgentInfo testInfo3;
+	
+	@After
+	public void clean() {
+		if (testInfo1 != null)
+			agentsService.deleteAgent(testInfo1);
+		if (testInfo2 != null)
+			agentsService.deleteAgent(testInfo1);
+		if (testInfo3 != null)
+			agentsService.deleteAgent(testInfo1);
+
+	}
 
 	@Test
 	public void testIncidentsAccess() {
 
 		// Create, read incidents
-		AgentInfo testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
-		AgentInfo testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Person");
-		AgentInfo testInfo3 = new AgentInfo("agentTest3", "pruebas123", "Sensor");
+		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
+		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Person");
+		testInfo3 = new AgentInfo("agentTest3", "pruebas123", "Sensor");
 
 
 		agentsService.addAgent(testInfo1);
