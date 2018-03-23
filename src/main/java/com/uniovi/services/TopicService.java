@@ -17,7 +17,7 @@ public class TopicService
 			aux.add("geolocated");
 		if(hasOperator(incident))
 			aux.add("withOperator");
-		if(!("sensor".equalsIgnoreCase(incident.getAgent().getKind())))
+		if(("Sensor".equalsIgnoreCase(incident.getAgent().getKind())))
 			aux.add("sensor");
 		aux.add("standard");
 		return aux;

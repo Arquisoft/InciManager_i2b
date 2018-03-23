@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.Collections;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,14 +33,9 @@ public class IncidentAccessTest {
     @Autowired
     private AgentsService agentsService;
 
-    @Test
-    public void t01testInsertIncident() throws Exception {
-    		//Check if the SampleDataService insertions worked.
-		assertEquals(5, incidentsService.getIncidents().size());
-    }
     
     @Test
-    public void t02testReadIncident() throws Exception {
+    public void t01testReadIncident() throws Exception {
     		AgentInfo agent1 = agentsService.findByUsername("agent1"); 
     		
 		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1);
@@ -66,7 +59,6 @@ public class IncidentAccessTest {
     }
     
     @Test
-    @Transactional
     public void t03testDeleteIncident() throws Exception {
 		List<Incident> incidents = incidentsService.getIncidents();
 		assertEquals(6, incidents.size());

@@ -164,7 +164,7 @@ public class IncidentsInfoControllerTest {
 	}
 
 	/*
-	 * Send poat request after login with a non valid agent
+	 * Send post request after login with a non valid agent
 	 */
 	@Test
 	public void testIncidentsInfoPostNonExists() throws Exception {
