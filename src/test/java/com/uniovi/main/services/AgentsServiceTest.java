@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.HttpClientErrorException;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.main.InciManagerI2bApplication;
@@ -59,7 +58,7 @@ public class AgentsServiceTest {
 
 	}
 
-	@Test (expected = HttpClientErrorException.class) //Agents module not open
+	@Test (expected = Exception.class) //Agents module not open
 	public void testExistsAgent() throws Exception {
 
 		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
