@@ -33,7 +33,7 @@ public class AgentsServiceTest {
 		if (testInfo1 != null)
 			agentsService.deleteAgent(testInfo1);
 		if (testInfo2 != null)
-			agentsService.deleteAgent(testInfo1);
+			agentsService.deleteAgent(testInfo2);
 
 	}
 

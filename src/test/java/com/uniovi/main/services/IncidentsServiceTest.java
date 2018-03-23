@@ -37,9 +37,9 @@ public class IncidentsServiceTest {
 		if (testInfo1 != null)
 			agentsService.deleteAgent(testInfo1);
 		if (testInfo2 != null)
-			agentsService.deleteAgent(testInfo1);
+			agentsService.deleteAgent(testInfo2);
 		if (testInfo3 != null)
-			agentsService.deleteAgent(testInfo1);
+			agentsService.deleteAgent(testInfo3);
 
 	}
 
