@@ -4,6 +4,12 @@
 <head th:replace="fragments/head" />
 <link href="/css/chat.css" rel="stylesheet"/>
 
+<script th:inline="javascript">
+/*<![CDATA[*/
+var agentInfo = [[${agentInfo}]];
+/*]]>*/
+</script>
+
 <script src="/script/chatbot.js"></script>
 <script src="/script/chatroom.js"></script>
 
@@ -15,22 +21,6 @@
           <div class="chat-history panel-body pre-scrollable">
             <ul class="chat-ul">
               <h2>InciManager official support service</h2>
-              <li class="clearfix">
-                <div class="message-data align-right">
-                  <span class="message-data-name">Julia, your InciManager assistant</span> <i class="fa fa-circle me"></i>
-                </div>
-                <div class="message me-message float-right">
-                  Hello, how can I help you?
-                </div>
-              </li>
-              <li>
-                <div class="message-data">
-                  <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
-                </div>
-                <div class="message you-message">
-                  Hello, there was an incident in Oviedo.
-                </div>
-              </li>
             </ul>
           </div> <!-- end chat-history -->
 

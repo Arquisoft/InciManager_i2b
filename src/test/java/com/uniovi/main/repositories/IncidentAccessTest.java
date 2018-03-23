@@ -45,7 +45,7 @@ public class IncidentAccessTest {
     public void t02testReadIncident() throws Exception {
     		AgentInfo agent1 = agentsService.findByUsername("agent1"); 
     		
-		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1);
+		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		Collections.sort(incidentsUser1, (a, b) -> a.getInciName().compareTo(b.getInciName()));
 		
 		assertEquals(2, incidentsUser1.size());
@@ -61,7 +61,7 @@ public class IncidentAccessTest {
 		Incident incident6 = new Incident("inci6", new LatLng(155, 42), agent1);
 		incidentsService.addIncident(incident6);
 		
-		incidentsUser1 = incidentsService.getIncidentsByAgent(agent1);
+		incidentsUser1 = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		assertEquals(3, incidentsUser1.size());
     }
     
@@ -77,12 +77,12 @@ public class IncidentAccessTest {
 		
 		//Agent 4 no incidents
 		AgentInfo agent4 = agentsService.findByUsername("agent4");
-		incidents = incidentsService.getIncidentsByAgent(agent4);
+		incidents = incidentsService.getIncidentsByAgent(agent4.getUsername());
 		assertEquals(0, incidents.size());
 		
 		AgentInfo agent1 = agentsService.findByUsername("agent1");
 		incidentsService.deleteIncidentByName("inci1");
-		incidents = incidentsService.getIncidentsByAgent(agent1);
+		incidents = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		
 		assertEquals(2, incidents.size());
 		assertEquals("agent1", incidents.get(0).getAgent().getUsername());

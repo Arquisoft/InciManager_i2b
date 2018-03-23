@@ -62,7 +62,7 @@ public class IncidentsInfoControllerTest {
 		List<Incident> testIncidents = new ArrayList<Incident>();
 		testIncidents.add(new Incident("testIncident0", new LatLng(1.0, 1.0), testInfo));
 
-		when(incidentsService.getIncidentsByAgent(testInfo)).thenReturn(testIncidents);
+		when(incidentsService.getIncidentsByAgent(testInfo.getUsername())).thenReturn(testIncidents);
 
 		this.mockMvc = MockMvcBuilders.standaloneSetup(incidentsInfoController).build();
 
