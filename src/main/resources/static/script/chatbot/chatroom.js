@@ -49,4 +49,12 @@ class ChatRoom {
 
 $(document).ready(function() {
     chat = new ChatRoom();
+
+    $("#textArea").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            $("#sendMsgButton").trigger('click');
+            return false;
+        }
+    });
 });

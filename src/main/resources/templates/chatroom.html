@@ -10,8 +10,8 @@ var agentInfo = [[${agentInfo}]];
 /*]]>*/
 </script>
 
-<script src="/script/chatbot.js"></script>
-<script src="/script/chatroom.js"></script>
+<script src="/script/chatbot/bot.js"></script>
+<script src="/script/chatbot/chatroom.js"></script>
 
 <body>
     <nav th:replace="fragments/nav" />
@@ -27,8 +27,8 @@ var agentInfo = [[${agentInfo}]];
           <!-- user input textarea -->
           <div class="row">
             <div class="input-group col-md-8 col-md-offset-2" id="areaInput">
-                <textarea class="form-control custom-control" rows="3" style="resize:none"></textarea>
-                <span class="input-group-addon btn btn-primary" onclick="chat.onNewUserMessage()">Send</span>
+                <textarea class="form-control custom-control" id="textArea" rows="3" style="resize:none"></textarea>
+                <span class="input-group-addon btn btn-primary" id="sendMsgButton" onclick="chat.onNewUserMessage()">Send</span>
             </div>
           </div> <!-- user input textarea -->
         </div> <!-- end chat -->

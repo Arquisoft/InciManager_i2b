@@ -94,7 +94,9 @@ class ChatBot {
         }
 
         if (answer !== "") {
-            this.chatRoom.createBotMessage(answer);
+            setTimeout(function() {
+                this.chatRoom.createBotMessage(answer);
+            }.bind(this), 500);
         }
     }
 
@@ -109,12 +111,12 @@ class ChatBot {
             datatype: "json",
             data: JSON.stringify(this.incident),
             success: function(data) {
-                var message = `The incident has been sent:
-                    Name: ${this.incident.inciName}
-                    Agent: ${this.incident.agent.username}
-                    Location: ${this.incident.location}
-                    Tags: ${this.incident.tags}
-                    Properties: ${this.incident.properties}
+                var message = `The incident has been sent.<br>
+                    \tName: ${this.incident.inciName}<br>
+                    \tAgent: ${this.incident.agent.username}<br>
+                    \tLocation: lat ${this.incident.location.lat} - lon ${this.incident.location.lon}<br>
+                    \tTags: ${this.incident.tags}<br>
+                    \tProperties: ${JSON.stringify(this.incident.properties)}<br>
                 `;
                 this.chatRoom.createBotMessage(message);
             }.bind(this), error: function() {

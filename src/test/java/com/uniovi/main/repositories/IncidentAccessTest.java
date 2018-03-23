@@ -43,7 +43,7 @@ public class IncidentAccessTest {
     
     @Test
     public void t02testReadIncident() throws Exception {
-    		AgentInfo agent1 = agentsService.findByUsername("agent1"); 
+    		AgentInfo agent1 = agentsService.findByUsername("pacoo"); 
     		
 		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		Collections.sort(incidentsUser1, (a, b) -> a.getInciName().compareTo(b.getInciName()));
@@ -80,12 +80,12 @@ public class IncidentAccessTest {
 		incidents = incidentsService.getIncidentsByAgent(agent4.getUsername());
 		assertEquals(0, incidents.size());
 		
-		AgentInfo agent1 = agentsService.findByUsername("agent1");
+		AgentInfo agent1 = agentsService.findByUsername("pacoo");
 		incidentsService.deleteIncidentByName("inci1");
 		incidents = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		
 		assertEquals(2, incidents.size());
-		assertEquals("agent1", incidents.get(0).getAgent().getUsername());
+		assertEquals("pacoo", incidents.get(0).getAgent().getUsername());
 		assertEquals("inci4", incidents.get(0).getInciName());
     }
 

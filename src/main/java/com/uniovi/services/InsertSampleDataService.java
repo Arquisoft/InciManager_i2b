@@ -24,6 +24,7 @@ public class InsertSampleDataService {
 		AgentInfo agent1 = new AgentInfo("pacoo", "123456", "Person");
 		AgentInfo agent2 = new AgentInfo("pruebas", "cocoKiko", "Entity");
 		AgentInfo agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
+		AgentInfo agent4 = new AgentInfo("agent4", "aaaaaaaa", "Sensor");
 		
 		Incident incident1 = new Incident("inci1", new LatLng(124, 152), agent1);
 		incident1.addTag("fire").addTag("important");
@@ -41,6 +42,7 @@ public class InsertSampleDataService {
 		agentsService.addAgent(agent1);
 		agentsService.addAgent(agent2);
 		agentsService.addAgent(agent3);
+		agentsService.addAgent(agent4);
 		
 		incidentsService.addIncident(incident1);
 		incidentsService.addIncident(incident2);

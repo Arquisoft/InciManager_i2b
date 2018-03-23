@@ -2,7 +2,11 @@ package com.uniovi.main.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -56,7 +61,7 @@ public class IncidentControllerTest {
 
     @Test
     public void testAgentNotExists() throws Exception {
-		String payload = buildPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
+		String payload = buildIncidentPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
 				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
 		
 		MockHttpServletRequestBuilder request = post("/incident/create")
@@ -72,9 +77,8 @@ public class IncidentControllerTest {
 
     @Test
     public void testAgentInfoCorrect() throws Exception {
-    		String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
+    		String payload = buildIncidentPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
-    		
         
     		MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
@@ -87,8 +91,26 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.OK.value(), status);
     }    
     
+    @Test
+    public void testNotLoggedIn() throws Exception {
+    		MockHttpServletRequestBuilder request = get("/incident/create");
+    		mockMvc.perform(request).andExpect(redirectedUrl("/agentform"));
+    }
     
-    private String buildPayload(String name, String password, String kind, String inciName,
+    @Test
+    public void testLoggedIn() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+        
+        MockHttpServletRequestBuilder request = get("/incident/create").session(session);
+    		mockMvc.perform(request)
+    			   .andExpect(status().isOk())
+    			   .andExpect(forwardedUrl("chatroom.html"));
+    }
+    
+    
+    private String buildIncidentPayload(String name, String password, String kind, String inciName,
     				LatLng location, String tags, String moreInfo, String properties) {
 		return String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
 					+ "\"kind\": \"%s\"}, \"inciName\": \"%s\", \"location\": {\"lat\": %f, "
