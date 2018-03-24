@@ -16,7 +16,7 @@ var agentInfo = [[${agentInfo}]];
 <body>
     <nav th:replace="fragments/nav" />
 
-    <div class="container clearfix">
+    <div class="container clearfix border mt-4">
         <div class="chat panel panel-default" id="chatBox">
           <div class="chat-history panel-body pre-scrollable">
             <ul class="chat-ul">
@@ -26,9 +26,11 @@ var agentInfo = [[${agentInfo}]];
 
           <!-- user input textarea -->
           <div class="row">
-            <div class="input-group col-md-8 col-md-offset-2" id="areaInput">
+            <div class="input-group-append col-md-8 mx-auto" id="areaInput">
                 <textarea class="form-control custom-control" id="textArea" rows="3" style="resize:none"></textarea>
-                <span class="input-group-addon btn btn-primary" id="sendMsgButton" onclick="chat.onNewUserMessage()">Send</span>
+                <div class="input-group-append">
+                    <button type="button" id="sendMsgButton" onclick="chat.onNewUserMessage()">Send</button>
+                </div>
             </div>
           </div> <!-- user input textarea -->
         </div> <!-- end chat -->

@@ -22,10 +22,10 @@ public class KafkaService {
 
 	public void sendToKafka(Incident incident) {
 		String message = this.toKafkaMessage(incident);
-		LOG.info("sending message='{}' to topic='{}'", message, topic);
 		List<String> topics = TopicService.getTopicsOf(incident);
         for (String topic : topics)
         {
+    			LOG.info("sending message='{}' to topic='{}'", message, topic);
 			kafkaTemplate.send(topic, message);
         }
 	}

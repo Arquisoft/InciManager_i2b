@@ -30,11 +30,9 @@ public class InsertSampleDataService {
 		incident1.addTag("fire").addTag("important");
 		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), agent2);
 		incident2.addTag("earthquake").addTag("unassigned");
-		Incident incident4 = new Incident("inci4", new LatLng(100, 200), agent1);
-
 		Incident incident3 = new Incident("inci3", new LatLng(15, 12), agent3);
 		incident3.getProperties().put("pollution", 20.0);
-
+		Incident incident4 = new Incident("inci4", new LatLng(100, 200), agent1);
 		Incident incident5 = new Incident("inci5", new LatLng(52, 42), agent3);
 		incident5.getProperties().put("temperature", 35.0);
 
@@ -52,15 +50,8 @@ public class InsertSampleDataService {
 
 	@PreDestroy
 	public void finalize() {
-		incidentsService.deleteIncidentByName("inci1");
-		incidentsService.deleteIncidentByName("inci2");
-		incidentsService.deleteIncidentByName("inci3");
-		incidentsService.deleteIncidentByName("inci4");
-		incidentsService.deleteIncidentByName("inci5");
-
-		agentsService.deleteAgent(agentsService.findByUsername("agent1"));
-		agentsService.deleteAgent(agentsService.findByUsername("agent2"));
-		agentsService.deleteAgent(agentsService.findByUsername("agent3"));
+		incidentsService.deleteAll();
+		agentsService.deleteAll();
 	}
 
 }

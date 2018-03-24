@@ -15,6 +15,11 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.uniovi.entities.AgentInfo;
 
+/**
+ * Selenium tests to check that the web interface works
+ * as expected. They must be run with the incident manager
+ * server already started, so DONT INCLUDE THIS IN MAVEN TESTS.
+ */
 public class WebTest {
 	
 	  private WebDriver driver;

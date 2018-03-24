@@ -1,7 +1,6 @@
 package com.uniovi.main.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Test;
@@ -21,7 +20,6 @@ public class AgentsServiceTest {
 
 	@Autowired
 	private AgentsService agentsService;
-
 
 	private AgentInfo testInfo1;
 	private AgentInfo testInfo2;
@@ -55,20 +53,6 @@ public class AgentsServiceTest {
 		agentsService.deleteAgent(testInfo1);
 		assertEquals(testInfo2, agentsService.findByUsername(testInfo2.getUsername()));
 		assertEquals(null, agentsService.findByUsername(testInfo1.getUsername()));
-
-	}
-
-	@Test (expected = Exception.class) //Agents module not open
-	public void testExistsAgent() throws Exception {
-
-		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
-		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Sensor");
-		agentsService.addAgent(testInfo1);
-		agentsService.addAgent(testInfo2);
-
-		assertTrue(agentsService.existsAgent(testInfo1));
-		assertTrue(agentsService.existsAgent(testInfo2));
-
 	}
 
 }

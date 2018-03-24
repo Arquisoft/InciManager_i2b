@@ -48,4 +48,8 @@ public class IncidentsService {
 		this.addIncident(incident);
 	}
 
+	public void deleteAll() {
+		this.incidentsRepository.deleteAll();
+	}
+
 }

@@ -36,7 +36,7 @@ public class IncidentAccessTest {
 
     @Test
     public void t01testReadIncident() throws Exception {
-    	AgentInfo agent1 = agentsService.findByUsername("pacoo");
+    		AgentInfo agent1 = agentsService.findByUsername("pacoo");
 
 		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		Collections.sort(incidentsUser1, (a, b) -> a.getInciName().compareTo(b.getInciName()));

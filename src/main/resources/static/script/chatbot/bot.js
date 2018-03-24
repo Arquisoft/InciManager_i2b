@@ -92,6 +92,7 @@ class ChatBot {
                     this.chatRoom.createBotMessage("Now you can introduce some"
                             + " tags for the incident.");
                 }.bind(this), function(error) {
+                    console.log(error);
                     this.processAnswer(data);
                 }.bind(this));
                 break;

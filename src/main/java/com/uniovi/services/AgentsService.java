@@ -80,6 +80,10 @@ public class AgentsService {
 	public List<String> getAvailableKindNames() throws IOException {
 		return fileParser.getKindNames();
 	}
+
+	public void deleteAll() {
+		this.agentsRepository.deleteAll();
+	}
 	
 
 }
