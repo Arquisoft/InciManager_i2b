@@ -1,5 +1,6 @@
 package com.uniovi.controllers;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
+import com.uniovi.entities.Operator;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.services.KafkaService;
+import com.uniovi.services.OperatorsService;
 import com.uniovi.util.exception.AgentNotFoundException;
 
 @Controller
@@ -25,6 +28,9 @@ public class IncidentController {
 	
 	@Autowired
 	private IncidentsService incidentsService;
+	
+	@Autowired
+	private OperatorsService operatorService;
 	
 	@Autowired
 	private KafkaService kafkaService;
@@ -48,11 +54,18 @@ public class IncidentController {
 		}
 
 		agentsService.addAgent(incident.getAgent());
+		Operator op = selectRandomOp();
+		incident.assignOperator(op);
 		incidentsService.addNewIncident(incident);
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";
 	}
 	
+	private Operator selectRandomOp() {
+		List<Operator> ops = operatorService.getOperators();
+		return ops.get((int) Math.random()* ops.size());
+	}
+
 	/**
 	 * Entry point for a GET request for an agent that wants
 	 * to create an incident using a web interface. The agent

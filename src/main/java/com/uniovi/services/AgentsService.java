@@ -78,6 +78,7 @@ public class AgentsService {
 	public void deleteAgent(AgentInfo agent) {
 		this.agentsRepository.delete(agent);
 	}
+
 	
 	public List<String> getAvailableKindNames() throws IOException {
 		return fileParser.getKindNames();

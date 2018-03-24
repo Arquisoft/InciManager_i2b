@@ -46,8 +46,5 @@ public class InsertSampleDataServiceTest {
 		assertNotNull(agentsService.findByUsername("pacoo"));
 		assertNotNull(agentsService.findByUsername("pruebas"));
 		assertNotNull(agentsService.findByUsername("agent3"));
-
-
 	}
-
 }

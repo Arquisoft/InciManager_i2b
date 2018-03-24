@@ -136,7 +136,7 @@ public class IncidentsInfoControllerTest {
 	}
 
 	/*
-	 * Send poat request after login with a valid agent
+	 * Send post request after login with a valid agent
 	 */
 	@Test
 	public void testIncidentsInfoPost() throws Exception {

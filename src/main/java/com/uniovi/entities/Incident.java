@@ -131,6 +131,13 @@ public class Incident {
 		this.agent = agent;
 	}
 
+	public void assignOperator(Operator op) {
+		this.properties.put("operator", op.getEmail());
+	}
+	
+	public String assignedOperator() {
+		return (String) this.properties.get("operator");
+
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}

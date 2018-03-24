@@ -65,13 +65,14 @@ public class IncidentControllerTest {
      */
     @Test
     public void testAgentNotExists() throws Exception {
-		String payload = buildIncidentPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
+		    String payload = buildPayload("NotAnAgent", "prueba", "Person", "Test Incident", new LatLng(25, 42),
+
 				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
 		
-		MockHttpServletRequestBuilder request = post("/incident/create")
+		    MockHttpServletRequestBuilder request = post("/incident/create")
 				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
 		
-		int status = mockMvc.perform(request)
+		    int status = mockMvc.perform(request)
     						.andReturn()
     						.getResponse()
     						.getStatus();
@@ -86,13 +87,13 @@ public class IncidentControllerTest {
      */
     @Test
     public void testAgentInfoCorrect() throws Exception {
-    		String payload = buildIncidentPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
+    	String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
-        
-    		MockHttpServletRequestBuilder request = post("/incident/create")
+    		
+    	MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
     		
-    		int status = mockMvc.perform(request)
+    	int status = mockMvc.perform(request)
         						.andReturn()
         						.getResponse()
         						.getStatus();
