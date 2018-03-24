@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+<link href="/css/chat.css" rel="stylesheet"/>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+var agentInfo = [[${agentInfo}]];
+/*]]>*/
+</script>
+
+<script src="/script/chatbot/bot.js"></script>
+<script src="/script/chatbot/chatroom.js"></script>
+
+<body>
+    <nav th:replace="fragments/nav" />
+
+    <div class="container clearfix border mt-4">
+        <div class="chat panel panel-default" id="chatBox">
+          <div class="chat-history panel-body pre-scrollable">
+            <ul class="chat-ul">
+              <h2>InciManager official support service</h2>
+            </ul>
+          </div> <!-- end chat-history -->
+
+          <!-- user input textarea -->
+          <div class="row">
+            <div class="input-group-append col-md-8 mx-auto" id="areaInput">
+                <textarea class="form-control custom-control" id="textArea" rows="3" style="resize:none"></textarea>
+                <div class="input-group-append">
+                    <button type="button" id="sendMsgButton" onclick="chat.onNewUserMessage()">Send</button>
+                </div>
+            </div>
+          </div> <!-- user input textarea -->
+        </div> <!-- end chat -->
+      </div>
+
+</body>
+<footer th:replace="fragments/footer"></footer>
+
+</html>

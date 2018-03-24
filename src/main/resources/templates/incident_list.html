@@ -36,7 +36,7 @@
 								<span class="card-text" style="font-size: 14px; margin-left:2em;"
 									th:text="'Longitude: ' + ${incident.getLocation().longitude}">Longitude<br/></span>
 							</div>
-							
+
 							<div th:unless="${#lists.isEmpty(incident.getTags())}">
 								<br/>
 								<p class="card-text" style="font-size: 14px;">Tags:</p>
@@ -46,7 +46,7 @@
 								</ul>
 
 							</div>
-							
+
 							<div th:unless="${#lists.isEmpty(incident.getMoreInfo())}">
 								<br/>
 								<p class="card-text" style="font-size: 14px;">Additional
@@ -72,6 +72,11 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+
+		<div class="text-center">
+			<a href="/incident/create" class="btn btn-info" role="button">Create incident</a>
 		</div>
 	</div>
 </body>

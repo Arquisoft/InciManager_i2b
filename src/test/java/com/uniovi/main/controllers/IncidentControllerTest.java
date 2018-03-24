@@ -2,7 +2,10 @@ package com.uniovi.main.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -47,16 +51,21 @@ public class IncidentControllerTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(agentsService.existsAgent(new AgentInfo("Son", "prueba", "Person"))).thenReturn(true);
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
 
+    /**
+     * Test that when we send an incident belonging to an agent
+     * that does not exist an AgentNotFoundException is thrown.
+     * @throws Exception: AgentNotFoundException
+     */
     @Test
     public void testAgentNotExists() throws Exception {
-		String payload = buildPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
+		String payload = buildIncidentPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
 				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
 		
 		MockHttpServletRequestBuilder request = post("/incident/create")
@@ -70,11 +79,15 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.NOT_FOUND.value(), status);
     }
 
+    /**
+     * Test that when send an incident belonging to an agent
+     * that exists an OK response is received.
+     * @throws Exception
+     */
     @Test
     public void testAgentInfoCorrect() throws Exception {
-    		String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
+    		String payload = buildIncidentPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
-    		
         
     		MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
@@ -87,8 +100,46 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.OK.value(), status);
     }    
     
+    /**
+     * Test that an agent is redirected to the authentication
+     * form if it tries to access directly the chat interface
+     * to create an incident.
+     * @throws Exception
+     */
+    @Test
+    public void testNotLoggedIn() throws Exception {
+    		MockHttpServletRequestBuilder request = get("/incident/create");
+    		int status = mockMvc.perform(request)
+    							.andExpect(redirectedUrl("/agentform"))
+    							.andReturn()
+    							.getResponse()
+    							.getStatus();
+        assertEquals(HttpStatus.FOUND.value(), status);
+    }
     
-    private String buildPayload(String name, String password, String kind, String inciName,
+    /**
+     * Test that an agent can access the chat interface to create
+     * an incident if he has previously logged in correctly.
+     * @throws Exception
+     */
+    @Test
+    public void testLoggedIn() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+        
+        MockHttpServletRequestBuilder request = get("/incident/create").session(session);
+    	    int status = mockMvc.perform(request)
+    						.andExpect(forwardedUrl("chatroom"))
+    						.andReturn()
+    						.getResponse()
+    						.getStatus();
+
+        assertEquals(HttpStatus.OK.value(), status);
+    }
+    
+    
+    private String buildIncidentPayload(String name, String password, String kind, String inciName,
     				LatLng location, String tags, String moreInfo, String properties) {
 		return String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
 					+ "\"kind\": \"%s\"}, \"inciName\": \"%s\", \"location\": {\"lat\": %f, "

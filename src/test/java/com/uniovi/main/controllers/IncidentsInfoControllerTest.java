@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -48,36 +51,21 @@ public class IncidentsInfoControllerTest {
 	private MockMvc mockMvc;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		testInfo = new AgentInfo("Ejemplo", "pass", "Person");
-		try {
-			when(agentsService.existsAgent(testInfo)).thenReturn(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		when(agentsService.existsAgent(testInfo)).thenReturn(true);
 		when(agentsService.findByUsername(testInfo.getUsername())).thenReturn(testInfo);
 
 		// Test incidents, list to be returned
 		List<Incident> testIncidents = new ArrayList<Incident>();
 		testIncidents.add(new Incident("testIncident0", new LatLng(1.0, 1.0), testInfo));
 
-		when(incidentsService.getIncidentsByAgent(testInfo)).thenReturn(testIncidents);
+		when(incidentsService.getIncidentsByAgent(testInfo.getUsername())).thenReturn(testIncidents);
 
 		this.mockMvc = MockMvcBuilders.standaloneSetup(incidentsInfoController).build();
 
-	}
-
-	@Test
-	public void testIncidentsInfoRequestSuccesfull() throws Exception {
-
-		MockHttpServletRequestBuilder request = post("/incidentsinfo").accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "Ejemplo").param("password", "pass").contentType(MediaType.APPLICATION_JSON);
-
-		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
-
-		// Succesfull request
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
 	/*
@@ -86,9 +74,10 @@ public class IncidentsInfoControllerTest {
 	 */
 	@Test
 	public void testIncidentsInfoContentOK() throws Exception {
-
-		MockHttpServletRequestBuilder request = post("/incidentsinfo").accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "Ejemplo").param("password", "pass").contentType(MediaType.APPLICATION_JSON);
+		String payload = buildPayload("Ejemplo", "pass", "Person");
+		MockHttpServletRequestBuilder request = post("/incidentsinfo")
+				.content(payload.getBytes())
+				.contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
@@ -108,9 +97,8 @@ public class IncidentsInfoControllerTest {
 	 */
 	@Test
 	public void testIncidentsInfoNotFound() throws Exception {
-
-		MockHttpServletRequestBuilder request = post("/incidentsinfo").accept(MediaType.APPLICATION_JSON_VALUE)
-				.param("username", "notAnAgent").param("password", "fail").param("kind", "Person")
+		String payload = buildPayload("notAnAgent", "whatever", "Entity");
+		MockHttpServletRequestBuilder request = post("/incidentsinfo").content(payload.getBytes())
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
@@ -153,14 +141,48 @@ public class IncidentsInfoControllerTest {
 	@Test
 	public void testIncidentsInfoPost() throws Exception {
 
-		MockHttpServletRequestBuilder request = post("/agentform").param("username", "Ejemplo")
-				.param("password", "pass");
+		MockHttpServletRequestBuilder request = post("/agentform").param("username", "Ejemplo").param("password",
+				"pass").param("kind", "Person");
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
-		//Accepted post
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
+		// redirect to incidents view
+		assertEquals(HttpStatus.FOUND.value(), response.getStatus());
 
+	}
+	
+	/*
+	 * Check that you can't access the show incidents view
+	 * without logging in first.
+	 */
+	@Test
+	public void testShowIncidentsInfoInvalid() throws Exception {
+		MockHttpServletRequestBuilder request = get("/incidents");
+		int status = mockMvc.perform(request)
+				.andExpect(redirectedUrl("/agentform"))
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		assertEquals(HttpStatus.FOUND.value(), status);
+	}	
+	
+	/*
+	 * Check that you cant access the show incidents view
+	 * after logging in first.
+	 */
+	@Test
+	public void testShowIncidentsInfoValid() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+        
+		MockHttpServletRequestBuilder request = get("/incidents").session(session);
+		int status = mockMvc.perform(request)
+				.andExpect(forwardedUrl("incident_list"))
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		assertEquals(HttpStatus.OK.value(), status);
 	}
 
 	/*
@@ -178,5 +200,9 @@ public class IncidentsInfoControllerTest {
 		assertEquals(HttpStatus.FOUND.value(), response.getStatus());
 
 	}
-
+    
+    private String buildPayload(String name, String password, String kind) {
+		return String.format("{\"username\": \"%s\", \"password\": \"%s\", "
+					+ "\"kind\": \"%s\"}", name, password, kind);
+    }
 }

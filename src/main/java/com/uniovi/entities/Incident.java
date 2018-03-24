@@ -131,6 +131,14 @@ public class Incident {
 		this.agent = agent;
 	}
 
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+	
+	public Incident addTag(String tag) {
+		this.tags.add(tag);
+		return this;
+	}
 
 	@Override
 	public int hashCode() {
@@ -157,7 +165,7 @@ public class Incident {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		return true;
+		return this.inciName.equals(other.inciName);
 	}
 
 	@Override

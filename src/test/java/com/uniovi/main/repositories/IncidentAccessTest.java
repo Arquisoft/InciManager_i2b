@@ -26,60 +26,60 @@ import com.uniovi.services.IncidentsService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class IncidentAccessTest {
-    
+
     @Autowired
     private IncidentsService incidentsService;
-    
+
     @Autowired
     private AgentsService agentsService;
 
-    
+
     @Test
     public void t01testReadIncident() throws Exception {
-    		AgentInfo agent1 = agentsService.findByUsername("agent1"); 
-    		
-		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1);
+    		AgentInfo agent1 = agentsService.findByUsername("pacoo");
+
+		List<Incident> incidentsUser1 = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		Collections.sort(incidentsUser1, (a, b) -> a.getInciName().compareTo(b.getInciName()));
-		
+
 		assertEquals(2, incidentsUser1.size());
 		Incident inci1 = incidentsUser1.get(0);
-		
+
 		assertEquals(agent1, inci1.getAgent());
 		assertEquals("inci1", inci1.getInciName());
 		assertEquals(124, inci1.getLocation().latitude, 0.01);
 		assertEquals(152, inci1.getLocation().longitude, 0.01);
 		assertEquals(0, inci1.getProperties().size());
-		
+
 		//Add a second incident to agent1
 		Incident incident6 = new Incident("inci6", new LatLng(155, 42), agent1);
 		incidentsService.addIncident(incident6);
-		
-		incidentsUser1 = incidentsService.getIncidentsByAgent(agent1);
+
+		incidentsUser1 = incidentsService.getIncidentsByAgent(agent1.getUsername());
 		assertEquals(3, incidentsUser1.size());
     }
-    
+
     @Test
-    public void t03testDeleteIncident() throws Exception {
+    public void t02testDeleteIncident() throws Exception {
 		List<Incident> incidents = incidentsService.getIncidents();
 		assertEquals(6, incidents.size());
 
 		incidentsService.deleteIncidentByName("inci2");
 		incidents = incidentsService.getIncidents();
 		assertEquals(5, incidents.size());
-		
+
 		//Agent 4 no incidents
 		AgentInfo agent4 = agentsService.findByUsername("agent4");
-		incidents = incidentsService.getIncidentsByAgent(agent4);
+		incidents = incidentsService.getIncidentsByAgent(agent4.getUsername());
 		assertEquals(0, incidents.size());
-		
-		AgentInfo agent1 = agentsService.findByUsername("agent1");
+
+		AgentInfo agent1 = agentsService.findByUsername("pacoo");
 		incidentsService.deleteIncidentByName("inci1");
-		incidents = incidentsService.getIncidentsByAgent(agent1);
-		
+		incidents = incidentsService.getIncidentsByAgent(agent1.getUsername());
+
 		assertEquals(2, incidents.size());
-		assertEquals("agent1", incidents.get(0).getAgent().getUsername());
+		assertEquals("pacoo", incidents.get(0).getAgent().getUsername());
 		assertEquals("inci4", incidents.get(0).getInciName());
     }
 
-  
+
 }

@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * This class stores the log in information
+ * of the agents that send incidents to the system.
+ */
 @Entity
 public class AgentInfo {
 	

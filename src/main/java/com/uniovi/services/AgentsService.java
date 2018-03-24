@@ -1,5 +1,8 @@
 package com.uniovi.services;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.repositories.AgentsRepository;
+import com.uniovi.repositories.MasterFileParser;
 
 @Service
 public class AgentsService {
@@ -26,24 +30,41 @@ public class AgentsService {
 	@Autowired
 	private AgentsRepository agentsRepository;
 	
+	@Autowired
+	private MasterFileParser fileParser;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentsService.class);
 
-	public boolean existsAgent(AgentInfo agent) throws Exception {
+	public boolean existsAgent(AgentInfo agent) {
 		LOG.info("Sending POST request to url: {}", agentsUrl);
+		
+		HttpHeaders headers;
+		JSONObject request;
+		HttpEntity<String> entity;
+		HttpStatus responseCode;
+		
+		try {
+			headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+			request = new JSONObject();
+			request.put("login", agent.getUsername());
+	        request.put("password", agent.getPassword());
+			request.put("kind", agent.getKind());
 
-		JSONObject request = new JSONObject();
-		request.put("login", agent.getUsername());
-        request.put("password", agent.getPassword());
-		request.put("kind", agent.getKind());
-
-        HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
-
-        ResponseEntity<String> response = new RestTemplate().exchange(agentsUrl, HttpMethod.POST, entity, String.class);
-        HttpStatus responseCode = response.getStatusCode();
+	        entity = new HttpEntity<String>(request.toString(), headers);
+	        responseCode = this.getResponseStatus(agentsUrl, HttpMethod.POST, entity);
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			return false;
+		}
+		
         return responseCode.equals(HttpStatus.OK);
+	}
+	
+	public HttpStatus getResponseStatus(String url, HttpMethod method, HttpEntity<String> entity) {
+		ResponseEntity<String> response = new RestTemplate().exchange(url, method, entity, String.class);
+        return response.getStatusCode();
 	}
 	
 	public AgentInfo findByUsername(String username) {
@@ -58,6 +79,12 @@ public class AgentsService {
 		this.agentsRepository.delete(agent);
 	}
 	
-	
+	public List<String> getAvailableKindNames() throws IOException {
+		return fileParser.getKindNames();
+	}
+
+	public void deleteAll() {
+		this.agentsRepository.deleteAll();
+	}
 
 }
