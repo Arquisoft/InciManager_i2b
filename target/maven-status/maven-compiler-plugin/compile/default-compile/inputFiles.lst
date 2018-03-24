@@ -18,7 +18,9 @@ C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\entit
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\main\KafkaConfig.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\repositories\CSVFileParser.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\repositories\AgentsRepository.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\services\OperatorsService.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\controllers\IncidentController.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\repositories\OperatorsRepository.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\entities\AgentInfo.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\repositories\MasterFileParser.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\main\java\com\uniovi\json\IncidentDeserializer.java

@@ -57,7 +57,4 @@ public class AgentsService {
 	public void deleteAgent(AgentInfo agent) {
 		this.agentsRepository.delete(agent);
 	}
-	
-	
-
 }

@@ -72,14 +72,13 @@ public class IncidentControllerTest {
 
     @Test
     public void testAgentInfoCorrect() throws Exception {
-    		String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
+    	String payload = buildPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
     		
-        
-    		MockHttpServletRequestBuilder request = post("/incident/create")
+    	MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
     		
-    		int status = mockMvc.perform(request)
+    	int status = mockMvc.perform(request)
         						.andReturn()
         						.getResponse()
         						.getStatus();
