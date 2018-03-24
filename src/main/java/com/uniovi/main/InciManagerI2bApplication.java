@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 	"com.uniovi.repositories",
 	"com.uniovi.controllers",
 	"com.uniovi.entities",
+	"com.uniovi.kafka",
 	"com.uniovi.json",
 	"com.uniovi.services",
 	"com.uniovi.util"

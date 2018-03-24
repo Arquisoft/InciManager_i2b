@@ -23,8 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.entities.LatLng;
+import com.uniovi.kafka.KafkaService;
 import com.uniovi.main.InciManagerI2bApplication;
-import com.uniovi.services.KafkaService;
 import com.uniovi.services.TopicService;
 
 @SpringBootTest(classes = { InciManagerI2bApplication.class })

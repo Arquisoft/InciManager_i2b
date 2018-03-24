@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
+import com.uniovi.kafka.KafkaService;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
-import com.uniovi.services.KafkaService;
 import com.uniovi.util.exception.AgentNotFoundException;
 
 @Controller

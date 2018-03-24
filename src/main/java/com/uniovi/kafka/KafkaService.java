@@ -1,4 +1,4 @@
-package com.uniovi.services;
+package com.uniovi.kafka;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniovi.entities.Incident;
+import com.uniovi.services.TopicService;
 
 @Service
 public class KafkaService {
@@ -23,8 +24,7 @@ public class KafkaService {
 	public void sendToKafka(Incident incident) {
 		String message = this.toKafkaMessage(incident);
 		List<String> topics = TopicService.getTopicsOf(incident);
-        for (String topic : topics)
-        {
+        for (String topic : topics) {
     			LOG.info("sending message='{}' to topic='{}'", message, topic);
 			kafkaTemplate.send(topic, message);
         }

@@ -19,7 +19,7 @@ public class TopicService
 			aux.add("withOperator");
 		if(("Sensor".equalsIgnoreCase(incident.getAgent().getKind())))
 			aux.add("sensor");
-		aux.add("standard");
+		aux.add("incidents");
 		return aux;
 	}
 	

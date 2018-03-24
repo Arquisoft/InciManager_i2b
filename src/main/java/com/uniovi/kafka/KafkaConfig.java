@@ -1,4 +1,4 @@
-package com.uniovi.main;
+package com.uniovi.kafka;
 
 import java.util.HashMap;
 import java.util.Map;
