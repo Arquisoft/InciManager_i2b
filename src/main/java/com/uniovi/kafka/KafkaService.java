@@ -42,5 +42,9 @@ public class KafkaService {
 		}
 		return result;
 	}
+	
+	public void setKafkaTemplate(KafkaTemplate<String, String> template) {
+		this.kafkaTemplate = template;
+	}
 
 }
