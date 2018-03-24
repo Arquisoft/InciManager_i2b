@@ -25,9 +25,9 @@ public class InsertSampleDataService {
 	
 	@PostConstruct
 	public void init() {
-		Operator op = new Operator("operator1@dashboard.com", "op1", 0);
-		Operator op2 = new Operator("operator2@dashboard.com", "op2", 0);
-		Operator op3 = new Operator("operator3@dashboard.com", "op3",0);
+		Operator op = new Operator(1L, "operator1@dashboard.com", "op1", 0);
+		Operator op2 = new Operator(2L, "operator2@dashboard.com", "op2", 0);
+		Operator op3 = new Operator(3L, "operator3@dashboard.com", "op3",0);
 		
 		AgentInfo agent1 = new AgentInfo("pacoo", "123456", "Person");
 		AgentInfo agent2 = new AgentInfo("pruebas", "cocoKiko", "Entity");

@@ -32,8 +32,9 @@ public class Operator {
 	 * @param operatorname
 	 * @param isAdmin
 	 */
-	public Operator(String email, String operatorname, int isAdmin) {
+	public Operator(Long id, String email, String operatorname, int isAdmin) {
 		super();
+		this.id = id;
 		this.email = email;
 		this.operatorname = operatorname;
 		this.isAdmin = isAdmin;
