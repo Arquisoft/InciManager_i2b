@@ -15,6 +15,7 @@ import com.uniovi.entities.Incident;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.services.KafkaService;
+import com.uniovi.services.OperatorsService;
 import com.uniovi.util.exception.AgentNotFoundException;
 
 @Controller
@@ -25,6 +26,9 @@ public class IncidentController {
 	
 	@Autowired
 	private IncidentsService incidentsService;
+	
+	@Autowired
+	private OperatorsService operatorsService;
 	
 	@Autowired
 	private KafkaService kafkaService;
@@ -48,6 +52,7 @@ public class IncidentController {
 		}
 
 		agentsService.addAgent(incident.getAgent());
+		incident.assignOperator(operatorsService.randomOperator());
 		incidentsService.addNewIncident(incident);
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";

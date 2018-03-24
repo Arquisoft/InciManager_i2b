@@ -29,4 +29,10 @@ public class OperatorsService {
 	public void deleteOperator(Operator op) {
 		operatorsRepository.delete(op);
 	}
+
+	public Operator randomOperator() {
+		List<Operator> ops = getOperators();
+		int index = (int) (Math.random()* ops.size());
+		return ops.get(index);
+	}
 }
