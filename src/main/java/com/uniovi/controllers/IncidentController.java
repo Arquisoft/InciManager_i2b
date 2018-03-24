@@ -15,20 +15,25 @@ import com.uniovi.entities.Incident;
 import com.uniovi.kafka.KafkaService;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
+import com.uniovi.services.KafkaService;
+import com.uniovi.services.OperatorsService;
 import com.uniovi.util.exception.AgentNotFoundException;
 
 @Controller
 public class IncidentController {
-	
+
 	@Autowired
 	private AgentsService agentsService;
-	
+
 	@Autowired
 	private IncidentsService incidentsService;
-	
+
+	@Autowired
+	private OperatorsService operatorsService;
+
 	@Autowired
 	private KafkaService kafkaService;
-	
+
 	/**
 	 * Entry point for a POST request with information about
 	 * the incident to be created. If the agent given the
@@ -48,11 +53,12 @@ public class IncidentController {
 		}
 
 		agentsService.addAgent(incident.getAgent());
+		incident.assignOperator(operatorsService.randomOperator());
 		incidentsService.addNewIncident(incident);
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";
 	}
-	
+
 	/**
 	 * Entry point for a GET request for an agent that wants
 	 * to create an incident using a web interface. The agent
@@ -69,7 +75,7 @@ public class IncidentController {
 		if (info == null) {
 			return "redirect:/agentform";
 		}
-		
+
 		AgentInfo agentInfo = (AgentInfo) info;
 		model.addAttribute("agentInfo", agentInfo);
 		return "chatroom";

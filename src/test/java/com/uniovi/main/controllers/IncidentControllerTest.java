@@ -25,25 +25,30 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.uniovi.controllers.IncidentController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.LatLng;
-import com.uniovi.kafka.KafkaService;
+import com.uniovi.entities.Operator;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
+import com.uniovi.services.KafkaService;
+import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class IncidentControllerTest {
-	
+
     @Mock
     private AgentsService agentsService;
-    
+
     @Mock
     public IncidentsService incidentsService;
 
     @Mock
     public KafkaService kafkaService;
+
+    @Mock
+    public OperatorsService operatorsService;
 
     @InjectMocks
     private IncidentController incidentController;
@@ -54,7 +59,7 @@ public class IncidentControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(agentsService.existsAgent(new AgentInfo("Son", "prueba", "Person"))).thenReturn(true);
-
+        when(operatorsService.randomOperator()).thenReturn(new Operator());
         this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
 
@@ -67,10 +72,10 @@ public class IncidentControllerTest {
     public void testAgentNotExists() throws Exception {
 		String payload = buildIncidentPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
 				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
-		
+
 		MockHttpServletRequestBuilder request = post("/incident/create")
 				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
-		
+
 		int status = mockMvc.perform(request)
     						.andReturn()
     						.getResponse()
@@ -88,18 +93,18 @@ public class IncidentControllerTest {
     public void testAgentInfoCorrect() throws Exception {
     		String payload = buildIncidentPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
     				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
-        
+
     		MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
-    		
+
     		int status = mockMvc.perform(request)
         						.andReturn()
         						.getResponse()
         						.getStatus();
-        
+
         assertEquals(HttpStatus.OK.value(), status);
-    }    
-    
+    }
+
     /**
      * Test that an agent is redirected to the authentication
      * form if it tries to access directly the chat interface
@@ -116,7 +121,7 @@ public class IncidentControllerTest {
     							.getStatus();
         assertEquals(HttpStatus.FOUND.value(), status);
     }
-    
+
     /**
      * Test that an agent can access the chat interface to create
      * an incident if he has previously logged in correctly.
@@ -127,7 +132,7 @@ public class IncidentControllerTest {
         MockHttpSession session = new MockHttpSession();
         AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
         session.setAttribute("agentInfo", agentInfo);
-        
+
         MockHttpServletRequestBuilder request = get("/incident/create").session(session);
     	    int status = mockMvc.perform(request)
     						.andExpect(forwardedUrl("chatroom"))
@@ -137,8 +142,8 @@ public class IncidentControllerTest {
 
         assertEquals(HttpStatus.OK.value(), status);
     }
-    
-    
+
+
     private String buildIncidentPayload(String name, String password, String kind, String inciName,
     				LatLng location, String tags, String moreInfo, String properties) {
 		return String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
