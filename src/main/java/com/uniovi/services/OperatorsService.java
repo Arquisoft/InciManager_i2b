@@ -35,4 +35,10 @@ public class OperatorsService {
 		int index = (int) (Math.random()* ops.size());
 		return ops.get(index);
 	}
+
+	public void deleteAll() {
+		for (Operator op : getOperators()) {
+			deleteOperator(op);
+		}
+	}
 }
