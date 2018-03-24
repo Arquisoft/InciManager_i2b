@@ -10,7 +10,8 @@ import com.uniovi.entities.Incident;
 @Service
 public class TopicService 
 {
-	public static List<String> getTopicsOf(Incident incident)
+	
+	public List<String> getTopicsOf(Incident incident)
 	{
 		List<String> aux = new ArrayList<String>();
 		if(incident.getLocation()!=null)
@@ -23,7 +24,7 @@ public class TopicService
 		return aux;
 	}
 	
-	private static boolean hasOperator(Incident incident)
+	private boolean hasOperator(Incident incident)
 	{
 		for (String key : incident.getProperties().keySet()) 
 		{

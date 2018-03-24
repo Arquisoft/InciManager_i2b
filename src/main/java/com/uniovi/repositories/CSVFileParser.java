@@ -41,8 +41,6 @@ public class CSVFileParser implements MasterFileParser {
 	        	reader = new FileReader(filePath);
 	        	Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(reader);
 	        	for (CSVRecord record : records) {
-	        		this.assertValidRecord(record);
-	        		
 	        	    int kindCode = Integer.valueOf(record.get(0));
 	        	    if (kindCode == kind) return record.get(1);
 	        	}
@@ -62,8 +60,6 @@ public class CSVFileParser implements MasterFileParser {
 	        	reader = new FileReader(filePath);
 	        	Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(reader);
 	        	for (CSVRecord record : records) {
-	        		this.assertValidRecord(record);
-	        		
 	        	    String name = record.get(1);
 	        	    if (kindName.equals(name)) return Integer.valueOf(record.get(0));
 	        	}
@@ -83,8 +79,6 @@ public class CSVFileParser implements MasterFileParser {
 	        	reader = new FileReader(filePath);
 	        	Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(reader);
 	        	for (CSVRecord record : records) {
-	        		this.assertValidRecord(record);
-	        		
 	        		kindNames.add(record.get(1));
 	        	}
         } finally {
@@ -92,10 +86,6 @@ public class CSVFileParser implements MasterFileParser {
         }
         
         return kindNames;
-	}
-	
-	private void assertValidRecord(CSVRecord record) {
-		assert (record.size() == 2) : "Invalid number of columns";
 	}
 
 }

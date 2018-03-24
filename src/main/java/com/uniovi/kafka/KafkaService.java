@@ -20,10 +20,13 @@ public class KafkaService {
 
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
+	
+	@Autowired
+	private TopicService topicService;
 
 	public void sendToKafka(Incident incident) {
 		String message = this.toKafkaMessage(incident);
-		List<String> topics = TopicService.getTopicsOf(incident);
+		List<String> topics = topicService.getTopicsOf(incident);
         for (String topic : topics) {
     			LOG.info("sending message='{}' to topic='{}'", message, topic);
 			kafkaTemplate.send(topic, message);

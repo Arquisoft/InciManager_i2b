@@ -1,66 +1,65 @@
 package com.uniovi.main.kafka;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
-import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.entities.LatLng;
 import com.uniovi.kafka.KafkaService;
+import com.uniovi.main.InciManagerI2bApplication;
+import com.uniovi.services.TopicService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@DirtiesContext
+@SpringBootTest(classes= {
+		InciManagerI2bApplication.class
+})
 public class KafkaTest {
-
-	@ClassRule
-	public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, "incidents", "geolocated");
-
-	@Autowired
+	
+	@InjectMocks
 	private KafkaService kafkaService;
+	
+	@Mock
+	private TopicService topicService;
 
+	@Mock
 	private KafkaTemplate<String, String> kafkaTemplate;
-	private static Consumer<String, String> consumer;
+	
+	private List<String> messages;
+	private List<String> topics;
+	private AgentInfo agentInfo;
+	private Incident incident;
 
 	@Before
 	public void setUp() throws Exception {
-		this.initKafkaTemplate();
-		this.setUpConsumer();
-	}
-
-	private void initKafkaTemplate() {
-		Map<String, Object> senderProps = KafkaTestUtils.producerProps(embeddedKafka);
-		ProducerFactory<String, String> pf = new DefaultKafkaProducerFactory<>(senderProps);
-		kafkaTemplate = new KafkaTemplate<String, String>(pf, true);
-		kafkaTemplate.setDefaultTopic("incidents");
-		kafkaService.setKafkaTemplate(kafkaTemplate);
-	}
-
-	private void setUpConsumer() throws Exception {
-		Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("sampleRawConsumer", "false", embeddedKafka);
-		consumerProps.put("auto.offset.reset", "earliest");
-
-		consumer = new KafkaConsumer<>(consumerProps);
-		consumer.subscribe(Collections.singletonList("incidents"));
+		agentInfo = new AgentInfo("paco", "123456", "Person");
+		incident = new Incident("Test", new LatLng(50, 20), agentInfo);
+		incident.setLocation(null);
+		messages = new ArrayList<String>();       
+        topics = new ArrayList<String>();
+        topics.add("incidents");
+		
+        MockitoAnnotations.initMocks(this);
+        when(kafkaTemplate.send("incidents", kafkaService.toKafkaMessage(incident)))
+        		.thenAnswer((answer) -> {
+        			messages.add("Incident sent");
+        			return null;
+        		});
+ 
+        when(topicService.getTopicsOf(incident)).thenReturn(topics);
 	}
 
 	@Test
@@ -74,22 +73,19 @@ public class KafkaTest {
 
 		incident.addTag("Fire");
 		incident.addProperty("temperature", 50);
+		incident.setLocation(null);
 		assertEquals("{\"agent\":{\"username\":\"paco\",\"password\":\"123456\","
-				+ "\"kind\":\"Person\"},\"inciName\":\"Test\",\"location\":{"
-				+ "\"lat\":50.0,\"lon\":20.0},\"tags\":[\"Fire\"],\"moreInfo\":[],"
+				+ "\"kind\":\"Person\"},\"inciName\":\"Test\",\"location\":{}"
+				+ ",\"tags\":[\"Fire\"],\"moreInfo\":[],"
 				+ "\"properties\":{\"temperature\":50}}", 
 				kafkaService.toKafkaMessage(incident));
 	}
 
 	@Test
 	public void testSendToKafka() throws InterruptedException {
-		AgentInfo agentInfo = new AgentInfo("paco", "123456", "Person");
-		Incident incident = new Incident("Test", new LatLng(50, 20), agentInfo);
 		kafkaService.sendToKafka(incident);
-
-		// check that the message was received
-		ConsumerRecord<String, String> received = KafkaTestUtils.getSingleRecord(consumer, "incidents");
-		assertEquals(kafkaService.toKafkaMessage(incident), received.value());
+		assertEquals(1, messages.size());
+		assertEquals("Incident sent", messages.get(0));
 	}
 
 }

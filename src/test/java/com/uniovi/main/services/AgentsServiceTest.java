@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,6 +115,15 @@ public class AgentsServiceTest {
 		agentsService.deleteAgent(testInfo1);
 		assertEquals(testInfo2, agentsService.findByUsername(testInfo2.getUsername()));
 		assertEquals(null, agentsService.findByUsername(testInfo1.getUsername()));
+	}
+	
+	@Test
+	public void testGetKindNames() throws IOException {
+		List<String> kindNames = agentsService.getAvailableKindNames();
+		assertEquals(3, kindNames.size());
+		assertTrue(kindNames.contains("Person"));
+		assertTrue(kindNames.contains("Sensor"));
+		assertTrue(kindNames.contains("Entity"));
 	}
 
 }
