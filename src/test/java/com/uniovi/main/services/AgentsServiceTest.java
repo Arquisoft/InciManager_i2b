@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
@@ -14,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,7 +45,9 @@ public class AgentsServiceTest {
         spy = Mockito.spy(new AgentsService());
 
 		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
+		testInfo1.setId(new ObjectId());
 		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Sensor");
+		testInfo2.setId(new ObjectId());
         
 		HttpEntity<String>goodEntity = this.buildGoodEntity();
         HttpEntity<String> badEntity = this.buildBadEntity();
@@ -89,7 +91,7 @@ public class AgentsServiceTest {
         return new HttpEntity<String>(request.toString(), headers);
 	}
 
-	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testAddNullAgent() {
 		agentsService.addAgent(null);
 	}

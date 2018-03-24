@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -94,7 +95,7 @@ public class IncidentsServiceTest {
 		assertEquals(incidentsService.getIncidentByName("inciTest2"), inciTest2);
 
 		// By id
-		Long id = incidentsService.getIncidentByName("inciTest2").getId();
+		ObjectId id = incidentsService.getIncidentByName("inciTest2").getId();
 		incidentsService.deleteIncidentById(id);
 		assertEquals(incidentsService.getIncidentByName("inciTest2"), null);
 

@@ -7,6 +7,7 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/services/TopicService.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/JSONHelper.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/IncidentPropertiesConverter.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/mongo/TestMongoConfig.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/Incident.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/controllers/IncidentController.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/services/IncidentsService.java

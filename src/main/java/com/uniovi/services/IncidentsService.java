@@ -2,6 +2,7 @@ package com.uniovi.services;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class IncidentsService {
 			incidentsRepository.save(incident);
 	}
 
-	public void deleteIncidentById(Long id) {
+	public void deleteIncidentById(ObjectId id) {
 		incidentsRepository.deleteById(id);
 	}
 

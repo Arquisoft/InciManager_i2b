@@ -4,48 +4,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.uniovi.json.IncidentDeserializer;
 import com.uniovi.json.IncidentSerializer;
-import com.uniovi.util.IncidentPropertiesConverter;
 
 @JsonDeserialize(using = IncidentDeserializer.class)
 @JsonSerialize(using = IncidentSerializer.class)
-@Entity
+@Document(collection="incidents")
 public class Incident {
-	
-	@Id @GeneratedValue
-	private Long id;
+
+    @Id
+    private ObjectId id;
 	
 	private String inciName;
 	private LatLng location;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name="agent_id")
+	@Field("agent")
 	private AgentInfo agent;
 	
-	@ElementCollection(targetClass=String.class)
 	private List<String> tags = new ArrayList<String>();
 	
-	@ElementCollection(targetClass=String.class)
 	private List<String> moreInfo = new ArrayList<String>();
 	
-	@Convert(converter=IncidentPropertiesConverter.class)
 	private Map<String, Object> properties = new HashMap<String, Object>();
 	
-	@Enumerated(EnumType.STRING)
 	private IncidentState state;
 
 	public Incident() {}
@@ -95,7 +83,7 @@ public class Incident {
 		this.location = location;
 	}
 
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 

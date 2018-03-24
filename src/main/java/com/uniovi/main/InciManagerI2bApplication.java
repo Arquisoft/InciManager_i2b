@@ -2,9 +2,8 @@ package com.uniovi.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
 @ComponentScan({
@@ -15,8 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	"com.uniovi.services",
 	"com.uniovi.util"
 })
-@EnableJpaRepositories("com.uniovi.repositories")
-@EntityScan ("com.uniovi.entities")
+@EnableMongoRepositories("com.uniovi.repositories")
 public class InciManagerI2bApplication {
 
 	public static void main(String[] args) {
