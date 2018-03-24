@@ -19,6 +19,9 @@ public class InsertSampleDataService {
 
 	@Autowired
 	private AgentsService agentsService;
+	
+	@Autowired
+	private OperatorsService operatorsService;
 
 	@PostConstruct
 	public void init() {
@@ -40,11 +43,9 @@ public class InsertSampleDataService {
 		Incident incident5 = new Incident("inci5", new LatLng(52, 42), agent3);
 		incident5.getProperties().put("temperature", 35.0);
 
-		incident1.assignOperator(op1);
-		incident2.assignOperator(op2);
-		incident3.assignOperator(op3);
-		incident4.assignOperator(op1);
-		incident5.assignOperator(op2);
+		operatorsService.addOperator(op1);
+		operatorsService.addOperator(op2);
+		operatorsService.addOperator(op3);
 		
 		agentsService.addAgent(agent1);
 		agentsService.addAgent(agent2);

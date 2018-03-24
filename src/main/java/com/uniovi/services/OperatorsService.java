@@ -17,4 +17,8 @@ public class OperatorsService {
 	public List<Operator> getOperators(){
 		return operatorsRepository.findAll();
 	}
+	
+	public void addOperator(Operator op) {
+		operatorsRepository.save(op);
+	}
 }

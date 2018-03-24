@@ -48,7 +48,7 @@ public class IncidentAccessTest {
 		assertEquals("inci1", inci1.getInciName());
 		assertEquals(124, inci1.getLocation().latitude, 0.01);
 		assertEquals(152, inci1.getLocation().longitude, 0.01);
-		assertEquals(1, inci1.getProperties().size());
+		assertEquals(0, inci1.getProperties().size());
 		
 		//Add a third incident to agent1
 		Incident incident6 = new Incident("inci6", new LatLng(155, 42), agent1);
