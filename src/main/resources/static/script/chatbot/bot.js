@@ -1,8 +1,8 @@
 "use strict";
 
 // dialogflow developer API
-var dialogFlowAPI = '4054726dff944193a7fcb8b9c8c203ef';
-var dialogFlowUrl = 'https://api.dialogflow.com/v1/';
+var dialogFlowAPI = "4054726dff944193a7fcb8b9c8c203ef";
+var dialogFlowUrl = "https://api.dialogflow.com/v1/";
 
 class ChatBot {
 
@@ -48,7 +48,7 @@ class ChatBot {
         }
 
         $.ajax({
-            type: 'POST',
+            type: "POST",
             url: dialogFlowUrl + "query",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
@@ -92,7 +92,6 @@ class ChatBot {
                     this.chatRoom.createBotMessage("Now you can introduce some"
                             + " tags for the incident.");
                 }.bind(this), function(error) {
-                    console.log(error);
                     this.processAnswer(data);
                 }.bind(this));
                 break;
@@ -153,8 +152,8 @@ class ChatBot {
                 this.chatRoom.createBotMessage(message);
                 this.isFinished = true; // we don't answer any more message
             }.bind(this), error: function() {
-                this.chatRoom.createBotMessage("There was an error \
-                sending the incident. Please try again later.");
+                this.chatRoom.createBotMessage("There was an error\n"
+                    + "sending the incident. Please try again later.");
             }.bind(this)
         });
     }

@@ -72,7 +72,7 @@ public class IncidentController {
 		
 		AgentInfo agentInfo = (AgentInfo) info;
 		model.addAttribute("agentInfo", agentInfo);
-		return "chatroom.html";
+		return "chatroom";
 	}
 
 }

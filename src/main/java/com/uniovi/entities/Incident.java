@@ -165,7 +165,7 @@ public class Incident {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		return true;
+		return this.inciName.equals(other.inciName);
 	}
 
 	@Override

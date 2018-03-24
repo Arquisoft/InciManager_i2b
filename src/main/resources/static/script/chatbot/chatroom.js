@@ -2,7 +2,6 @@
 
 // random names of the bot to be created :)
 var names = ["Chung", "Ellie", "Albert", "Karoline", "Brendan", "Julia"];
-
 var chat;
 
 /*
@@ -15,6 +14,7 @@ function generateRandomName() {
 
 class ChatRoom {
     constructor() {
+        / global ChatBot /
         this.bot = new ChatBot(this, generateRandomName());
         this.bot.welcomeMessage();
     }
@@ -57,7 +57,7 @@ class ChatRoom {
      */
     onNewUserMessage() {
         var message = $("textarea").val();
-        if (message != "") {
+        if (message !== "") {
             this.createUserMessage(message);
             this.bot.onNewUserMessage(message);
 
@@ -77,8 +77,8 @@ $(document).ready(function() {
     // allow enter button to send the current message inside the text area
     $("#textArea").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
-        if (code == 13) {
-            $("#sendMsgButton").trigger('click');
+        if (code === 13) {
+            $("#sendMsgButton").trigger("click");
             return false;
         }
     });

@@ -41,7 +41,6 @@ public class AgentsService {
 		HttpHeaders headers;
 		JSONObject request;
 		HttpEntity<String> entity;
-		ResponseEntity<String> response;
 		HttpStatus responseCode;
 		
 		try {
@@ -54,15 +53,18 @@ public class AgentsService {
 			request.put("kind", agent.getKind());
 
 	        entity = new HttpEntity<String>(request.toString(), headers);
-
-	        response = new RestTemplate().exchange(agentsUrl, HttpMethod.POST, entity, String.class);
-	        responseCode = response.getStatusCode();
+	        responseCode = this.getResponseStatus(agentsUrl, HttpMethod.POST, entity);
 		} catch (Exception e) {
 			LOG.error(e.toString());
 			return false;
 		}
 		
         return responseCode.equals(HttpStatus.OK);
+	}
+	
+	public HttpStatus getResponseStatus(String url, HttpMethod method, HttpEntity<String> entity) {
+		ResponseEntity<String> response = new RestTemplate().exchange(url, method, entity, String.class);
+        return response.getStatusCode();
 	}
 	
 	public AgentInfo findByUsername(String username) {
@@ -84,6 +86,5 @@ public class AgentsService {
 	public void deleteAll() {
 		this.agentsRepository.deleteAll();
 	}
-	
 
 }

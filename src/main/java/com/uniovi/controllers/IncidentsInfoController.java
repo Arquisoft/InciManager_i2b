@@ -111,6 +111,6 @@ public class IncidentsInfoController {
 		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo.getUsername());
 
 		model.addAttribute("incidentsList", agentIncidents);
-		return "/incidents";
+		return "incident_list";
 	}
 }

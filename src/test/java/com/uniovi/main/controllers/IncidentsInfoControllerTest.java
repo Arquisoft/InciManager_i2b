@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -146,6 +149,40 @@ public class IncidentsInfoControllerTest {
 		// redirect to incidents view
 		assertEquals(HttpStatus.FOUND.value(), response.getStatus());
 
+	}
+	
+	/*
+	 * Check that you can't access the show incidents view
+	 * without logging in first.
+	 */
+	@Test
+	public void testShowIncidentsInfoInvalid() throws Exception {
+		MockHttpServletRequestBuilder request = get("/incidents");
+		int status = mockMvc.perform(request)
+				.andExpect(redirectedUrl("/agentform"))
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		assertEquals(HttpStatus.FOUND.value(), status);
+	}	
+	
+	/*
+	 * Check that you cant access the show incidents view
+	 * after logging in first.
+	 */
+	@Test
+	public void testShowIncidentsInfoValid() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+        
+		MockHttpServletRequestBuilder request = get("/incidents").session(session);
+		int status = mockMvc.perform(request)
+				.andExpect(forwardedUrl("incident_list"))
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		assertEquals(HttpStatus.OK.value(), status);
 	}
 
 	/*

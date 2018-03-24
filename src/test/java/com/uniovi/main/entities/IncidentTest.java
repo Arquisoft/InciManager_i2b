@@ -2,9 +2,14 @@ package com.uniovi.main.entities;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,6 +67,49 @@ public class IncidentTest {
 		assertEquals(2, inci.getProperties().size());
 		assertEquals("BrokenFountain-10MAR.png", inci.getProperties().get("image"));
 		assertEquals("Leaks at the base", inci.getProperties().get("description"));
+	}
+	
+	@Test
+	public void testToString() {
+		Incident inci = new Incident("InciTest", new LatLng(55, 42), carmen);
+		assertEquals("Incident [id=null, inciName=InciTest, location=Location{"
+				+ "Latitude='55.0',Longitude='42.0'}, tags=[], moreInfo=[], "
+				+ "properties={}]", inci.toString());
+		
+		List<String> tags = new ArrayList<String>();
+		tags.add("Fire");
+		inci.setTags(tags);
+		assertEquals("Incident [id=null, inciName=InciTest, location=Location{"
+				+ "Latitude='55.0',Longitude='42.0'}, tags=[Fire], moreInfo=[], "
+				+ "properties={}]", inci.toString());
+		
+		inci.setInciName("Another name");
+		inci.setLocation(new LatLng(12, 45));
+		assertEquals("Incident [id=null, inciName=Another name, location=Location{"
+				+ "Latitude='12.0',Longitude='45.0'}, tags=[Fire], moreInfo=[], "
+				+ "properties={}]", inci.toString());
+	}
+	
+	@Test
+	public void testHashCode() {
+		Incident inci = new Incident("Fire in Mallorca", new LatLng(55, 42), carmen);
+		Incident inci2 = inci;
+		assertEquals(inci2.hashCode(), inci.hashCode());
+		
+		inci2 = new Incident("Fire in Oviedo", new LatLng(55, 42), carmen);
+		assertNotEquals(inci2.hashCode(), inci.hashCode());
+	}
+	
+	@SuppressWarnings("unlikely-arg-type")
+	@Test
+	public void testEquals() {
+		Incident inci = new Incident("BrokenFountain-10MAR", new LatLng(55, 42), carmen);
+		Incident inciClone = inci;
+		Incident inci2 = new Incident("Aaaaaaaa", new LatLng(55, 42), carmen);
+		assertTrue(inci.equals(inciClone));
+		assertFalse(inci.equals(null));
+		assertFalse(inci.equals(carmen));
+		assertFalse(inci2.equals(inci));
 	}
 
 }

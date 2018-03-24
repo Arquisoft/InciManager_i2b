@@ -1,13 +1,26 @@
 package com.uniovi.main.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.uniovi.entities.AgentInfo;
@@ -18,12 +31,36 @@ import com.uniovi.services.AgentsService;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AgentsServiceTest {
 
+	@Value("${agents_url}")
+	private String agentsUrl;
+	
 	@Autowired
 	private AgentsService agentsService;
+	
+	@Spy
+	private AgentsService spy;
+	
+	// to mock the call to the Agents module
+	private HttpEntity<String> badEntity;
+	private HttpEntity<String> goodEntity;
 
 	private AgentInfo testInfo1;
 	private AgentInfo testInfo2;
 
+
+    @Before
+    public void setUp() throws Exception {
+        spy = Mockito.spy(new AgentsService());
+
+		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
+		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Sensor");
+        
+        goodEntity = this.buildGoodEntity();
+        badEntity = this.buildBadEntity();
+
+        Mockito.doReturn(HttpStatus.OK).when(spy).getResponseStatus(null, HttpMethod.POST, goodEntity);
+        Mockito.doReturn(HttpStatus.NOT_FOUND).when(spy).getResponseStatus(null, HttpMethod.POST, badEntity);
+    }
 
 	@After
 	public void clean() {
@@ -34,17 +71,45 @@ public class AgentsServiceTest {
 
 	}
 
+	private HttpEntity<String> buildGoodEntity() throws JSONException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		
+		JSONObject request = new JSONObject();
+		request.put("login", testInfo1.getUsername());
+        request.put("password", testInfo1.getPassword());
+		request.put("kind", testInfo1.getKind());
+
+        return new HttpEntity<String>(request.toString(), headers);
+	}
+
+	private HttpEntity<String> buildBadEntity() throws JSONException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		
+		JSONObject request = new JSONObject();
+		request.put("login", testInfo2.getUsername());
+        request.put("password", testInfo2.getPassword());
+		request.put("kind", testInfo2.getKind());
+
+        return new HttpEntity<String>(request.toString(), headers);
+	}
+
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void testAddNullAgent() {
-		agentsService.addAgent(testInfo1);
+		agentsService.addAgent(null);
+	}
+	
+	@Test
+	public void testExistsAgent() {
+		assertTrue(spy.existsAgent(testInfo1));
+		assertFalse(spy.existsAgent(testInfo2));
 	}
 
 	@Test
 	public void testCRUDAgent() {
-
-		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
-		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Sensor");
-
 		agentsService.addAgent(testInfo1);
 		assertEquals(testInfo1, agentsService.findByUsername(testInfo1.getUsername()));
 		assertEquals(null, agentsService.findByUsername(testInfo2.getUsername()));

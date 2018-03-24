@@ -32,7 +32,8 @@ public class InsertSampleDataServiceTest {
 		 * in other tests, so this test was not deterministic depending
 		 * on the order of execution of the rest of the tests.
 		 */
-		sampleDataService.finalize();
+		incidentsService.deleteAll();
+		agentsService.deleteAll();
 		sampleDataService.init();
 		
 		//Start data inserted

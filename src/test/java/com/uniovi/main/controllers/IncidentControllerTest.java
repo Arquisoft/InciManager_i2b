@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +51,7 @@ public class IncidentControllerTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(agentsService.existsAgent(new AgentInfo("Son", "prueba", "Person"))).thenReturn(true);
 
@@ -110,7 +109,12 @@ public class IncidentControllerTest {
     @Test
     public void testNotLoggedIn() throws Exception {
     		MockHttpServletRequestBuilder request = get("/incident/create");
-    		mockMvc.perform(request).andExpect(redirectedUrl("/agentform"));
+    		int status = mockMvc.perform(request)
+    							.andExpect(redirectedUrl("/agentform"))
+    							.andReturn()
+    							.getResponse()
+    							.getStatus();
+        assertEquals(HttpStatus.FOUND.value(), status);
     }
     
     /**
@@ -125,9 +129,13 @@ public class IncidentControllerTest {
         session.setAttribute("agentInfo", agentInfo);
         
         MockHttpServletRequestBuilder request = get("/incident/create").session(session);
-    		mockMvc.perform(request)
-    			   .andExpect(status().isOk())
-    			   .andExpect(forwardedUrl("chatroom.html"));
+    	    int status = mockMvc.perform(request)
+    						.andExpect(forwardedUrl("chatroom"))
+    						.andReturn()
+    						.getResponse()
+    						.getStatus();
+
+        assertEquals(HttpStatus.OK.value(), status);
     }
     
     
