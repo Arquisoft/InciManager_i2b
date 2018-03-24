@@ -48,5 +48,18 @@ public class OperatorTest {
 	public void testToString() {
 		String toStringOp = "Operator [email=eleven@dashboard.com, operatorname=eleven, isAdmin=0]";
 		assertEquals(toStringOp, op1.toString());
+		
+		Operator op2 = new Operator(222L, "cleopatra@gob.eg", "cleo", 1);
+		toStringOp = "Operator [email=cleopatra@gob.eg, operatorname=cleo, isAdmin=1]";
+		assertEquals(toStringOp, op2.toString());
+		
+		op2.setEmail("cleopatra@dead.world");
+		assertEquals("Operator [email=cleopatra@dead.world, operatorname=cleo, isAdmin=1]", op2.toString());
+		
+		op2.setIsAdmin(0);
+		assertEquals("Operator [email=cleopatra@dead.world, operatorname=cleo, isAdmin=0]", op2.toString());
+		
+		op2.setOperatorname("CLEOPATRA");
+		assertEquals("Operator [email=cleopatra@dead.world, operatorname=CLEOPATRA, isAdmin=0]", op2.toString());
 	}
 }

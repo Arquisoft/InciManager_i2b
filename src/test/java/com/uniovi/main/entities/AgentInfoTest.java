@@ -46,5 +46,14 @@ public class AgentInfoTest {
 		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
 		String str = "AgentInfo [id=null, username=agentA, password=password, kind=Person]";
 		assertEquals(str, agent.toString());
+		
+		agent.setKind("Entity");
+		assertEquals("AgentInfo [id=null, username=agentA, password=password, kind=Entity]", agent.toString());
+		
+		agent.setPassword("none");
+		assertEquals("AgentInfo [id=null, username=agentA, password=none, kind=Entity]", agent.toString());
+		
+		agent.setUsername("username");
+		assertEquals("AgentInfo [id=null, username=username, password=none, kind=Entity]", agent.toString());
 	}
 }
