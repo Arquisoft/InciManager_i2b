@@ -25,10 +25,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.uniovi.controllers.IncidentController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.LatLng;
+import com.uniovi.entities.Operator;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.services.KafkaService;
+import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class
@@ -45,6 +47,9 @@ public class IncidentControllerTest {
     @Mock
     public KafkaService kafkaService;
 
+    @Mock
+    public OperatorsService operatorsService;
+    
     @InjectMocks
     private IncidentController incidentController;
 
@@ -54,7 +59,7 @@ public class IncidentControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(agentsService.existsAgent(new AgentInfo("Son", "prueba", "Person"))).thenReturn(true);
-
+        when(operatorsService.randomOperator()).thenReturn(new Operator());
         this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
 

@@ -139,6 +139,14 @@ public class Incident {
 		this.tags.add(tag);
 		return this;
 	}
+	
+	public void assignOperator(Operator randomOperator) {
+		this.properties.put("operator", randomOperator.getEmail());
+	}
+	
+	public String getOperator() {
+		return (String) this.properties.get("operator");
+	}
 
 	@Override
 	public int hashCode() {

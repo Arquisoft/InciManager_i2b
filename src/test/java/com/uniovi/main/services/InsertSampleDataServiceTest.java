@@ -12,6 +12,7 @@ import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.services.InsertSampleDataService;
+import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes = { InciManagerI2bApplication.class })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,6 +27,9 @@ public class InsertSampleDataServiceTest {
 	@Autowired
 	private InsertSampleDataService sampleDataService;
 
+	@Autowired
+	private OperatorsService operatorsService;
+	
 	@Test
 	public void testSampleData() {
 		/* we need to reinsert the data, as we are deleting/modifying it
@@ -34,6 +38,7 @@ public class InsertSampleDataServiceTest {
 		 */
 		incidentsService.deleteAll();
 		agentsService.deleteAll();
+		operatorsService.deleteAll();
 		sampleDataService.init();
 		
 		//Start data inserted
