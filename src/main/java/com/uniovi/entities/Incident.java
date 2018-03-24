@@ -131,6 +131,13 @@ public class Incident {
 		this.agent = agent;
 	}
 
+	public void assignOperator(Operator op) {
+		this.properties.put("operator", op);
+	}
+	
+	public Operator getOperator() {
+		return (Operator) this.properties.get("operator");
+	}
 
 	@Override
 	public int hashCode() {

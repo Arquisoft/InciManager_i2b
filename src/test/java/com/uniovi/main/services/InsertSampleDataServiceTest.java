@@ -35,7 +35,16 @@ public class InsertSampleDataServiceTest {
 		assertNotNull(agentsService.findByUsername("agent1"));
 		assertNotNull(agentsService.findByUsername("agent2"));
 		assertNotNull(agentsService.findByUsername("agent3"));
-
+	}
+	
+	@Test
+	public void testOperators() 
+	{
+		assertNotNull(incidentsService.getIncidentByName("inci1").getOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci2").getOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci3").getOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci4").getOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci5").getOperator());
 
 	}
 
