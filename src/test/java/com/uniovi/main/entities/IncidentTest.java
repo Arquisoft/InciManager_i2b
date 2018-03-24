@@ -107,7 +107,6 @@ public class IncidentTest {
 		Incident inciClone = inci;
 		Incident inci2 = new Incident("Aaaaaaaa", new LatLng(55, 42), carmen);
 		assertTrue(inci.equals(inciClone));
-		assertFalse(inci.equals(null));
 		assertFalse(inci.equals(carmen));
 		assertFalse(inci2.equals(inci));
 	}

@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpEntity;
@@ -30,19 +29,12 @@ import com.uniovi.services.AgentsService;
 @SpringBootTest(classes = { InciManagerI2bApplication.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AgentsServiceTest {
-
-	@Value("${agents_url}")
-	private String agentsUrl;
 	
 	@Autowired
 	private AgentsService agentsService;
 	
 	@Spy
 	private AgentsService spy;
-	
-	// to mock the call to the Agents module
-	private HttpEntity<String> badEntity;
-	private HttpEntity<String> goodEntity;
 
 	private AgentInfo testInfo1;
 	private AgentInfo testInfo2;
@@ -55,8 +47,8 @@ public class AgentsServiceTest {
 		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
 		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Sensor");
         
-        goodEntity = this.buildGoodEntity();
-        badEntity = this.buildBadEntity();
+		HttpEntity<String>goodEntity = this.buildGoodEntity();
+        HttpEntity<String> badEntity = this.buildBadEntity();
 
         Mockito.doReturn(HttpStatus.OK).when(spy).getResponseStatus(null, HttpMethod.POST, goodEntity);
         Mockito.doReturn(HttpStatus.NOT_FOUND).when(spy).getResponseStatus(null, HttpMethod.POST, badEntity);
