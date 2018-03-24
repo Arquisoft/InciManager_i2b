@@ -17,15 +17,21 @@
                         <i class="fa fa-user">&#160;</i>
                         <label for="authUsername" class="grey-text" text="Username">Username</label>
                         <input type="text" id="authUsername" class="form-control" name="username"></input>
-                        
-                        <br/> 
+
+                        <br/>
                         <i class="fa fa-lock">&#160;</i>
                         <label for="authPassword" class="grey-text" text="Password">Password</label>
                         <input type="password" id="authPassword" class="form-control" name="password"></input>
-                        <br/> 
-                        
+                        <br/>
+
                         <span class="text-danger" th:if="${authError == true}" text="Mismatched authentication data">
                         Mismatched authentication data</span>
+
+                        <select name="kind" class="form-control" placeholder="Kind">
+                            <th:block th:each="kind : ${kindNames}">
+                                <option th:value="${kind}" th:text="${kind}"></option>
+                            </th:block>
+                        </select>
 
                         <div class="text-center mt-4">
                             <button class="btn btn-elegant btn-rounded" type="submit">See incidents

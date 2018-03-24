@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.entities.IncidentState;
 import com.uniovi.repositories.IncidentsRepository;
@@ -32,8 +31,8 @@ public class IncidentsService {
 		incidentsRepository.deleteByInciName(inciName);
 	}
 
-	public List<Incident> getIncidentsByAgent(AgentInfo agent) {
-		return incidentsRepository.findAllByAgent(agent);
+	public List<Incident> getIncidentsByAgent(String username) {
+		return incidentsRepository.findAllByAgent(username);
 	}	
 	
 	public Incident getIncidentByName(String name) {
@@ -47,6 +46,10 @@ public class IncidentsService {
 	public void addNewIncident(Incident incident) {
 		incident.setState(IncidentState.OPEN);
 		this.addIncident(incident);
+	}
+
+	public void deleteAll() {
+		this.incidentsRepository.deleteAll();
 	}
 
 }

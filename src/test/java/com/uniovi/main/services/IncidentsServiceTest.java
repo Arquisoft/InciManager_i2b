@@ -74,10 +74,10 @@ public class IncidentsServiceTest {
 
 		assertEquals(incidentsService.getIncidentByName("inciTest2"), inciTest2);
 
-		assertTrue(incidentsService.getIncidentsByAgent(testInfo1).contains(inciTest1));
-		assertTrue(incidentsService.getIncidentsByAgent(testInfo2).contains(inciTest2));
-		assertFalse(incidentsService.getIncidentsByAgent(testInfo1).contains(inciTest2));
-		assertFalse(incidentsService.getIncidentsByAgent(testInfo2).contains(inciTest1));
+		assertTrue(incidentsService.getIncidentsByAgent(testInfo1.getUsername()).contains(inciTest1));
+		assertTrue(incidentsService.getIncidentsByAgent(testInfo2.getUsername()).contains(inciTest2));
+		assertFalse(incidentsService.getIncidentsByAgent(testInfo1.getUsername()).contains(inciTest2));
+		assertFalse(incidentsService.getIncidentsByAgent(testInfo2.getUsername()).contains(inciTest1));
 		
 		incidentsService.addNewIncident(inciTest3);
 		//Sensor non-special value not stored

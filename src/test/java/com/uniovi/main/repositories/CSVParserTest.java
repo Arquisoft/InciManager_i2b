@@ -1,10 +1,12 @@
 package com.uniovi.main.repositories;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -67,6 +69,16 @@ public class CSVParserTest {
 			}
 			fail();
 		 
+	}
+	
+	@Test
+	public void getKindNamesTest() throws IOException {
+		parser = new CSVFileParser("src/test/master_test.csv");
+		List<String> kindNames = parser.getKindNames();
+		assertTrue(kindNames.contains("Person"));
+		assertTrue(kindNames.contains("Sensor"));
+		assertTrue(kindNames.contains("Entity"));
+		assertEquals(3, kindNames.size());
 	}
 
 }
