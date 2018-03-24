@@ -41,7 +41,7 @@ public class IncidentsInfoController {
 	 * @return JSON response with every incident that the agent has sent.
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/incidentsinfo", method = RequestMethod.POST, 
+	@RequestMapping(value = "/incidentsinfo", method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public String getIncidentsInfoJSON(@RequestBody AgentInfo ainfo ) throws Exception {
@@ -91,7 +91,7 @@ public class IncidentsInfoController {
 			return "redirect:/incidents";
 		}
 	}
-	
+
 	/**
 	 * Entry point for the GET request that allows an agent to query
 	 * its incidents using the web interface in a user friendly way.
@@ -106,12 +106,11 @@ public class IncidentsInfoController {
 		if (info == null) {
 			return "redirect:/agentform";
 		}
-		
+
 		AgentInfo ainfo = (AgentInfo) info;
 		List<Incident> agentIncidents = incidentsService.getIncidentsByAgent(ainfo.getUsername());
 
 		model.addAttribute("incidentsList", agentIncidents);
 		return "/incidents";
 	}
-
 }

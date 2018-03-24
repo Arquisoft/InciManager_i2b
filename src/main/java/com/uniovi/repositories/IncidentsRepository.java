@@ -2,6 +2,8 @@ package com.uniovi.repositories;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -18,5 +20,6 @@ public interface IncidentsRepository extends CrudRepository<Incident, Long>{
 
 	public Incident findByInciName (String inciName);
 
+	@Transactional
 	public void deleteByInciName(String inciName);
 }

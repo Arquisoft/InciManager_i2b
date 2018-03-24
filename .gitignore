@@ -28,3 +28,4 @@ hs_err_pid*
 
 # jar file
 !/target/InciManager_i2b*.jar
+/target/

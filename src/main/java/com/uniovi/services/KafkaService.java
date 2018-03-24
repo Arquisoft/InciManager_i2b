@@ -1,5 +1,7 @@
 package com.uniovi.services;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,15 @@ public class KafkaService {
 
 	public void sendToKafka(Incident incident) {
 		String message = this.toKafkaMessage(incident);
-		LOG.info("sending message='{}' to topic='{}'", message, "prueba");
-		kafkaTemplate.send("prueba", message);
+		LOG.info("sending message='{}' to topic='{}'", message, topic);
+		List<String> topics = TopicService.getTopicsOf(incident);
+        for (String topic : topics)
+        {
+			kafkaTemplate.send(topic, message);
+        }
 	}
 
-	private String toKafkaMessage(Incident incident) {
+	public String toKafkaMessage(Incident incident) {
 		ObjectMapper mapper = new ObjectMapper();
 		String result = "";
 		try {
