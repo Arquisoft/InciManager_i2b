@@ -29,6 +29,7 @@ import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.services.KafkaService;
+import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes= {
 		InciManagerI2bApplication.class
@@ -45,6 +46,9 @@ public class IncidentControllerTest {
     @Mock
     public KafkaService kafkaService;
 
+    @Mock
+    public OperatorsService operatorsService;
+    
     @InjectMocks
     private IncidentController incidentController;
 
