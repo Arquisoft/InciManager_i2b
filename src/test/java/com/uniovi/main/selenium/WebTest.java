@@ -32,7 +32,7 @@ public class WebTest {
 	    driver.quit();
 	  }
 	  
-	  // Try to access the create incident page without logging in first.
+	  // Try to access the chat interface without logging in first.
 	  @Test
 	  public void createIncidentInvalidTest() throws Exception {
 	    driver.get(baseUrl + "/incident/create");
@@ -40,6 +40,7 @@ public class WebTest {
 	    checkTextExists("Agent data");
 	  }
 	  
+	  // Access to the chat interface after logging in.
 	  @Test
 	  public void createIncidentValidTest() {
 		  logInAs(new AgentInfo("pacoo", "123456", "Person"));
@@ -47,6 +48,7 @@ public class WebTest {
 		  checkTextExists("support service");
 	  }
 	  
+	  // Check that an agent is redirected to the incident list after loggin in
 	  @Test
 	  public void listIncidents() {
 		  logInAs(new AgentInfo("pacoo", "123456", "Person"));

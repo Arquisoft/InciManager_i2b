@@ -139,12 +139,12 @@ public class IncidentsInfoControllerTest {
 	public void testIncidentsInfoPost() throws Exception {
 
 		MockHttpServletRequestBuilder request = post("/agentform").param("username", "Ejemplo").param("password",
-				"pass");
+				"pass").param("kind", "Person");
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
-		// Accepted post
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
+		// redirect to incidents view
+		assertEquals(HttpStatus.FOUND.value(), response.getStatus());
 
 	}
 

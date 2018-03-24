@@ -29,9 +29,20 @@ public class IncidentController {
 	@Autowired
 	private KafkaService kafkaService;
 	
+	/**
+	 * Entry point for a POST request with information about
+	 * the incident to be created. If the agent given the
+	 * information exists, the incident will be created and
+	 * sent to Kafka. If the agent does not exist, an AgentNotFoundException
+	 * will be throws.
+	 * @param incident Incident to be reported by the agent.
+	 * @return String to notify that the incident was sent if
+	 * the agent exists. AgentNotFoundException otherwise.
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/incident/create", method=RequestMethod.POST)
 	@ResponseBody
-	public String createIncident(@RequestBody Incident incident) throws Exception {
+	public String createIncident(@RequestBody Incident incident) throws AgentNotFoundException {
 		if (!agentsService.existsAgent(incident.getAgent())) {
 			throw new AgentNotFoundException();
 		}
@@ -42,8 +53,18 @@ public class IncidentController {
 		return "Incident correctly sent!";
 	}
 	
+	/**
+	 * Entry point for a GET request for an agent that wants
+	 * to create an incident using a web interface. The agent
+	 * must have logged in in order to create the incident.
+	 * @param session
+	 * @param model
+	 * @return Log in page if the agent is not logged in,
+	 * a view to create the incident otherwise.
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/incident/create", method=RequestMethod.GET)
-	public String createIncident(HttpSession session, Model model) throws Exception {
+	public String createIncident(HttpSession session, Model model) {
 		Object info = session.getAttribute("agentInfo");
 		if (info == null) {
 			return "redirect:/agentform";

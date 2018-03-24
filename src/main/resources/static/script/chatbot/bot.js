@@ -1,5 +1,6 @@
 "use strict";
 
+// dialogflow developer API
 var dialogFlowAPI = '4054726dff944193a7fcb8b9c8c203ef';
 var dialogFlowUrl = 'https://api.dialogflow.com/v1/';
 
@@ -8,7 +9,11 @@ class ChatBot {
     constructor(chatRoom, name) {
         this.chatRoom = chatRoom;
         this.name = name;
+
+        // random dialogflow session to allow many users in parallel
+        // could be done better to avoid overlap of sessions
         this.session = Math.floor(Math.random() * 10000);
+
         this.incident = {
             "agent": {
                 "username": agentInfo.username,
@@ -23,6 +28,7 @@ class ChatBot {
 
             }
         };
+        this.isFinished = false;
     }
 
     welcomeMessage() {
@@ -30,7 +36,17 @@ class ChatBot {
                                         + "support service. How can I help you?");
     }
 
+    /*
+     * This method is called whenever a new message from the user
+     * is received through the chat. It will use the Dialogflow
+     * REST service to obtain the response to the user input, which will
+     * be later processed to obtain a response.
+     */
     onNewUserMessage(message) {
+        if (this.isFinished) {
+            return;
+        }
+
         $.ajax({
             type: 'POST',
             url: dialogFlowUrl + "query",
@@ -48,6 +64,12 @@ class ChatBot {
         });
     }
 
+    /*
+     * Processes the data received from the dialogflow API.
+     * Depending on the type of action received from the API
+     * a different behaviour will be taken.
+     * Finally, we send the response of the bot to the chat.
+     */
     processAnswer(data) {
         var action = data.result.action;
         var answer = data.result.speech;
@@ -100,6 +122,15 @@ class ChatBot {
         }
     }
 
+    /*
+     * Creates an incident with all the information received
+     * from the user. It will send a POST request to the
+     * InciManager, simulating a creation of the incident
+     * from the agent.
+     * If the incident is created correctly, information about
+     * the incident will be sent through the chat. Otherwise,
+     * an error message will be sent.
+     */
     createIncident() {
         var url = window.location.href;
         var arr = url.split("/");
@@ -119,6 +150,7 @@ class ChatBot {
                     \tProperties: ${JSON.stringify(this.incident.properties)}<br>
                 `;
                 this.chatRoom.createBotMessage(message);
+                this.isFinished = true; // we don't answer any more message
             }.bind(this), error: function() {
                 this.chatRoom.createBotMessage("There was an error \
                 sending the incident. Please try again later.");

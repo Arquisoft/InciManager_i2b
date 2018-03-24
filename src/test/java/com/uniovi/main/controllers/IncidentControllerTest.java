@@ -59,6 +59,11 @@ public class IncidentControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
 
+    /**
+     * Test that when we send an incident belonging to an agent
+     * that does not exist an AgentNotFoundException is thrown.
+     * @throws Exception: AgentNotFoundException
+     */
     @Test
     public void testAgentNotExists() throws Exception {
 		String payload = buildIncidentPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
@@ -75,6 +80,11 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.NOT_FOUND.value(), status);
     }
 
+    /**
+     * Test that when send an incident belonging to an agent
+     * that exists an OK response is received.
+     * @throws Exception
+     */
     @Test
     public void testAgentInfoCorrect() throws Exception {
     		String payload = buildIncidentPayload("Son", "prueba", "Person", "Test Incident", new LatLng(25, 12),
@@ -91,12 +101,23 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.OK.value(), status);
     }    
     
+    /**
+     * Test that an agent is redirected to the authentication
+     * form if it tries to access directly the chat interface
+     * to create an incident.
+     * @throws Exception
+     */
     @Test
     public void testNotLoggedIn() throws Exception {
     		MockHttpServletRequestBuilder request = get("/incident/create");
     		mockMvc.perform(request).andExpect(redirectedUrl("/agentform"));
     }
     
+    /**
+     * Test that an agent can access the chat interface to create
+     * an incident if he has previously logged in correctly.
+     * @throws Exception
+     */
     @Test
     public void testLoggedIn() throws Exception {
         MockHttpSession session = new MockHttpSession();

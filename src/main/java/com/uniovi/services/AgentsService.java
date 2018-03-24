@@ -35,21 +35,33 @@ public class AgentsService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentsService.class);
 
-	public boolean existsAgent(AgentInfo agent) throws Exception {
+	public boolean existsAgent(AgentInfo agent) {
 		LOG.info("Sending POST request to url: {}", agentsUrl);
+		
+		HttpHeaders headers;
+		JSONObject request;
+		HttpEntity<String> entity;
+		ResponseEntity<String> response;
+		HttpStatus responseCode;
+		
+		try {
+			headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+			request = new JSONObject();
+			request.put("login", agent.getUsername());
+	        request.put("password", agent.getPassword());
+			request.put("kind", agent.getKind());
 
-		JSONObject request = new JSONObject();
-		request.put("login", agent.getUsername());
-        request.put("password", agent.getPassword());
-		request.put("kind", agent.getKind());
+	        entity = new HttpEntity<String>(request.toString(), headers);
 
-        HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
-
-        ResponseEntity<String> response = new RestTemplate().exchange(agentsUrl, HttpMethod.POST, entity, String.class);
-        HttpStatus responseCode = response.getStatusCode();
+	        response = new RestTemplate().exchange(agentsUrl, HttpMethod.POST, entity, String.class);
+	        responseCode = response.getStatusCode();
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			return false;
+		}
+		
         return responseCode.equals(HttpStatus.OK);
 	}
 	
