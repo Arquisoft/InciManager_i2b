@@ -4,6 +4,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -19,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.entities.LatLng;
+import com.uniovi.entities.Operator;
 import com.uniovi.main.InciManagerI2bApplication;
 
 @SpringBootTest(classes= {
@@ -36,6 +39,7 @@ public class IncidentTest {
 		assertTrue(inci.getProperties().isEmpty());
 		assertTrue(inci.getMoreInfo().isEmpty());
 		assertTrue(inci.getTags().isEmpty());
+		assertNull(inci.getOperator());
 	}
 	
 	@Test
@@ -109,6 +113,16 @@ public class IncidentTest {
 		assertTrue(inci.equals(inciClone));
 		assertFalse(inci.equals(carmen));
 		assertFalse(inci2.equals(inci));
+	}
+	
+	@Test
+	public void testOperator() {
+		Incident inci = new Incident("Panic At The Disco", new LatLng(55, 42), carmen);
+		assertNull(inci.getOperator());
+		
+		inci.assignOperator(new Operator(23L, "juana@laloca.com", "juana", 0));
+		assertNotNull(inci.getOperator());
+		assertEquals("juana@laloca.com", inci.getOperator());
 	}
 
 }
