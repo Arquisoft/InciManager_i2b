@@ -31,10 +31,17 @@ public class OperatorTest {
 		Operator op2 = new Operator(11L, "eleven@dashboard.com", "twelve", 1);
 		Operator op3 = new Operator(12L, "twelve@dashboard.com", "eleven", 0);
 		Operator op4 = new Operator(13L, "thirteen@dashboard.com", "thirteen", 0);
+		Operator op5 = new Operator();
 		
 		assertEquals(op1, op2);
 		assertNotEquals(op1, op3);
 		assertNotEquals(op1, op4);
+		assertNotEquals(op1, op5);
+		
+		assertEquals(op1.hashCode(), op2.hashCode());
+		assertNotEquals(op1.hashCode(), op3.hashCode());
+		assertNotEquals(op1.hashCode(), op4.hashCode());
+		assertNotEquals(op1.hashCode(), op5.hashCode());
 	}
 	
 	@Test
