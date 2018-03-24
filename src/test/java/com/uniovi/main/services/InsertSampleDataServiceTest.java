@@ -40,12 +40,11 @@ public class InsertSampleDataServiceTest {
 	@Test
 	public void testOperators() 
 	{
-		assertNotNull(incidentsService.getIncidentByName("inci1").getOperator());
-		assertNotNull(incidentsService.getIncidentByName("inci2").getOperator());
-		assertNotNull(incidentsService.getIncidentByName("inci3").getOperator());
-		assertNotNull(incidentsService.getIncidentByName("inci4").getOperator());
-		assertNotNull(incidentsService.getIncidentByName("inci5").getOperator());
-
+		assertNotNull(incidentsService.getIncidentByName("inci1").assignedOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci2").assignedOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci3").assignedOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci4").assignedOperator());
+		assertNotNull(incidentsService.getIncidentByName("inci5").assignedOperator());
 	}
 
 }

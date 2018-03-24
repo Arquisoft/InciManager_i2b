@@ -56,7 +56,7 @@ public class IncidentControllerTest {
 
     @Test
     public void testAgentNotExists() throws Exception {
-		String payload = buildPayload("NotAnAgent", "prueba", "Test Incident","Person", new LatLng(25, 42),
+		String payload = buildPayload("NotAnAgent", "prueba", "Person", "Test Incident", new LatLng(25, 42),
 				"\"test\"", "\"myImage.jpg\"", "\"priority\": 1");
 		
 		MockHttpServletRequestBuilder request = post("/incident/create")

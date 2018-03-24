@@ -1,7 +1,13 @@
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\entities\IncidentSerializerTest.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\repositories\DataToSaveTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\controllers\IncidentsInfoControllerTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\services\TopicServiceTest.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\controllers\IncidentControllerTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\services\AgentsServiceTest.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\repositories\IncidentAccessTest.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\util\JSONHelperTest.java
-C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\repositories\CSVParserTest.java
 C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\entities\IncidentTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\services\IncidentsServiceTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\services\KafkaServiceTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\services\InsertSampleDataServiceTest.java
+C:\Users\Carmen\Desktop\clase\ASW\InciManager_i2b\src\test\java\com\uniovi\main\repositories\CSVParserTest.java

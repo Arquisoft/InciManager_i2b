@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: com.uniovi.main.controllers.IncidentControllerTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 15.696 s <<< FAILURE! - in com.uniovi.main.controllers.IncidentControllerTest
-testAgentInfoCorrect(com.uniovi.main.controllers.IncidentControllerTest)  Time elapsed: 0.219 s  <<< FAILURE!
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 15.052 s <<< FAILURE! - in com.uniovi.main.controllers.IncidentControllerTest
+testAgentInfoCorrect(com.uniovi.main.controllers.IncidentControllerTest)  Time elapsed: 0.248 s  <<< FAILURE!
 java.lang.AssertionError: expected:<200> but was:<400>
-	at com.uniovi.main.controllers.IncidentControllerTest.testAgentInfoCorrect(IncidentControllerTest.java:88)
+	at com.uniovi.main.controllers.IncidentControllerTest.testAgentInfoCorrect(IncidentControllerTest.java:87)
 
-testAgentNotExists(com.uniovi.main.controllers.IncidentControllerTest)  Time elapsed: 0.031 s  <<< FAILURE!
+testAgentNotExists(com.uniovi.main.controllers.IncidentControllerTest)  Time elapsed: 0.07 s  <<< FAILURE!
 java.lang.AssertionError: expected:<404> but was:<400>
-	at com.uniovi.main.controllers.IncidentControllerTest.testAgentNotExists(IncidentControllerTest.java:71)
+	at com.uniovi.main.controllers.IncidentControllerTest.testAgentNotExists(IncidentControllerTest.java:70)
 

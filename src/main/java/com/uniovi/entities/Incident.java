@@ -132,11 +132,11 @@ public class Incident {
 	}
 
 	public void assignOperator(Operator op) {
-		this.properties.put("operator", op);
+		this.properties.put("operator", op.getEmail());
 	}
 	
-	public Operator getOperator() {
-		return (Operator) this.properties.get("operator");
+	public String assignedOperator() {
+		return (String) this.properties.get("operator");
 	}
 
 	@Override
