@@ -3,12 +3,14 @@ package com.uniovi.main.entities;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.uniovi.entities.AgentInfo;
+import com.uniovi.entities.Incident;
 import com.uniovi.main.InciManagerI2bApplication;
 
 @SpringBootTest(classes= {
@@ -39,6 +41,22 @@ public class AgentInfoTest {
 		assertEquals(agent.hashCode(), agentCopy.hashCode());
 		assertEquals(agent.hashCode(), agent2.hashCode());
 		assertEquals(agent.hashCode(), agent3.hashCode());
+		
+		AgentInfo agent4 = agent3;
+		assertEquals(agent3, agent4);
+		assertNotEquals(null, agent4);
+		assertNotEquals(agent3, new Incident());
+		
+		agent.setId(new ObjectId());
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+		
+		agent2.setUsername(null);
+		assertNotEquals(agent2, agent);
+		agent.setUsername(null);
+		assertNotEquals(agent2, agent);
+		
+		assertEquals(null, agent2.getId());
 	}
 	
 	@Test
