@@ -39,10 +39,29 @@ Finally, when you are done using the application, you can use Ctrl+C to graceful
 If you want to run the Incidence Manager without using Docker you will need to setup Kafka and Zookeper manually, as well as running the spring boot application using Maven.
 
 #### Kafka
-TODO: explain how to install and execute kafka
+First of all, you need to download Apache Kafka.
+
+---tar -xzf kafka_2.11-1.0.1.tgz
+
+---cd kafka_2.11-1.0.1
+
+Before starting Apache Kafka, as it uses Zookeeper, you need to first start a ZooKeeper server if you don't already have one. You can use a script packaged with kafka to get a quick single-node ZooKeeper instance.
+
+---bin\windows\zookeeper-server-start.bat config/zookeeper.properties
+
+Now, you can start the Kafka server.
+
+---bin\windows\kafka-server-start.bat config/server.properties
+
+#### Mongo DB
+This is the database of the system, to run it you have to go to the folder where you downloaded it and then run it.
+
+---bin/mongod —port 27018
 
 #### Maven
-TODO: explain how to execute the application from the command line using maven
+To run the application with maven, you have to run Apache Kafka and Mongo DB before. Then you have to go to the projects folder(where you have the pom.xml file) and type:
+
+---mvn spring-boot:run
 
 ## Posting a new Incident
 Once you have the Incident Manager application up and running you can create a new Incident by sending a POST request to http://localhost:8081/incident/create (if you are executing the application with Docker, use port 8001 instead). The format of the incident must be like this one:.

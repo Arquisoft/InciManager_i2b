@@ -74,6 +74,18 @@ public class IncidentTest {
 	}
 	
 	@Test
+	public void testComments() {
+		Incident inci = new Incident("BrokenFountain-10MAR", new LatLng(34, 87), carmen);
+		assertEquals(0, inci.getComments().size());
+		inci.addComment("Hiiiii").addComment("agaiiiiin");
+		assertTrue(inci.getComments().contains("Hiiiii"));
+		assertTrue(inci.getComments().contains("agaiiiiin"));
+		assertEquals(2, inci.getComments().size());
+		inci.setComments(new ArrayList<String>());
+		assertEquals(0, inci.getComments().size());
+	}
+	
+	@Test
 	public void testToString() {
 		Incident inci = new Incident("InciTest", new LatLng(55, 42), carmen);
 		assertEquals("Incident [id=null, inciName=InciTest, location=Location{"
