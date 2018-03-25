@@ -39,17 +39,16 @@ public class KafkaTest {
 	private KafkaTemplate<String, String> kafkaTemplate;
 	
 	private List<String> messages;
-	private List<String> topics;
-	private AgentInfo agentInfo;
 	private Incident incident;
 
 	@Before
 	public void setUp() throws Exception {
-		agentInfo = new AgentInfo("paco", "123456", "Person");
+		AgentInfo agentInfo = new AgentInfo("paco", "123456", "Person");
 		incident = new Incident("Test", new LatLng(50, 20), agentInfo);
 		incident.setLocation(null);
 		messages = new ArrayList<String>();       
-        topics = new ArrayList<String>();
+		
+		List<String> topics = new ArrayList<String>();
         topics.add("incidents");
 		
         MockitoAnnotations.initMocks(this);
