@@ -3,6 +3,7 @@ package com.uniovi.main.entities;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ import com.uniovi.main.InciManagerI2bApplication;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class OperatorTest {
 	
-	private Operator op1 = new Operator(11L,"eleven@dashboard.com", "eleven", 0);
+	private Operator op1 = new Operator("eleven@dashboard.com", "eleven", 0);
 	
 	@Test
 	public void testInstantiation() {
@@ -28,9 +29,9 @@ public class OperatorTest {
 
 	@Test
 	public void testEquals() {
-		Operator op2 = new Operator(11L, "eleven@dashboard.com", "twelve", 1);
-		Operator op3 = new Operator(12L, "twelve@dashboard.com", "eleven", 0);
-		Operator op4 = new Operator(13L, "thirteen@dashboard.com", "thirteen", 0);
+		Operator op2 = new Operator("eleven@dashboard.com", "twelve", 1);
+		Operator op3 = new Operator(new ObjectId(), "twelve@dashboard.com", "eleven", 0);
+		Operator op4 = new Operator("thirteen@dashboard.com", "thirteen", 0);
 		Operator op5 = new Operator();
 		
 		assertEquals(op1, op2);
@@ -49,7 +50,7 @@ public class OperatorTest {
 		String toStringOp = "Operator [email=eleven@dashboard.com, operatorname=eleven, isAdmin=0]";
 		assertEquals(toStringOp, op1.toString());
 		
-		Operator op2 = new Operator(222L, "cleopatra@gob.eg", "cleo", 1);
+		Operator op2 = new Operator("cleopatra@gob.eg", "cleo", 1);
 		toStringOp = "Operator [email=cleopatra@gob.eg, operatorname=cleo, isAdmin=1]";
 		assertEquals(toStringOp, op2.toString());
 		

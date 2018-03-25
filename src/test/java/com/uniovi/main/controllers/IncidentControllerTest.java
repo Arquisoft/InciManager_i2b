@@ -29,7 +29,7 @@ import com.uniovi.entities.Operator;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
-import com.uniovi.services.KafkaService;
+import com.uniovi.kafka.KafkaService;
 import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes= {

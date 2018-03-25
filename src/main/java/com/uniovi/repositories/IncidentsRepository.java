@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.uniovi.entities.Incident;
 
 @Repository("IncidentsRepository")
-public interface IncidentsRepository extends MongoRepository<Incident, ObjectId>{
+public interface IncidentsRepository extends MongoRepository<Incident, ObjectId> {
 	
 	@Query("{ 'agent.username': ?0 }")
 	public List<Incident> findAllByAgent(String username);

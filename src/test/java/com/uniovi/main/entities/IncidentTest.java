@@ -120,7 +120,7 @@ public class IncidentTest {
 		Incident inci = new Incident("Panic At The Disco", new LatLng(55, 42), carmen);
 		assertNull(inci.getOperator());
 		
-		inci.assignOperator(new Operator(23L, "juana@laloca.com", "juana", 0));
+		inci.assignOperator(new Operator("juana@laloca.com", "juana", 0));
 		assertNotNull(inci.getOperator());
 		assertEquals("juana@laloca.com", inci.getOperator());
 	}

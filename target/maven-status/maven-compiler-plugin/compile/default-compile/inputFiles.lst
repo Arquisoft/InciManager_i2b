@@ -1,4 +1,5 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/AgentInfo.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/services/OperatorsService.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/JasyptEncryptor.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/IncidentState.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/IncidentSerializer.java
@@ -20,7 +21,9 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/kafka/KafkaService.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/controllers/IncidentsInfoController.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/util/exception/AgentNotFoundException.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/Operator.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/entities/LatLng.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/IncidentJSONModule.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/repositories/IncidentsRepository.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/repositories/OperatorsRepository.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/main/java/com/uniovi/json/IncidentDeserializer.java

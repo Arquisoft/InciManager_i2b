@@ -9,6 +9,8 @@ com/uniovi/json/JSONHelper.class
 com/uniovi/kafka/KafkaService.class
 com/uniovi/mongo/TestMongoConfig.class
 com/uniovi/json/IncidentDeserializer.class
+com/uniovi/repositories/OperatorsRepository.class
+com/uniovi/entities/Operator.class
 com/uniovi/repositories/AgentsRepository.class
 com/uniovi/util/JasyptEncryptor.class
 com/uniovi/repositories/IncidentsRepository.class
@@ -25,3 +27,4 @@ com/uniovi/util/IncidentPropertiesConverter.class
 com/uniovi/entities/LatLng.class
 com/uniovi/kafka/KafkaConfig.class
 com/uniovi/repositories/MasterFileParser.class
+com/uniovi/services/OperatorsService.class

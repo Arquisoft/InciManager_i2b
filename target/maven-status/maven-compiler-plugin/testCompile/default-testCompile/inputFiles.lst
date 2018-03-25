@@ -1,6 +1,7 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/services/InsertSampleDataServiceTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/entities/IncidentTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/services/IncidentsServiceTest.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/entities/OperatorTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/entities/IncidentSerializerTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/repositories/DataToSaveTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/selenium/WebTest.java
@@ -13,3 +14,4 @@
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/controllers/IncidentsInfoControllerTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/kafka/KafkaConfigTest.java
 /Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/util/JSONHelperTest.java
+/Users/alejandro/Documents/tercero/segundo_semestre/ASW/lab/InciManager_i2b/src/test/java/com/uniovi/main/entities/AgentInfoTest.java

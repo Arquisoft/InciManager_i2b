@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  mongo_manager:
+  mongo_incidents:
     image: mongo
     ports:
       - "27018:27018"
@@ -29,4 +29,4 @@ services:
       - "8081:8081"
     depends_on:
       - kafka
-      - mongo_manager
+      - mongo_incidents
