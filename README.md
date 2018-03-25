@@ -70,7 +70,49 @@ Inside the properties JSON object you can include any object you want.
 You will need to have the [Agents_i2b module](https://github.com/Arquisoft/Agents_i2b) running in order to create the Incident, since the system has to check if the Agent exists before creating the incident.
 
 ## Querying the incidents of an agent
-TODO
+With you application running, you may need to query and list the incidents of a certain agent and retrieve these both in JSON format or with a more visual web interface.
+
+### Retrieving incidents in JSON format
+You can get the list of incidents by sending a post request to http://localhost:8081/incidentsinfo (or, in case you are using Docker, as said before, you may send the request to port 8001). The request body must contain the following parameters:
+* username: Username of the agent
+* password: Password of the agent
+* kind: Kind of the agent
+
+The output format will be as follows:
+```
+{
+  "agent": {
+    "username": "agentUsername",
+    "password": "agentPassword",
+    "kind": "agentKind"
+  },
+  "inciName": "incidentName",
+  "location": {
+    "lat": 1,
+    "lon": 1
+  },
+  "tags": [
+    "tag1",
+    "tag2"
+  ],
+  "moreInfo": [
+    "moreInfo1",
+    "moreInfo2"
+  ],
+  "properties": {
+    
+  }
+}
+```
+### Web interface
+For a more visual output, you may also sent a get request to http://localhost:8081/agentsform (port 8001 for Docker) that will lead you to a sample form where you must specify the agent's username, password and kind:
+
+![Filling web form](img/agentform.png)
+
+In case wrong login data is provided, an error message will pop up, else the agent's incidents will be displayed as follows:
+
+![Web interface](img/web-interface.png)
+
 
 ## Tests
 TODO
