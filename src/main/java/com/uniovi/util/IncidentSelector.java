@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
@@ -37,8 +38,9 @@ public class IncidentSelector {
 				/*for (Object obj : incident.fieldNames()) {
 					obtainCondition(conditions, incident, (String) obj);
 				}*/
-				while(incident.fieldNames().hasNext()){
-					obtainCondition(conditions, incident, incident.fieldNames().next());
+				Iterator<String> itFields = incident.fieldNames();
+				while(itFields.hasNext()){
+					obtainCondition(conditions, incident, itFields.next());
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
