@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniovi.entities.Incident;
 
 public class IncidentSelector {
@@ -27,30 +24,31 @@ public class IncidentSelector {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<Function<Incident, Boolean>> relevanceConditions() {
 		
 		List<Function<Incident, Boolean>> conditions = new ArrayList<Function<Incident, Boolean>>();
 		
 		Reader reader = null;
-		JSONParser parser = new JSONParser();
 
 			try {
 				reader = new FileReader(confPath);
-				JSONObject jsonObject = (JSONObject) parser.parse(reader);
-				for (Object obj : jsonObject.keySet()) {
-					obtainCondition(conditions, jsonObject, (String) obj);
+				JsonNode incident = new ObjectMapper().readValue(reader, JsonNode.class);
+				/*for (Object obj : incident.fieldNames()) {
+					obtainCondition(conditions, incident, (String) obj);
+				}*/
+				while(incident.fieldNames().hasNext()){
+					obtainCondition(conditions, incident, incident.fieldNames().next());
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
 			}
 		return conditions;
 	}
 
-	private void obtainCondition(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String key) {
+	private void obtainCondition(List<Function<Incident, Boolean>> conditions, JsonNode jsonObject, String key) {
 		if ("kind".equals(key))
 			conditionsKind(conditions, jsonObject);
 		else if ("temperature".equals(key))
@@ -59,28 +57,34 @@ public class IncidentSelector {
 			conditionsSensor(conditions, jsonObject, key);
 	}
 	
-	private void conditionsKind(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject) {
+	private void conditionsKind(List<Function<Incident, Boolean>> conditions, JsonNode jsonObject) {
 		
-		JSONObject kindContents = (JSONObject) jsonObject.get("kind");
+		JsonNode kindContents = (JsonNode) jsonObject.get("kind");
 		if (kindContents.get("type").equals("values")){
-			JSONArray kinds = (JSONArray) kindContents.get("important");
-			for (int j = 0; j < kinds.size(); j++) {
+			//JSONArray kinds = (JSONArray) kindContents.get("important");
+			if (kindContents.isArray()) {
+			    for (final JsonNode objNode : kindContents) {
+					Function<Incident, Boolean> function = i -> i.getAgent().getKind().equals(objNode);
+					conditions.add(function);
+			    }
+			}
+			/*for (int j = 0; j < kinds.size(); j++) {
 				Integer index = j;
 				Function<Incident, Boolean> function = i -> i.getAgent().getKind().equals(kinds.get(index));
 				conditions.add(function);
-			}
+			}*/
 		}
 	}
 	
-	private void conditionsSensor(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String sensorType) {
-		JSONObject jsonContents = (JSONObject) jsonObject.get(sensorType);
+	private void conditionsSensor(List<Function<Incident, Boolean>> conditions, JsonNode jsonObject, String sensorType) {
+		JsonNode jsonContents = (JsonNode) jsonObject.get(sensorType);
 		if (jsonContents.get("type").equals("range"))
 			conditionRange(sensorType, conditions, jsonContents);		
 	}
 	
-	private void conditionRange(String sensorType, List<Function<Incident, Boolean>> conditions, JSONObject jsonObject) {
-		Long min =  (Long) jsonObject.get("min");
-		Long max =  (Long) jsonObject.get("max");
+	private void conditionRange(String sensorType, List<Function<Incident, Boolean>> conditions, JsonNode jsonObject) {
+		Long min =  jsonObject.get("min").asLong();
+		Long max =  jsonObject.get("max").asLong();
 		
 		Function<Incident, Boolean> func = 
 				i -> i.getProperties().containsKey(sensorType)
