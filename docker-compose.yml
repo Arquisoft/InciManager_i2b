@@ -1,6 +1,11 @@
 version: '3.4'
 
 services:
+  mongo_incidents:
+    image: mongo
+    ports:
+      - "27018:27018"
+
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -19,9 +24,9 @@ services:
   incimanager:
     build:
       context: .
-      network: host
     image: incimanager_i2b
     ports:
-      - "8001:8081"
+      - "8081:8081"
     depends_on:
       - kafka
+      - mongo_incidents

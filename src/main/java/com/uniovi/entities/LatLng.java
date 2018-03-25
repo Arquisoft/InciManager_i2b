@@ -1,11 +1,9 @@
 package com.uniovi.entities;
 
-import javax.persistence.Embeddable;
 
 /**
  * Utility class that stores a pair latitude/longitude.
  */
-@Embeddable
 public class LatLng {
 	
 	public double latitude;

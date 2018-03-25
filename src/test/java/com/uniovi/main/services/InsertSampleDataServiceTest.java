@@ -49,7 +49,7 @@ public class InsertSampleDataServiceTest {
 		assertNotNull(incidentsService.getIncidentByName("inci5"));
 		
 		assertNotNull(agentsService.findByUsername("pacoo"));
-		assertNotNull(agentsService.findByUsername("pruebas"));
+		assertNotNull(agentsService.findByUsername("sonny"));
 		assertNotNull(agentsService.findByUsername("agent3"));
 
 

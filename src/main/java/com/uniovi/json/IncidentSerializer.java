@@ -33,8 +33,10 @@ public class IncidentSerializer extends JsonSerializer<Incident> {
 		
 		// location
 		generator.writeObjectFieldStart("location");
-		generator.writeNumberField("lat", incident.getLocation().latitude);
-		generator.writeNumberField("lon", incident.getLocation().longitude);
+		if (incident.getLocation() != null) {
+			generator.writeNumberField("lat", incident.getLocation().latitude);
+			generator.writeNumberField("lon", incident.getLocation().longitude);
+		}
 		generator.writeEndObject();
 		
 		// tags

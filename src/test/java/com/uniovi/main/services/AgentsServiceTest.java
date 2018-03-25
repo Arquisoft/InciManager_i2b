@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
@@ -14,7 +18,6 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,7 +48,9 @@ public class AgentsServiceTest {
         spy = Mockito.spy(new AgentsService());
 
 		testInfo1 = new AgentInfo("agentTest1", "pruebas123", "Person");
+		testInfo1.setId(new ObjectId());
 		testInfo2 = new AgentInfo("agentTest2", "pruebas123", "Sensor");
+		testInfo2.setId(new ObjectId());
         
 		HttpEntity<String>goodEntity = this.buildGoodEntity();
         HttpEntity<String> badEntity = this.buildBadEntity();
@@ -89,7 +94,7 @@ public class AgentsServiceTest {
         return new HttpEntity<String>(request.toString(), headers);
 	}
 
-	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testAddNullAgent() {
 		agentsService.addAgent(null);
 	}
@@ -110,6 +115,15 @@ public class AgentsServiceTest {
 		agentsService.deleteAgent(testInfo1);
 		assertEquals(testInfo2, agentsService.findByUsername(testInfo2.getUsername()));
 		assertEquals(null, agentsService.findByUsername(testInfo1.getUsername()));
+	}
+	
+	@Test
+	public void testGetKindNames() throws IOException {
+		List<String> kindNames = agentsService.getAvailableKindNames();
+		assertEquals(3, kindNames.size());
+		assertTrue(kindNames.contains("Person"));
+		assertTrue(kindNames.contains("Sensor"));
+		assertTrue(kindNames.contains("Entity"));
 	}
 
 }

@@ -2,18 +2,18 @@ package com.uniovi.repositories;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.uniovi.entities.Incident;
 
 @Repository("IncidentsRepository")
-public interface IncidentsRepository extends CrudRepository<Incident, Long>{
+public interface IncidentsRepository extends MongoRepository<Incident, ObjectId> {
 	
-	@Query("SELECT i FROM Incident i WHERE i.agent.username = ?1")
+	@Query("{ 'agent.username': ?0 }")
 	public List<Incident> findAllByAgent(String username);
 	
 	public List<Incident> findAll();

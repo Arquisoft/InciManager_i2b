@@ -1,19 +1,15 @@
 package com.uniovi.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection="operators")
 public class Operator {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	private ObjectId id;
 	
-	@Column(unique=true)
 	private String email;
 	
 	private String operatorname;
@@ -25,6 +21,13 @@ public class Operator {
 	 */
 	public Operator() {}
 	
+	public Operator(String email, String operatorname, int isAdmin) {
+		super();
+		this.email = email;
+		this.operatorname = operatorname;
+		this.isAdmin = isAdmin;
+	}
+	
 	/**
 	 * Constructor with all the parameters for the operator class
 	 * @param id
@@ -32,12 +35,9 @@ public class Operator {
 	 * @param operatorname
 	 * @param isAdmin
 	 */
-	public Operator(Long id, String email, String operatorname, int isAdmin) {
-		super();
+	public Operator(ObjectId id, String email, String operatorname, int isAdmin) {
+		this(email, operatorname, isAdmin);
 		this.id = id;
-		this.email = email;
-		this.operatorname = operatorname;
-		this.isAdmin = isAdmin;
 	}
 
 	@Override
