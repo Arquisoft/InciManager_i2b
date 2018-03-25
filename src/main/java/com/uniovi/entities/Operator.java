@@ -9,11 +9,10 @@ public class Operator {
 	
 	@Id
 	private ObjectId id;
-	
 	private String email;
-	
 	private String operatorname;
 	private int isAdmin;
+	private int numNotifications;
 	
 	
 	/**
@@ -99,4 +98,13 @@ public class Operator {
 	public void setIsAdmin(int isAdmin) {
 		this.isAdmin = isAdmin;
 	}
+
+	public int getNumNotifications() {
+		return numNotifications;
+	}
+
+	public void setNumNotifications(int numNotifications) {
+		this.numNotifications = numNotifications;
+	}
+	
 }

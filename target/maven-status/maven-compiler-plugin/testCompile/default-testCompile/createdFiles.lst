@@ -7,6 +7,8 @@ com/uniovi/main/services/IncidentsServiceTest.class
 com/uniovi/main/controllers/IncidentControllerTest.class
 com/uniovi/main/repositories/CSVParserTest.class
 com/uniovi/main/kafka/KafkaConfigTest.class
+com/uniovi/main/services/OperatorsServiceTest.class
+com/uniovi/main/util/EncryptorTest.class
 com/uniovi/main/repositories/IncidentAccessTest.class
 com/uniovi/main/repositories/DataToSaveTest.class
 com/uniovi/main/entities/AgentInfoTest.class
