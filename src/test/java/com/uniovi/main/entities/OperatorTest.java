@@ -19,7 +19,7 @@ import com.uniovi.main.InciManagerI2bApplication;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class OperatorTest {
 	
-	private Operator op1 = new Operator("eleven@dashboard.com", "eleven", 0);
+	private Operator op1 = new Operator("eleven@dashboard.com", "eleven", false);
 	
 	@Test
 	public void testInstantiation() {
@@ -30,9 +30,9 @@ public class OperatorTest {
 
 	@Test
 	public void testEquals() {
-		Operator op2 = new Operator("eleven@dashboard.com", "twelve", 1);
-		Operator op3 = new Operator(new ObjectId(), "twelve@dashboard.com", "eleven", 0);
-		Operator op4 = new Operator("thirteen@dashboard.com", "thirteen", 0);
+		Operator op2 = new Operator("eleven@dashboard.com", "twelve", true);
+		Operator op3 = new Operator(new ObjectId(), "twelve@dashboard.com", "eleven", false);
+		Operator op4 = new Operator("thirteen@dashboard.com", "thirteen", false);
 		Operator op5 = new Operator();
 		
 		assertEquals(op1, op2);
@@ -58,26 +58,26 @@ public class OperatorTest {
 	
 	@Test
 	public void testToString() {
-		String toStringOp = "Operator [email=eleven@dashboard.com, operatorname=eleven, isAdmin=0]";
+		String toStringOp = "Operator [email=eleven@dashboard.com, operatorname=eleven, isAdmin=false]";
 		assertEquals(toStringOp, op1.toString());
 		
-		Operator op2 = new Operator("cleopatra@gob.eg", "cleo", 1);
-		toStringOp = "Operator [email=cleopatra@gob.eg, operatorname=cleo, isAdmin=1]";
+		Operator op2 = new Operator("cleopatra@gob.eg", "cleo", true);
+		toStringOp = "Operator [email=cleopatra@gob.eg, operatorname=cleo, isAdmin=true]";
 		assertEquals(toStringOp, op2.toString());
 		
 		op2.setEmail("cleopatra@dead.world");
-		assertEquals("Operator [email=cleopatra@dead.world, operatorname=cleo, isAdmin=1]", op2.toString());
+		assertEquals("Operator [email=cleopatra@dead.world, operatorname=cleo, isAdmin=true]", op2.toString());
 		
-		op2.setIsAdmin(0);
-		assertEquals("Operator [email=cleopatra@dead.world, operatorname=cleo, isAdmin=0]", op2.toString());
+		op2.setIsAdmin(false);
+		assertEquals("Operator [email=cleopatra@dead.world, operatorname=cleo, isAdmin=false]", op2.toString());
 		
 		op2.setOperatorname("CLEOPATRA");
-		assertEquals("Operator [email=cleopatra@dead.world, operatorname=CLEOPATRA, isAdmin=0]", op2.toString());
+		assertEquals("Operator [email=cleopatra@dead.world, operatorname=CLEOPATRA, isAdmin=false]", op2.toString());
 	}
 	
 	@Test
 	public void testNumNotifications() {
-		Operator op2 = new Operator("eleven@dashboard.com", "twelve", 1);
+		Operator op2 = new Operator("eleven@dashboard.com", "twelve", true);
 		op2.setNumNotifications(2);
 		assertEquals(2, op2.getNumNotifications());
 		op2.setNumNotifications(5);
