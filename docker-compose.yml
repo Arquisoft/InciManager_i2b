@@ -3,6 +3,7 @@ version: '3.4'
 services:
   mongo_incidents:
     image: mongo
+    command: mongod --port 27018
     ports:
       - "27018:27018"
 

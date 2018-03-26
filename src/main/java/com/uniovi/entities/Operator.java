@@ -10,8 +10,9 @@ public class Operator {
 	@Id
 	private ObjectId id;
 	private String email;
+	private String password;
 	private String operatorname;
-	private int isAdmin;
+	private boolean isAdmin;
 	private int numNotifications;
 	
 	
@@ -20,7 +21,7 @@ public class Operator {
 	 */
 	public Operator() {}
 	
-	public Operator(String email, String operatorname, int isAdmin) {
+	public Operator(String email, String operatorname, boolean isAdmin) {
 		super();
 		this.email = email;
 		this.operatorname = operatorname;
@@ -34,7 +35,7 @@ public class Operator {
 	 * @param operatorname
 	 * @param isAdmin
 	 */
-	public Operator(ObjectId id, String email, String operatorname, int isAdmin) {
+	public Operator(ObjectId id, String email, String operatorname, boolean isAdmin) {
 		this(email, operatorname, isAdmin);
 		this.id = id;
 	}
@@ -90,12 +91,20 @@ public class Operator {
 	public void setOperatorname(String operatorname) {
 		this.operatorname = operatorname;
 	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public void setPassword(String newPassword) {
+		this.password = newPassword;
+	}
 
-	public int getIsAdmin() {
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 
-	public void setIsAdmin(int isAdmin) {
+	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 

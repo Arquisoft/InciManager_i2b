@@ -37,9 +37,9 @@ public class OperatorsServiceTest {
 	
 	@Test
 	public void findOperatorByEmailTest() {
-		Operator operator = operatorsService.findOperatorByEmail("operator1@dashboard.com");
+		Operator operator = operatorsService.findOperatorByEmail("operator11@dashboard.com");
 		assertEquals("op1", operator.getOperatorname());
-		assertEquals("operator1@dashboard.com", operator.getEmail());
+		assertEquals("operator11@dashboard.com", operator.getEmail());
 		
 		Operator notAnOperator = operatorsService.findOperatorByEmail("notAnEmail");
 		assertNull(notAnOperator);
