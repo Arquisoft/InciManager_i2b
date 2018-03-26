@@ -39,10 +39,29 @@ Finally, when you are done using the application, you can use Ctrl+C to graceful
 If you want to run the Incidence Manager without using Docker you will need to setup Kafka and Zookeper manually, as well as running the spring boot application using Maven.
 
 #### Kafka
-TODO: explain how to install and execute kafka
+First of all, you need to download Apache Kafka.
+
+---tar -xzf kafka_2.11-1.0.1.tgz
+
+---cd kafka_2.11-1.0.1
+
+Before starting Apache Kafka, as it uses Zookeeper, you need to first start a ZooKeeper server if you don't already have one. You can use a script packaged with kafka to get a quick single-node ZooKeeper instance.
+
+---bin\windows\zookeeper-server-start.bat config/zookeeper.properties
+
+Now, you can start the Kafka server.
+
+---bin\windows\kafka-server-start.bat config/server.properties
+
+#### Mongo DB
+This is the database of the system, to run it you have to go to the folder where you downloaded it and then run it.
+
+---bin/mongod —port 27018
 
 #### Maven
-TODO: explain how to execute the application from the command line using maven
+To run the application with maven, you have to run Apache Kafka and Mongo DB before. Then you have to go to the projects folder(where you have the pom.xml file) and type:
+
+---mvn spring-boot:run
 
 ## Posting a new Incident
 Once you have the Incident Manager application up and running you can create a new Incident by sending a POST request to http://localhost:8081/incident/create (if you are executing the application with Docker, use port 8001 instead). The format of the incident must be like this one:.
@@ -70,7 +89,49 @@ Inside the properties JSON object you can include any object you want.
 You will need to have the [Agents_i2b module](https://github.com/Arquisoft/Agents_i2b) running in order to create the Incident, since the system has to check if the Agent exists before creating the incident.
 
 ## Querying the incidents of an agent
-TODO
+With you application running, you may need to query and list the incidents of a certain agent and retrieve these both in JSON format or with a more visual web interface.
+
+### Retrieving incidents in JSON format
+You can get the list of incidents by sending a post request to http://localhost:8081/incidentsinfo (or, in case you are using Docker, as said before, you may send the request to port 8001). The request body must contain the following parameters:
+* username: Username of the agent
+* password: Password of the agent
+* kind: Kind of the agent
+
+The output format will be as follows:
+```
+{
+  "agent": {
+    "username": "agentUsername",
+    "password": "agentPassword",
+    "kind": "agentKind"
+  },
+  "inciName": "incidentName",
+  "location": {
+    "lat": 1,
+    "lon": 1
+  },
+  "tags": [
+    "tag1",
+    "tag2"
+  ],
+  "moreInfo": [
+    "moreInfo1",
+    "moreInfo2"
+  ],
+  "properties": {
+    
+  }
+}
+```
+### Web interface
+For a more visual output, you may also sent a get request to http://localhost:8081/agentsform (port 8001 for Docker) that will lead you to a sample form where you must specify the agent's username, password and kind:
+
+![Filling web form](img/agentform.png)
+
+In case wrong login data is provided, an error message will pop up, else the agent's incidents will be displayed as follows:
+
+![Web interface](img/web-interface.png)
+
 
 ## Tests
 TODO
