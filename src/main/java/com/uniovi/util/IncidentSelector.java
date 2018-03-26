@@ -62,14 +62,12 @@ public class IncidentSelector {
 	private void conditionsKind(List<Function<Incident, Boolean>> conditions, JsonNode jsonObject) {
 		
 		JsonNode kindContents = (JsonNode) jsonObject.get("kind");
-		if (kindContents.get("type").equals("values")){
+		if (kindContents.get("type").equals("values") && kindContents.isArray()){
 			//JSONArray kinds = (JSONArray) kindContents.get("important");
-			if (kindContents.isArray()) {
 			    for (final JsonNode objNode : kindContents) {
 					Function<Incident, Boolean> function = i -> i.getAgent().getKind().equals(objNode);
 					conditions.add(function);
 			    }
-			}
 			/*for (int j = 0; j < kinds.size(); j++) {
 				Integer index = j;
 				Function<Incident, Boolean> function = i -> i.getAgent().getKind().equals(kinds.get(index));

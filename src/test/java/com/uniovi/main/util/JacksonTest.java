@@ -13,7 +13,7 @@ import com.uniovi.util.IncidentSelector;
 
 public class JacksonTest 
 {
-	Incident incident = new Incident("Inci1",new LatLng(45, 90),
+	private Incident incident = new Incident("Inci1",new LatLng(45, 90),
 			new AgentInfo("teji", "1234", "Person"));
 	
 	@Test
