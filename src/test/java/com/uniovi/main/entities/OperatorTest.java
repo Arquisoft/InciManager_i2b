@@ -25,7 +25,7 @@ public class OperatorTest {
 	public void testInstantiation() {
 		assertEquals("eleven@dashboard.com", op1.getEmail());
 		assertEquals("eleven", op1.getOperatorname());
-		assertEquals(0, op1.getIsAdmin());
+		assertEquals(false, op1.getIsAdmin());
 	}
 
 	@Test
