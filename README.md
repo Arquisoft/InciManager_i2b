@@ -23,13 +23,13 @@ Once you installed docker you have to start the Docker daemon and open a new com
 Once you execute this command, Docker Compose will launch three containers:
 * A container running zookeper on port 2181.
 * A container running kafka on port 9092.
-* A container running the Incidence Manager application, listening on port 8001.
+* A container running the Incidence Manager application, listening on port 8081.
 
 ![Running docker-compose up](img/docker-start.png)
 
 The first time you run docker-compose up will take quite a bit of time, because it needs to pull several images in order to run the application (zookeper, kafka and maven). Once the images are pulled they are cached by docker, so the next time you run the application it won't download the images again, taking less than a minute to start all the containers.
 
-Once the application is running you can connect to it using http://localhost:8001 if you are running on Mac or Linux. If you are running it on Windows you will have to use the private IP specified when you start running Docker:
+Once the application is running you can connect to it using http://localhost:8081 if you are running on Mac or Linux. If you are running it on Windows you will have to use the private IP specified when you start running Docker:
 ![Private ip windows](img/ip-windows.jpg)
 
 Finally, when you are done using the application, you can use Ctrl+C to gracefully stop all the containers run by Docker:
@@ -64,18 +64,20 @@ To run the application with maven, you have to run Apache Kafka and Mongo DB bef
 ---mvn spring-boot:run
 
 ## Posting a new Incident
-Once you have the Incident Manager application up and running you can create a new Incident by sending a POST request to http://localhost:8081/incident/create (if you are executing the application with Docker, use port 8001 instead). The format of the incident must be like this one:.
+Once you have the Incident Manager application up and running you can create a new Incident by sending a POST request to http://localhost:8081/incident/create. The format of the incident must be like this one:.
 ```json
 {
-  "username": "pruebas",
-  "password": "cocoKiko",
-  "kind": "Person",
-  "inciName": "Primera Incidencia",
-  "location": {
-    "lat": -25.2,
-    "lon": 56.1,
+  "agent": {
+    "username": "sonny",
+  	"password": "pass123",
+    "kind": "Person"
   },
-  "tags": ["fire", "Person"],
+  "inciName": "My first incidence",
+  "location": {
+    "lat": 43.30,
+    "lon": -5.68
+  },
+  "tags": ["Fire", "Important"],
   "moreInfo": ["myImage.jpg"],
   "properties": {
     "priority": 1,
@@ -124,14 +126,20 @@ The output format will be as follows:
 }
 ```
 ### Web interface
-For a more visual output, you may also sent a get request to http://localhost:8081/agentsform (port 8001 for Docker) that will lead you to a sample form where you must specify the agent's username, password and kind:
+For a more visual output, you may also sent a get request to http://localhost:8081/agentform that will lead you to a sample form where you must specify the agent's username, password and kind:
 
 ![Filling web form](img/agentform.png)
+
+You can enter the following credentials to test the interface:
+```
+username: sonny
+password: pass123
+kind: Person
+```
 
 In case wrong login data is provided, an error message will pop up, else the agent's incidents will be displayed as follows:
 
 ![Web interface](img/web-interface.png)
 
 
-## Tests
-TODO
+You can also access a chat based interface to create an incident instead of doing a POST request. This interface can be accessed from the incidents view after you log in, or going directly to http://localhost:8081/incident/create.
