@@ -143,7 +143,6 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.OK.value(), status);
     }
 
-
     private String buildIncidentPayload(String name, String password, String kind, String inciName,
     				LatLng location, String tags, String moreInfo, String properties) {
 		return String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
