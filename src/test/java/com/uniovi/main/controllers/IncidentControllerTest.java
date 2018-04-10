@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -143,6 +144,45 @@ public class IncidentControllerTest {
         assertEquals(HttpStatus.OK.value(), status);
     }
 
+    /*
+     * Test that for a logged user, accesing '/' redirects to their 
+     * sent incidents view.
+     * @throws Exception
+     */
+    @Test
+    public void testLandingPageWhenLogged() throws Exception {
+    	MockHttpSession session = new MockHttpSession();
+    	AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+        
+        MockHttpServletRequestBuilder request = get("/").session(session);
+        int status = mockMvc.perform(request)
+        				.andExpect(forwardedUrl("incident_list"))
+        				.andReturn()
+        				.getResponse()
+        				.getStatus();
+        
+        assertEquals(HttpStatus.OK.value(), status);
+    }
+    
+    /*
+     * Test that for an unknown user, accesing '/' redirects to the
+     * log in page.
+     * @throws Exception
+     */
+    @Test
+    public void testLandingPageWhenNotLogged() throws Exception {
+    	MockHttpSession session = new MockHttpSession();
+        
+        MockHttpServletRequestBuilder request = get("/").session(session);
+        int status = mockMvc.perform(request)
+        				.andExpect(forwardedUrl("authentication_form"))
+        				.andReturn()
+        				.getResponse()
+        				.getStatus();
+        
+        assertEquals(HttpStatus.OK.value(), status);
+    }
 
     private String buildIncidentPayload(String name, String password, String kind, String inciName,
     				LatLng location, String tags, String moreInfo, String properties) {
