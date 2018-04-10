@@ -113,4 +113,9 @@ public class IncidentsInfoController {
 		model.addAttribute("incidentsList", agentIncidents);
 		return "incident_list";
 	}
+
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public String landingPage() {
+		return "redirect:/incidents";
+	}
 }
