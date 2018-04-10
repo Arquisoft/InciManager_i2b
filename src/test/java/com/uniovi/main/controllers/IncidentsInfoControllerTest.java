@@ -205,4 +205,54 @@ public class IncidentsInfoControllerTest {
 		return String.format("{\"username\": \"%s\", \"password\": \"%s\", "
 					+ "\"kind\": \"%s\"}", name, password, kind);
     }
+    
+    /*
+     * Test that for a logged user, accesing '/' redirects to their 
+     * sent incidents view.
+     * @throws Exception
+     */
+    @Test
+    public void testLandingPageWhenLogged() throws Exception {
+    	MockHttpSession session = new MockHttpSession();
+    	AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+        
+        MockHttpServletRequestBuilder request = get("/").session(session);
+        int status = mockMvc.perform(request)
+        				.andExpect(redirectedUrl("/incidents"))
+        				.andReturn()
+        				.getResponse()
+        				.getStatus();
+        
+        assertEquals(HttpStatus.FOUND.value(), status);
+    }
+    
+    /*
+     * Test that for an unknown user, accesing '/' redirects to the
+     * log in page (passing through '/incidents' first).
+     * @throws Exception
+     */
+    @Test
+    public void testLandingPageWhenNotLogged() throws Exception {
+    	MockHttpSession session = new MockHttpSession();
+        session.removeAttribute("agentInfo");
+    	
+        MockHttpServletRequestBuilder request = get("/").session(session);
+        int status = mockMvc.perform(request)
+        				.andExpect(redirectedUrl("/incidents"))
+        				.andReturn()
+        				.getResponse()
+        				.getStatus();
+        
+        assertEquals(HttpStatus.FOUND.value(), status);
+        
+        MockHttpServletRequestBuilder request2 = get("/incidents").session(session);
+        int status2 = mockMvc.perform(request2)
+        				.andExpect(redirectedUrl("/agentform"))
+        				.andReturn()
+        				.getResponse()
+        				.getStatus();
+        
+        assertEquals(HttpStatus.FOUND.value(), status2);
+    }
 }
