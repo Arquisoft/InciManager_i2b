@@ -1,0 +1,8 @@
+.formFieldTitle {
+	border-bottom-style: solid;
+	margin-bottom: 6px;
+}
+
+.tag-group, .property-group, #coordinates{
+	display: inline-flex;
+}

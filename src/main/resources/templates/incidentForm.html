@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+
+
+<body>
+    <nav th:replace="fragments/nav" />
+
+    <div class="mt-4" style="height: 70%">
+        <div class="flex-center flex-column">
+
+            <div class="card animated fadeIn" style="width: 35%">
+                <div class="card-header stylish-color white-text h4 text-center">Incident info</div>
+                <div class="card-body">
+
+                    <form method="post" action="/incident/create">
+                    	<div class="formFieldTitle">
+                        <i class="fa fa-edit">&#160;</i>
+                        <label for="inciName">Incident name</label>
+                        </div>
+                        <input type="text" id="inciName" placeholder="Fire at home" class="form-control" name="inciName"></input>
+                        <br/>
+                        
+                        <div class="formFieldTitle">
+                        <i class="fa fa-globe">&#160;</i>
+                        <label for="location">Incident location</label><br>
+                        </div>
+                        <input type="radio" name="location" checked> Locate me <br/>
+                        <input type="radio" name="location"> Custom coordinates <br/>
+                        <div id="coordinates">
+                        <input type="number" id="latitude" placeholder="Latitude" class="form-control" name="latitude" disabled>&#160;
+                        <input type="number" id="longitude" placeholder="Longitude" class="form-control" name="longitude" disabled>
+                        </div>
+                        <br>
+                        <br/>
+						
+						<div class="formFieldTitle">
+                        <i class="fa fa-hashtag">&#160;</i>
+                        <label for="tags">Tags</label><br>
+                        </div>
+                        <div id="tags">
+                        <div class="tag-group">
+                        <input class="tagInput form-control" type="text" id="tag1" placeholder="Emergency">&#160;
+                        <button class="btn-sm btn-outline-primary" style=""><i class="fa fa-plus"></i></button>
+                        </div>
+                        </div>
+                        
+                        <br/>
+
+						<div class="formFieldTitle">
+                        <i class="fa fa-bars">&#160;</i>
+                        <label for="tags">Properties</label><br>
+                        </div>
+                        <div id="properties">
+                        <div class="property-group">
+                        <input class="propertyInput form-control" type="text" id="propertyName1" placeholder="Heigth">&#160;
+                        <input class="propertyInput form-control" type="text" id="propertyValue1" placeholder="1000 metres">&#160;
+                        
+                        <button class="btn-sm btn-outline-primary" style=""><i class="fa fa-plus"></i></button>
+                        </div>
+                        </div>
+                        
+                        <br>
+                        
+                        <div class="formFieldTitle">
+                        <i class="fa fa-info">&#160;</i>
+                        <label for="moreInfo">Additional information</label>
+                        </div>
+                        <textarea type="text" id="moreInfo" class="form-control md-textarea" rows="3"></textarea>
+                        <br/>
+                        
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-elegant btn-rounded" type="submit">Create incident
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<footer th:replace="fragments/footer"></footer>
+
+</html>

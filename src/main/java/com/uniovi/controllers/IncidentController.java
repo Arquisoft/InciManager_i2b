@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uniovi.entities.AgentInfo;
@@ -69,7 +70,7 @@ public class IncidentController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/incident/create", method=RequestMethod.GET)
-	public String createIncident(HttpSession session, Model model) {
+	public String createIncident(HttpSession session, Model model, @RequestParam(name = "method") String method) {
 		Object info = session.getAttribute("agentInfo");
 		if (info == null) {
 			return "redirect:/agentform";
@@ -77,7 +78,11 @@ public class IncidentController {
 
 		AgentInfo agentInfo = (AgentInfo) info;
 		model.addAttribute("agentInfo", agentInfo);
-		return "chatroom";
+		
+		if (method.equals("form"))
+			return "incidentForm";
+		else
+			return "chatroom";
 	}
 
 }
