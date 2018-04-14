@@ -8,19 +8,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.uniovi.controllers.IncidentController;
+import com.uniovi.controllers.IncidentsInfoController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Operator;
 import com.uniovi.kafka.KafkaService;
@@ -49,7 +46,7 @@ public class LoginSteps {
     public OperatorsService operatorsService;
 
     @InjectMocks
-    private IncidentController incidentController;
+    private IncidentsInfoController incidentController;
 
     private MockMvc mockMvc;
     private MockHttpServletResponse result;
@@ -71,14 +68,12 @@ public class LoginSteps {
     		mockMvc.perform(get(url));
     }
     
-    @When("^the user logs in with username \"(.+)\", password \"(.+)\" and kind \"(.+)\"$")
+    @When("^the user logs in with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\"$")
     public void the_user_logs_in_with_username_password_and_kind(String username,
     			String password, String kind) throws Exception {
-    		String payload = String.format("{\"username\": \"%s\", \"password\": \"%s\", "
-					+ "\"kind\": \"%s\"}", username, password, kind);
+    		MockHttpServletRequestBuilder request = post("/agentform").param("username", username)
+    				.param("password", password).param("kind", kind);
     		
-    		MockHttpServletRequestBuilder request = post("/agentForm")
-    				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
     		result = mockMvc.perform(request).andReturn().getResponse();
     }
     
@@ -89,6 +84,6 @@ public class LoginSteps {
     
     @Then("^the user receives the page \"(.+)\"$")
     public void the_user_receives_the_page(String page) {
-    		assertThat(result.getForwardedUrl(), is(page));
+    		assertThat(result.getRedirectedUrl(), is(page));
     }
 }
