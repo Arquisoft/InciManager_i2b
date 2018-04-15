@@ -1,2 +1,3 @@
 exclude_paths:
     - src/main/resources/static/script/**
+    - src/test/java/com/uniovi/main/cucumber/**
