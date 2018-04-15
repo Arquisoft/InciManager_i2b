@@ -190,7 +190,6 @@ public class IncidentsInfoControllerTest {
 	 */
 	@Test
 	public void testIncidentsInfoPostNonExists() throws Exception {
-
 		MockHttpServletRequestBuilder request = post("/agentform").param("username", "badExample")
 				.param("password", "fail").param("kind", "Person");
 
@@ -212,10 +211,10 @@ public class IncidentsInfoControllerTest {
      * @throws Exception
      */
     @Test
-    public void testLandingPageWhenLogged() throws Exception {
-    	MockHttpSession session = new MockHttpSession();
-    	AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
-        session.setAttribute("agentInfo", agentInfo);
+	public void testLandingPageWhenLogged() throws Exception {
+		MockHttpSession session = new MockHttpSession();
+		AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+	    session.setAttribute("agentInfo", agentInfo);
         
         MockHttpServletRequestBuilder request = get("/").session(session);
         int status = mockMvc.perform(request)
@@ -234,7 +233,7 @@ public class IncidentsInfoControllerTest {
      */
     @Test
     public void testLandingPageWhenNotLogged() throws Exception {
-    	MockHttpSession session = new MockHttpSession();
+    		MockHttpSession session = new MockHttpSession();
         session.removeAttribute("agentInfo");
     	
         MockHttpServletRequestBuilder request = get("/").session(session);
