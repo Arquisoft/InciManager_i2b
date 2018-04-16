@@ -1,10 +1,11 @@
 "use strict";
 
-$(document).ready(function() {
-    document.getElementById("inciName").focus()
+$(document).ready(function () {
+    document.getElementById("inciName").focus();
 });
 
 var incident = {
+    "inciName" : "",
     "agent": {
         "username": agentInfo.username,
         "password": agentInfo.password,
@@ -20,11 +21,11 @@ var incident = {
     }
 };
 
-function deleteTag(index){
+function deleteTag(index) {
     form.deleteTag(index);
 }
 
-function deleteProperty(index){
+function deleteProperty (index) {        
     form.deleteProperty(index);
 }
 
@@ -71,8 +72,8 @@ class Form {
     addProperty () {
         $("#properties").append("<div id='property-group"+ this.nProperties +
         "' class='animated fadeIn'>"+
-        "<input class='propertyInput form-control' type='text' id='propertyName"+ this.nProperties + "'placeholder='Heigth'>&#160;"+
-        "<input class='propertyInput form-control' type='text' id='propertyValue"+ this.nProperties +"' placeholder='1000 metres'>"+
+        "<input class='propertyName form-control' type='text' id='propertyName"+ this.nProperties + "'placeholder='Heigth'>&#160;"+
+        "<input class='propertyValue form-control' type='text' id='propertyValue"+ this.nProperties +"' placeholder='1000 metres'>"+
         "<button id='deleteProperty"+ this.nProperties +"' type='button' class='deletionProperty' onclick='deleteProperty("+ this.nProperties +")'"+
         "><i class='fa fa-times-circle'></i></button>&#160;</div></div>");
         
@@ -90,9 +91,6 @@ class Form {
         
 };
 
-        
-    
-    
     deleteProperty (index) {
         
         $("#property-group"+index.toString()).attr ('class', 'animated fadeOut')
@@ -100,11 +98,82 @@ class Form {
         
         $("#property-group"+index.toString()).fadeOut(400, function(){
             $(this).remove();
+                    
         });
         
     }
     
+    setIncident () {
+        
+        
+        incident.inciName = $("#inciName").val().trim();
+
+        incident.location.lat = $("#latitude").val().trim();
+        incident.location.long = $("#longitude").val().trim();
+        
+        //tags
+        
+        $(".tagInput").each (function () {
+            if ($.trim($(this).val()) != ""){
+                incident.tags.push($(this).val());
+            };
+        });
+        
+        //properties
+        
+        var names = [];
+        var values = [];
+        $(".propertyName").each (function () {
+            names.push($(this).val());
+        });
+        
+        $(".propertyValue").each (function () {
+            values.push($(this).val());
+        });
+        
+        var i;
+        for (i = 0; i < names.length; i++) { 
+            if ($.trim(names[i]) != ""){
+                incident.properties[names[i]] = values[i];
+            }
+        };
+        
+        
+        //moreInfo
+        incident.moreInfo = $("#moreInfo").val().trim();
+        
+        console.log (JSON.stringify(incident));
+
+    }
+    
+    createIncident () {
+
+        var url = window.location.href;
+        var arr = url.split("/");
+
+        $.ajax({
+            type: 'POST',
+            url: arr[0] + "//" + arr[2] + "/incident/create",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            data: JSON.stringify(incident),
+            success: function(data) {
+                var message = `The incident has been sent.<br>
+                    \tName: ${this.incident.inciName}<br>
+                    \tAgent: ${this.incident.agent.username}<br>
+                    \tLocation: lat ${this.incident.location.lat} - lon ${this.incident.location.lon}<br>
+                    \tTags: ${this.incident.tags}<br>
+                    \tProperties: ${JSON.stringify(this.incident.properties)}<br>
+                `;
+            }.bind(this), error: function() {
+                $("#errorMsg").removeAttr("hidden");
+
+                
+            }.bind(this)
+        });
+    }
 }
+    
 
 
     
@@ -179,20 +248,13 @@ $(".deletionTag").click(function(){
 });
 
 $(".deletionProperty").click(function(){
-
-    console.log("Stated remove property")
     
     var id = $(this).attr('id').toString();
     var index = id.charAt(id.length-1);
     form.deleteProperty(index);
+    
 });
 
-
-
-
-
-
-    
-
-    
-	
+$("#submitBtn").click (function () {
+    form.createIncident();
+});

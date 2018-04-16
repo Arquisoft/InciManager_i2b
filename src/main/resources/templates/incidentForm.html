@@ -63,9 +63,9 @@ var agentInfo = [[${agentInfo}]];
                         </div>
                         <div id="properties">
                         <div id="property-group0">
-                        <input class="propertyInput form-control" type="text" id="propertyName0"
+                        <input class="propertyName form-control" type="text" id="propertyName0"
                          placeholder="Heigth">&#160;
-                        <input class="propertyInput form-control" type="text" id="propertyValue0"
+                        <input class="propertyValue form-control" type="text" id="propertyValue0"
                          placeholder="1000 metres">
                          <button id="deleteProperty0" type="button" class="deletionProperty">
                         <i class="fa fa-times-circle"></i></button>
@@ -79,11 +79,14 @@ var agentInfo = [[${agentInfo}]];
                         <i class="fa fa-info">&#160;</i>
                         <label for="moreInfo">Additional information</label>
                         </div>
-                        <textarea type="text" placeholder="The incident ocurred near 6 pm" id="moreInfo" class="form-control md-textarea" rows="3"></textarea>                        
+                        <textarea type="text" placeholder="The incident ocurred near 6 pm" id="moreInfo" class="form-control md-textarea" rows="3"></textarea>  
+                        <p id="errorMsg" style="color: red;" hidden>There was an error submiting the incident</p>
+                                              
 
                         <div class="text-center mt-4">
-                            <button id="submit" class="btn btn-elegant btn-rounded" type="submit">Create incident
+                            <button id="submitBtn" class="btn btn-elegant btn-rounded" type="submit">Create incident
                             </button>
+                            
                         </div>
                     </form>
 
