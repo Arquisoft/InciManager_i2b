@@ -47,7 +47,7 @@ class Form {
                 break;
 
             case "longitude":
-                $("#longitude").val(form.geoCoord.long);
+                $("#longitude").val(form.geoCoord.lon);
                 $("#longitude").prop('disabled', true);
                 break;
 
@@ -109,7 +109,7 @@ class Form {
         incident.inciName = $("#inciName").val().trim();
 
         incident.location.lat = $("#latitude").val().trim();
-        incident.location.long = $("#longitude").val().trim();
+        incident.location.lon = $("#longitude").val().trim();
         
         //tags
         
@@ -158,13 +158,10 @@ class Form {
             datatype: "json",
             data: JSON.stringify(incident),
             success: function(data) {
-                var message = `The incident has been sent.<br>
-                    \tName: ${this.incident.inciName}<br>
-                    \tAgent: ${this.incident.agent.username}<br>
-                    \tLocation: lat ${this.incident.location.lat} - lon ${this.incident.location.lon}<br>
-                    \tTags: ${this.incident.tags}<br>
-                    \tProperties: ${JSON.stringify(this.incident.properties)}<br>
-                `;
+            	
+            	window.location.replace(arr[0]+ "//"+arr[2]+"/"+"incidents");
+            	
+                
             }.bind(this), error: function() {
                 $("#errorMsg").removeAttr("hidden");
 
@@ -185,7 +182,7 @@ var form = new Form();
 $("#autoLocation").click(function(){
     
     console.log ("Current latitude: " + form.geoCoord.lat);
-    console.log ("Current longitude: " + form.geoCoord.long);
+    console.log ("Current longitude: " + form.geoCoord.lon);
     
     
     if (typeof form.geoCoord.lat  === "undefined"){
@@ -197,7 +194,7 @@ $("#autoLocation").click(function(){
         // Get coordinates
         form.geoCoord = {
             lat : position.coords.latitude,
-            long : position.coords.longitude
+            lon : position.coords.longitude
         }
             
         form.setLocationField("latitude");
@@ -211,7 +208,7 @@ $("#autoLocation").click(function(){
     else {
     
         console.log ("Parsed latitude: " + form.geoCoord.lat);
-        console.log ("Parsed longitude: " + form.geoCoord.long);
+        console.log ("Parsed longitude: " + form.geoCoord.lon);
 
         // Set form values
         form.setLocationField("latitude");
@@ -256,5 +253,7 @@ $(".deletionProperty").click(function(){
 });
 
 $("#submitBtn").click (function () {
+	form.setIncident();
     form.createIncident();
+    
 });
