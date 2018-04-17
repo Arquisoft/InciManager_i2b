@@ -26,10 +26,10 @@ import com.uniovi.controllers.IncidentController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.LatLng;
 import com.uniovi.entities.Operator;
+import com.uniovi.kafka.KafkaService;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
-import com.uniovi.kafka.KafkaService;
 import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes= {
@@ -113,7 +113,7 @@ public class IncidentControllerTest {
      */
     @Test
     public void testNotLoggedIn() throws Exception {
-    		MockHttpServletRequestBuilder request = get("/incident/create");
+    		MockHttpServletRequestBuilder request = get("/incident/create?method=form");
     		int status = mockMvc.perform(request)
     							.andExpect(redirectedUrl("/agentform"))
     							.andReturn()
@@ -133,7 +133,7 @@ public class IncidentControllerTest {
         AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
         session.setAttribute("agentInfo", agentInfo);
 
-        MockHttpServletRequestBuilder request = get("/incident/create").session(session);
+        MockHttpServletRequestBuilder request = get("/incident/create?method=chat").session(session);
     	    int status = mockMvc.perform(request)
     						.andExpect(forwardedUrl("chatroom"))
     						.andReturn()

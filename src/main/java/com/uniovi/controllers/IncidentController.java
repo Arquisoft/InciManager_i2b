@@ -70,7 +70,7 @@ public class IncidentController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/incident/create", method=RequestMethod.GET)
-	public String createIncident(HttpSession session, Model model, @RequestParam(name = "method") String method) {
+	public String createIncident(HttpSession session, Model model, @RequestParam(name = "method", required= false) String method) {
 		Object info = session.getAttribute("agentInfo");
 		if (info == null) {
 			return "redirect:/agentform";
@@ -79,7 +79,7 @@ public class IncidentController {
 		AgentInfo agentInfo = (AgentInfo) info;
 		model.addAttribute("agentInfo", agentInfo);
 		
-		if (method.equals("form"))
+		if (method != null && "form".equals(method))
 			return "incidentForm";
 		else
 			return "chatroom";
