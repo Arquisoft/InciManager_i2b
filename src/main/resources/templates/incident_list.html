@@ -33,6 +33,7 @@
 								<p class="card-text" style="font-size: 14px;">Location:</p>
 								<span class="card-text" style="font-size: 14px; margin-left:2em;"
 									th:text="'Latitude: ' + ${incident.getLocation().latitude}">Latitude</span>
+									<br>
 								<span class="card-text" style="font-size: 14px; margin-left:2em;"
 									th:text="'Longitude: ' + ${incident.getLocation().longitude}">Longitude<br/></span>
 							</div>
@@ -52,8 +53,8 @@
 								<p class="card-text" style="font-size: 14px;">Additional
 									information:</p>
 								<div th:each="info : ${incident.getMoreInfo()}">
-									<p class="card-text" th:text="${info}"
-										style="font-size: 13px; margin-left: 2em">Incident info.</p>
+										<p class="card-text" th:text="${info}"
+											style="font-size: 13px; margin-left: 2em">Incident info.</p>
 								</div>
 
 							</div>

@@ -20,25 +20,26 @@ var agentInfo = [[${agentInfo}]];
                 <div class="card-header stylish-color white-text h4 text-center">Incident Information</div>
                 <div class="card-body">
 
-                  <form method="post">
                     	<div class="formFieldTitle">
                         <i class="fa fa-edit">&#160;</i>
                         <label for="inciName">Incident name</label>
                         </div>
                         <input type="text" id="inciName" placeholder="Fire at home" class="form-control" name="inciName" required></input>
+                        <p id="errorName" style="color: red;" hidden="true">Enter a name for the incident</p>
                         <br/>
                         
                         <div class="formFieldTitle">
                         <i class="fa fa-globe">&#160;</i>
                         <label id="labelLocation" for="location">Incident location</label><br>
                         </div>
-                        <input type="radio" id="autoLocation" name="location"> Locate me <br/>
-                        <input type="radio" id="customLocation" name="location" checked> Custom coordinates <br/>
+                        <input type="radio" id="autoLocation" name="location" > Locate me <br/>
+                        <input type="radio" id="customLocation" checked name="location"> Custom coordinates <br/>
                         <div id="coordinates">
-                        <input type="number" step="any" id="latitude" placeholder="Latitude" class="form-control" name="latitude" required>&#160;
-                        <input type="number" step="any" id="longitude" placeholder="Longitude" class="form-control" name="longitude" required>
+                        <input type="number" step="any" id="latitude" placeholder="Latitude" class="form-control" required name="latitude">&#160;
+                        <input type="number" step="any" id="longitude" placeholder="Longitude" class="form-control" required name="longitude">
                         </div>
                         <p id="locating" hidden="true"><b>Locating...</b></p>
+                         <p id="errorLocation" style="color: red;" hidden="true">Submit proper coordinates: latitude [-90,90] and longitude [-180, 180] </p>
                         <br/>
 						
 						<div class="formFieldTitle">
@@ -47,7 +48,7 @@ var agentInfo = [[${agentInfo}]];
                         </div>
                         <div id="tags">
                         <div id="tag-group0">
-                        <input class="tagInput form-control" type="text" id="tag0" placeholder="Emergency">&#160;
+                        <input class="tagInput form-control" type="text" id="tag0" placeholder="Emergency" name="tags">&#160;
                         <button id="deleteTag0" type="button" class="deletionTag">
                         <i class="fa fa-times-circle"></i></button>
                         </div>
@@ -79,16 +80,13 @@ var agentInfo = [[${agentInfo}]];
                         <i class="fa fa-info">&#160;</i>
                         <label for="moreInfo">Additional information</label>
                         </div>
-                        <textarea type="text" placeholder="The incident ocurred near 6 pm" id="moreInfo" class="form-control md-textarea" rows="3"></textarea>  
-                        <p id="errorMsg" style="color: red;" hidden>There was an error submiting the incident</p>
-                                              
-
+                        <textarea type="text" placeholder="The incident ocurred near 6 pm" id="moreInfo" class="form-control md-textarea" name="moreInfo" rows="3"></textarea>  
+                        <p id="errorMsg" style="color: red;" hidden="true">There was an error submiting the incident. Review the data or try again later</p>
+                        
                         <div class="text-center mt-4">
-                            <button id="submitBtn" class="btn btn-elegant btn-rounded" type="submit">Create incident
-                            </button>
+                            <button id="submitBtn" class="btn btn-elegant btn-rounded" type="submit">Create incident</button>
                             
                         </div>
-                    </form>
 
                 </div>
             </div>

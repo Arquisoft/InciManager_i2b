@@ -38,8 +38,7 @@ class Form {
         this.info = "";
     }
     
-    setLocationField (fieldName)
-    {
+    setLocationField (fieldName){
         switch (fieldName){
             case "latitude":
                 $("#latitude").val(form.geoCoord.lat);
@@ -61,7 +60,7 @@ class Form {
         $("#tags").append("<div id='tag-group"+ this.nTags +
         "' class = 'animated fadeIn'>"+
         "<input class='tagInput form-control' "+
-        "type='text' id='tag"+ this.nTags +"'placeholder='Emergency'>&#160;"+
+        "type='text' id='tag"+ this.nTags +"'placeholder='Emergency' name='tags'>&#160;"+
         "<button id='deleteTag"+ this.nTags +"' type='button' class='deletionTag' "+
         "onclick='deleteTag("+ this.nTags +")' >"+
         "<i class='fa fa-times-circle'></i></button>&#160;</div>");
@@ -140,14 +139,46 @@ class Form {
         
         
         //moreInfo
-        incident.moreInfo = $("#moreInfo").val().trim();
+        if ($.trim($("#moreInfo").val()) != ""){
+            incident.moreInfo.push($("#moreInfo").val()); 
+        }
         
         console.log (JSON.stringify(incident));
 
     }
     
+    validateIncident (){
+        
+        var inciName = $.trim($("#inciName").val());
+        var latitude = $("#latitude").val();
+        var longitude = $("#longitude").val();
+        
+        //InciName
+        if (!$.trim($("#inciName").val())){
+            $("#errorName").removeAttr("hidden");
+            return false;
+         }
+        else {
+            $("#errorName").prop("hidden", "true");
+        }
+        
+        if (!$.isNumeric(latitude) || !$.isNumeric(longitude)
+                || latitude < -90 || latitude > 90 
+                || longitude < -180 || longitude > 180){
+            $("#errorLocation").removeAttr("hidden");
+            return false;
+        }
+        else {
+            $("#errorLocation").prop("hidden", "true");
+        }
+        
+        $("#submitBtn").unbind();
+        return true;
+        
+    }
+    
     createIncident () {
-
+    	
         var url = window.location.href;
         var arr = url.split("/");
 
@@ -158,9 +189,8 @@ class Form {
             datatype: "json",
             data: JSON.stringify(incident),
             success: function(data) {
-            	
-            	window.location.replace(arr[0]+ "//"+arr[2]+"/"+"incidents");
-            	
+                
+                window.location.replace(arr[0] + "//" + arr[2] + "/incidents");
                 
             }.bind(this), error: function() {
                 $("#errorMsg").removeAttr("hidden");
@@ -169,13 +199,28 @@ class Form {
             }.bind(this)
         });
     }
+    
+    submit(){
+        if (!form.validateIncident()){
+            $("#errorMsg").removeAttr("hidden");
+            $("#submitBtn").click (function () {
+                form.submit();    
+            incident.tags = [];
+            incident.location ={};
+            incident.moreInfo = [];
+            incident.properties = {};
+         });
+        }
+        
+        else {
+            $("#errorMsg").prop("hidden", "true");
+            form.setIncident();
+            form.createIncident();
+         }
+        
+    }
 }
     
-
-
-    
-    
-
 
 var form = new Form();
 
@@ -235,8 +280,6 @@ $("#addProperty").click(function(){
     form.addProperty();
 });
 
-
-
 $(".deletionTag").click(function(){
     console.log("Stated remove tag")
     var id = $(this).attr('id').toString();
@@ -253,7 +296,5 @@ $(".deletionProperty").click(function(){
 });
 
 $("#submitBtn").click (function () {
-	form.setIncident();
-    form.createIncident();
-    
+        form.submit();        
 });
