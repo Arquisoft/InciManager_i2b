@@ -77,8 +77,9 @@ public class WebTest {
 		elements = driver.findElements(By.xpath("//*[contains(text(),'Agent data')]"));
 		assertTrue(elements.size() > 0);
 	}
-	
-	//Log in, get to the form. Try to create an incident with a name full of blanks
+
+	// Log in, get to the form. Try to create an incident until it is accepteed and
+	// shown
 	@Test
 	public void createInvalidIncidentForm() {
 		logInAs(new AgentInfo("pacoo", "123456", "Person"));
@@ -87,18 +88,18 @@ public class WebTest {
 		assertTrue(elements.size() > 0);
 		// Check available create incident option
 		elements = driver.findElements(By.xpath("//*[contains(text(),'Create incident (form)')]"));
-		assertTrue(elements.size()>0);
+		assertTrue(elements.size() > 0);
 		// Click to access the element
 		elements.get(0).click();
 		// We're in the form
 		elements = driver.findElements(By.xpath("//*[contains(text(),'Incident Information')]"));
-		assertTrue(elements.size()>0);
+		assertTrue(elements.size() > 0);
 		// Try to submit the form
 		elements = driver.findElements(By.xpath("//*[contains(text(),'Create incident')]"));
 		elements.get(0).click();
 		// Error message is shown
 		elements = driver.findElements(By.xpath("//*[contains(text(),'Enter a name for the incident')]"));
-		assertTrue(elements.size()>0);
+		assertTrue(elements.size() > 0);
 		// Fill the form
 		fillIncidentForm("Selenium incident", "4.59", "5.56", "Selenium tag", "Test made by selenium");
 		elements = driver.findElements(By.xpath("//*[contains(text(),'Create incident')]"));
@@ -107,8 +108,7 @@ public class WebTest {
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		elements = driver.findElements(By.xpath("//*[contains(text(),'selenium')]"));
 		assertTrue(elements.size() > 0);
-		
-		
+
 	}
 
 	private void logInAs(AgentInfo agentInfo) {
@@ -125,22 +125,22 @@ public class WebTest {
 
 		driver.findElement(By.tagName("button")).click();
 	}
-	
-	private void fillIncidentForm (String name, String latitude, String longitude, String tag, String moreInfo){
+
+	private void fillIncidentForm(String name, String latitude, String longitude, String tag, String moreInfo) {
 		driver.findElement(By.name("inciName")).clear();
 		driver.findElement(By.name("inciName")).sendKeys(name);
-		
+
 		driver.findElement(By.name("latitude")).clear();
 		driver.findElement(By.name("latitude")).sendKeys(latitude);
-		
+
 		driver.findElement(By.name("longitude")).clear();
 		driver.findElement(By.name("longitude")).sendKeys(longitude);
-		
+
 		driver.findElement(By.name("tags")).clear();
 		driver.findElement(By.name("tags")).sendKeys(tag);
-		
+
 		driver.findElement(By.name("moreInfo")).clear();
 		driver.findElement(By.name("moreInfo")).sendKeys(moreInfo);
 	}
-	
+
 }

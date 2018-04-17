@@ -84,12 +84,12 @@ public class IncidentsInfoController {
 	public String onLogIn(HttpSession session, Model model,
 			                        @ModelAttribute AgentInfo ainfo) {
 		// Quick way to notice a bad login
-//		if (!agentsService.existsAgent(ainfo)) {
-//			return "redirect:/agentform?error=true";
-//		} else {
+		if (!agentsService.existsAgent(ainfo)) {
+			return "redirect:/agentform?error=true";
+		} else {
 			session.setAttribute("agentInfo", ainfo);
 			return "redirect:/incidents";
-//		}
+		}
 	}
 
 	/**
