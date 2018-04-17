@@ -120,7 +120,7 @@ public class IncidentsInfoControllerTest {
 	@Test
 	public void testIncidentsInfoGetForm() throws Exception {
 
-		MockHttpServletRequestBuilder request = get("/agentform").param("error", "true");
+		MockHttpServletRequestBuilder request = get("/agentform");
 
 		MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 

@@ -133,14 +133,28 @@ public class IncidentControllerTest {
         AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
         session.setAttribute("agentInfo", agentInfo);
 
-        MockHttpServletRequestBuilder request = get("/incident/create?method=chat").session(session);
-    	    int status = mockMvc.perform(request)
+        MockHttpServletRequestBuilder requestWithParam = get("/incident/create?method=chat").session(session);
+    	    int status = mockMvc.perform(requestWithParam)
     						.andExpect(forwardedUrl("chatroom"))
     						.andReturn()
     						.getResponse()
     						.getStatus();
 
         assertEquals(HttpStatus.OK.value(), status);
+        
+        //Test again that the chatroom is accessed even without the 'method' parameter specified
+        session = new MockHttpSession();
+        session.setAttribute("agentInfo", agentInfo);
+        
+        MockHttpServletRequestBuilder requestWithoutParam = get("/incident/create").session(session);
+	    status = mockMvc.perform(requestWithoutParam)
+						.andExpect(forwardedUrl("chatroom"))
+						.andReturn()
+						.getResponse()
+						.getStatus();
+
+	    assertEquals(HttpStatus.OK.value(), status);
+        
     }
     
     /**
