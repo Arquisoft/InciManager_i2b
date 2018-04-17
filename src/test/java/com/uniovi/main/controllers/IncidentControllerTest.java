@@ -142,6 +142,27 @@ public class IncidentControllerTest {
 
         assertEquals(HttpStatus.OK.value(), status);
     }
+    
+    /**
+     * Test that an agent can access the incident creation form
+     * to create an incident if he has previously logged in correctly.
+     * @throws Exception
+     */
+    @Test
+    public void testLoggedInAndForm() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+
+        MockHttpServletRequestBuilder request = get("/incident/create?method=form").session(session);
+    	    int status = mockMvc.perform(request)
+    						.andExpect(forwardedUrl("incidentForm"))
+    						.andReturn()
+    						.getResponse()
+    						.getStatus();
+
+        assertEquals(HttpStatus.OK.value(), status);
+    }
 
 
     private String buildIncidentPayload(String name, String password, String kind, String inciName,

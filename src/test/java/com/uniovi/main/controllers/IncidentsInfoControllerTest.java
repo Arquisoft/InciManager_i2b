@@ -68,10 +68,13 @@ public class IncidentsInfoControllerTest {
 
 	}
 
-	/*
-	 * Send request with a couple of incidents to be returned, compared real and
-	 * expected output
-	 */
+	
+	/**
+     * Tests that a POST request requesting the incidents of
+     * a sample agent who already submitted one, comparing the received
+     * data with that of the agent's.
+     * @throws Exception
+     */
 	@Test
 	public void testIncidentsInfoContentOK() throws Exception {
 		String payload = buildPayload("Ejemplo", "pass", "Person");
@@ -92,9 +95,11 @@ public class IncidentsInfoControllerTest {
 
 	}
 
-	/*
-	 * Send request with a non-valid agent, check NOT FOUND status of response
-	 */
+	/**
+     * Tests that a POST request requesting the incidents of
+     * a non-registered agent returns a status code of 'NOT FOUND'.
+     * @throws Exception
+     */
 	@Test
 	public void testIncidentsInfoNotFound() throws Exception {
 		String payload = buildPayload("notAnAgent", "whatever", "Entity");
@@ -107,9 +112,11 @@ public class IncidentsInfoControllerTest {
 
 	}
 
-	/*
-	 * Send get request to html form
-	 */
+	/**
+     * Sends a GET request to the log-in form URL,testing that it
+     * receives an 'OK' status.
+     * @throws Exception
+     */
 	@Test
 	public void testIncidentsInfoGetForm() throws Exception {
 
@@ -121,9 +128,12 @@ public class IncidentsInfoControllerTest {
 
 	}
 
-	/*
-	 * Send get request to html form with the error flagged
-	 */
+	/**
+     * Sends a GET request to the log-in form URL with the parameter
+     * 'error' set to true, meaning an error message will be shown and testing that it
+     * receives an 'OK' status.
+     * @throws Exception
+     */
 	@Test
 	public void testIncidentsInfoGetFormError() throws Exception {
 
@@ -135,9 +145,12 @@ public class IncidentsInfoControllerTest {
 
 	}
 
-	/*
-	 * Send poat request after login with a valid agent
-	 */
+	/**
+     * Sends a POST request to the log-in form URL with the parameter once the user
+     * was logged in correctly, testing that it is redirected to his/her list
+     * of submitted incidents.
+     * @throws Exception
+     */
 	@Test
 	public void testIncidentsInfoPost() throws Exception {
 
@@ -151,10 +164,11 @@ public class IncidentsInfoControllerTest {
 
 	}
 	
-	/*
-	 * Check that you can't access the show incidents view
-	 * without logging in first.
-	 */
+	/**
+     * Sends a GET request to the incident list view without the user being logged in
+     * correctly, testing that it is redirected to the log in form.
+     * @throws Exception
+     */
 	@Test
 	public void testShowIncidentsInfoInvalid() throws Exception {
 		MockHttpServletRequestBuilder request = get("/incidents");
@@ -166,10 +180,11 @@ public class IncidentsInfoControllerTest {
 		assertEquals(HttpStatus.FOUND.value(), status);
 	}	
 	
-	/*
-	 * Check that you cant access the show incidents view
-	 * after logging in first.
-	 */
+	/**
+     * Sends a GET request to the incident list view with the user logged in
+     * correctly, testing that he/she is directed to the incident list.
+     * @throws Exception
+     */
 	@Test
 	public void testShowIncidentsInfoValid() throws Exception {
         MockHttpSession session = new MockHttpSession();
@@ -185,9 +200,11 @@ public class IncidentsInfoControllerTest {
 		assertEquals(HttpStatus.OK.value(), status);
 	}
 
-	/*
-	 * Send post request after login with a non valid agent
-	 */
+	/**
+     * Sends a POST request to log in form view with the user not logged in
+     * correctly, testing that he/she is redirected to the form again.
+     * @throws Exception
+     */
 	@Test
 	public void testIncidentsInfoPostNonExists() throws Exception {
 
