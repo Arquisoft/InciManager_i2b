@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.uniovi.main.controllers.IncidentControllerTest
--------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 34.468 s - in com.uniovi.main.controllers.IncidentControllerTest

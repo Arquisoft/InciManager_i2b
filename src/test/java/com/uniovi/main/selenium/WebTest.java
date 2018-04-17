@@ -1,5 +1,6 @@
 package com.uniovi.main.selenium;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -125,7 +126,6 @@ public class WebTest {
 
 		driver.findElement(By.tagName("button")).click();
 	}
-
 	private void fillIncidentForm(String name, String latitude, String longitude, String tag, String moreInfo) {
 		driver.findElement(By.name("inciName")).clear();
 		driver.findElement(By.name("inciName")).sendKeys(name);
@@ -142,5 +142,14 @@ public class WebTest {
 		driver.findElement(By.name("moreInfo")).clear();
 		driver.findElement(By.name("moreInfo")).sendKeys(moreInfo);
 	}
-
+	
+	@Test
+	public void checkLandingPage() {
+		driver.navigate().to(baseUrl+"/");
+		assertEquals(driver.getCurrentUrl(), baseUrl+"/agentForm");
+		
+		logInAs(new AgentInfo("pacoo", "123456", "Person"));
+		driver.navigate().to(baseUrl+"/");
+		assertEquals(driver.getCurrentUrl(), baseUrl+"/incidents");
+	}
 }

@@ -113,4 +113,14 @@ public class IncidentsInfoController {
 		model.addAttribute("incidentsList", agentIncidents);
 		return "incident_list";
 	}
+
+	/*
+	 * Entry point for the GET request for the home/base url.
+	 * Incidents will redirect to the login form if the user 
+	 * hasn't authenticated.
+	 */
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public String landingPage() {
+		return "redirect:/incidents";
+	}
 }
