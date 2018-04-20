@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+var agentInfo = [[${agentInfo}]];
+/*]]>*/
+</script>
+
+
+<body>
+    <nav th:replace="fragments/nav"/>
+
+    <div class="mt-4" style="height: 70%">
+        <div class="flex-center flex-column">
+
+            <div class="card animated fadeIn" style="width: 40%">
+                <div class="card-header stylish-color white-text h4 text-center">Incident Information</div>
+                <div class="card-body">
+
+                    	<div class="formFieldTitle">
+                        <i class="fa fa-edit">&#160;</i>
+                        <label for="inciName">Incident name</label>
+                        </div>
+                        <input type="text" id="inciName" placeholder="Fire at home" class="form-control" name="inciName" required></input>
+                        <p id="errorName" style="color: red;" hidden="true">Enter a name for the incident</p>
+                        <br/>
+                        
+                        <div class="formFieldTitle">
+                        <i class="fa fa-globe">&#160;</i>
+                        <label id="labelLocation" for="location">Incident location</label><br>
+                        </div>
+                        <input type="radio" id="autoLocation" name="location" > Locate me <br/>
+                        <input type="radio" id="customLocation" checked name="location"> Custom coordinates <br/>
+                        <div id="coordinates">
+                        <input type="number" step="any" id="latitude" placeholder="Latitude" class="form-control" required name="latitude">&#160;
+                        <input type="number" step="any" id="longitude" placeholder="Longitude" class="form-control" required name="longitude">
+                        </div>
+                        <p id="locating" hidden="true"><b>Locating...</b></p>
+                         <p id="errorLocation" style="color: red;" hidden="true">Submit proper coordinates: latitude [-90,90] and longitude [-180, 180] </p>
+                        <br/>
+						
+						<div class="formFieldTitle">
+                        <i class="fa fa-hashtag">&#160;</i>
+                        <label for="tags">Tags</label><br>
+                        </div>
+                        <div id="tags">
+                        <div id="tag-group0">
+                        <input class="tagInput form-control" type="text" id="tag0" placeholder="Emergency" name="tags">&#160;
+                        <button id="deleteTag0" type="button" class="deletionTag">
+                        <i class="fa fa-times-circle"></i></button>
+                        </div>
+                        </div>
+                        <button id="addTag" type="button" class="btn btn-mdb-color" style=""><i class="fa fa-plus"></i>&#160;Add tag</button>
+                        
+                        
+                        <br/>
+
+						<div class="formFieldTitle">
+                        <i class="fa fa-bars">&#160;</i>
+                        <label for="tags">Properties</label><br>
+                        </div>
+                        <div id="properties">
+                        <div id="property-group0">
+                        <input class="propertyName form-control" type="text" id="propertyName0"
+                         placeholder="Heigth">&#160;
+                        <input class="propertyValue form-control" type="text" id="propertyValue0"
+                         placeholder="1000 metres">
+                         <button id="deleteProperty0" type="button" class="deletionProperty">
+                        <i class="fa fa-times-circle"></i></button>
+                        </div>
+                        </div>
+                        <button id="addProperty" type="button" class="btn btn-mdb-color" style=""><i class="fa fa-plus"></i>&#160;Add property</button>
+                        
+                        <br>
+                        
+                        <div class="formFieldTitle">
+                        <i class="fa fa-info">&#160;</i>
+                        <label for="moreInfo">Additional information</label>
+                        </div>
+                        <textarea type="text" placeholder="The incident ocurred near 6 pm" id="moreInfo" class="form-control md-textarea" name="moreInfo" rows="3"></textarea>  
+                        <p id="errorMsg" style="color: red;" hidden="true">There was an error submiting the incident. Review the data or try again later</p>
+                        
+                        <div class="text-center mt-4">
+                            <button id="submitBtn" class="btn btn-elegant btn-rounded" type="submit">Create incident</button>
+                            
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+	<script src="/script/form/form.js"></script>
+	
+</body>
+<footer th:replace="fragments/footer"></footer>
+
+</html>

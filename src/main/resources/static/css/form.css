@@ -1,0 +1,36 @@
+.formFieldTitle {
+	border-bottom-style: solid;
+	margin-bottom: 6px;
+}
+
+div[id^='tag-group'], div[id^='property-group'] , #coordinates{
+	display: inline-flex;
+}
+
+div[id^='tag-group'], div[id^='property-group'] {
+	margin-bottom: 2px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.deletionTag, .deletionProperty {
+	border-radius: 50%;
+	background-color: #FFF;
+    border: none;
+    color: #4C8FFF;
+    padding: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    margin: 2px 2px;
+    vertical-align: middle;
+}
+
+.propertyInput {
+	width: 15%;
+}

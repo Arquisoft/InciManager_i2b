@@ -26,10 +26,10 @@ import com.uniovi.controllers.IncidentController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.LatLng;
 import com.uniovi.entities.Operator;
+import com.uniovi.kafka.KafkaService;
 import com.uniovi.main.InciManagerI2bApplication;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
-import com.uniovi.kafka.KafkaService;
 import com.uniovi.services.OperatorsService;
 
 @SpringBootTest(classes= {
@@ -113,7 +113,7 @@ public class IncidentControllerTest {
      */
     @Test
     public void testNotLoggedIn() throws Exception {
-    		MockHttpServletRequestBuilder request = get("/incident/create");
+    		MockHttpServletRequestBuilder request = get("/incident/create?method=form");
     		int status = mockMvc.perform(request)
     							.andExpect(redirectedUrl("/agentform"))
     							.andReturn()
@@ -133,9 +133,44 @@ public class IncidentControllerTest {
         AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
         session.setAttribute("agentInfo", agentInfo);
 
-        MockHttpServletRequestBuilder request = get("/incident/create").session(session);
-    	    int status = mockMvc.perform(request)
+        MockHttpServletRequestBuilder requestWithParam = get("/incident/create?method=chat").session(session);
+    	    int status = mockMvc.perform(requestWithParam)
     						.andExpect(forwardedUrl("chatroom"))
+    						.andReturn()
+    						.getResponse()
+    						.getStatus();
+
+        assertEquals(HttpStatus.OK.value(), status);
+        
+        //Test again that the chatroom is accessed even without the 'method' parameter specified
+        session = new MockHttpSession();
+        session.setAttribute("agentInfo", agentInfo);
+        
+        MockHttpServletRequestBuilder requestWithoutParam = get("/incident/create").session(session);
+	    status = mockMvc.perform(requestWithoutParam)
+						.andExpect(forwardedUrl("chatroom"))
+						.andReturn()
+						.getResponse()
+						.getStatus();
+
+	    assertEquals(HttpStatus.OK.value(), status);
+        
+    }
+    
+    /**
+     * Test that an agent can access the incident creation form
+     * to create an incident if he has previously logged in correctly.
+     * @throws Exception
+     */
+    @Test
+    public void testLoggedInAndForm() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        AgentInfo agentInfo = new AgentInfo("Son", "prueba", "Person");
+        session.setAttribute("agentInfo", agentInfo);
+
+        MockHttpServletRequestBuilder request = get("/incident/create?method=form").session(session);
+    	    int status = mockMvc.perform(request)
+    						.andExpect(forwardedUrl("incidentForm"))
     						.andReturn()
     						.getResponse()
     						.getStatus();
