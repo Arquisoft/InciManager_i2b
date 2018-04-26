@@ -37,7 +37,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 @SpringBootTest( classes=InciManagerI2bApplication.class )
-public class SensorIncidentSteps {
+public class ReportIncidentSteps {
 	
     @Mock
     private AgentsService agentsService;
@@ -58,7 +58,7 @@ public class SensorIncidentSteps {
     private MockHttpServletResponse result;
     private List<Incident> incidents;
     
-	@Given("^a list of sensors:$")
+	@Given("^a list of users:$")
     public void a_list_of_sensors(List<AgentInfo> agents) {
 		incidents = new ArrayList<Incident>();
 		
@@ -76,8 +76,18 @@ public class SensorIncidentSteps {
     		this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
     
-    @When("^the sensor with username \"([^\"]*)\" and password \"([^\"]*)\" posts an incident$")
-    public void the_sensor_with_username_and_password_posts_an_incident(String username,
+    @When("^the agent logs in with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\"$")
+    public void the_user_logs_in_with_username_password_and_kind(String username,
+    			String password, String kind) throws Exception {
+    		MockHttpServletRequestBuilder request = post("/agentform").param("username", username)
+    				.param("password", password).param("kind", kind);
+    		
+    		result = mockMvc.perform(request).andReturn().getResponse();
+    }
+
+	
+    @When("^the agent with username \"([^\"]*)\" and password \"([^\"]*)\" posts an incident$")
+    public void the_agent_with_username_and_password_posts_an_incident(String username,
     			String password) throws Exception {
     		String payload = String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
 					+ "\"kind\": \"Sensor\"}, \"inciName\": \"Test\", \"location\": {\"lat\": 50.2, "
@@ -90,13 +100,13 @@ public class SensorIncidentSteps {
     		result = mockMvc.perform(request).andReturn().getResponse();
     }
     
-    @Then("^the sensor receives status code of (\\d+)$")
-	public void the_sensor_receives_status_code_of(int status) {
+    @Then("^the agent receives status code of (\\d+)$")
+	public void the_agent_receives_status_code_of(int status) {
     		assertThat(result.getStatus(), is(status));
     }
     
-    @Then("^the sensor receives the string \"([^\"]*)\"$")
-    public void the_sensor_receives_the_string(String message) throws UnsupportedEncodingException {
+    @Then("^the agent receives the string \"([^\"]*)\"$")
+    public void the_agent_receives_the_string(String message) throws UnsupportedEncodingException {
     		assertTrue(message.equals(result.getContentAsString()));
     }
     

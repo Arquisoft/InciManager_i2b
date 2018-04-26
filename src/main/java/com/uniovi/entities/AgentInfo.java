@@ -85,6 +85,11 @@ public class AgentInfo {
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		return true;
 	}
 
