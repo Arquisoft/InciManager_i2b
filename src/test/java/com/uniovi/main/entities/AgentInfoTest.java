@@ -62,23 +62,34 @@ public class AgentInfoTest {
 	@Test
 	public void testEquals2() {
 		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
-		AgentInfo agent2 = new AgentInfo("agentA", "password1", "Person");
-		AgentInfo agent3 = new AgentInfo("agentB", "password", "Entity");
-		AgentInfo agent4 = new AgentInfo("agentA", null, "Person");
+		AgentInfo agentCopy = new AgentInfo("agentA", "password", "Person");
+		AgentInfo agentNull = null;
 		
-		assertNotEquals(agent, agent2);
-		assertNotEquals(agent, agent3);
-		assertNotEquals(agent2, agent3);
+		assertEquals(agent, agentCopy);
 		
-		agent2.setPassword(null);
-		assertNotEquals(agent, agent2);
-		assertEquals(agent2, agent4);
+		//param null
+		assertNotEquals(agent, agentNull);
 		
-		agent3.setKind(null);
-		assertNotEquals(agent, agent3);
-		agent4.setPassword("password");
-		agent3.setPassword("password");
-		assertEquals(agent4, agent);
+		//username null y username param no null
+		agentCopy.setUsername(null);
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+		agentCopy.setUsername("agentA");
+		
+		//password null y password param no null
+		agentCopy.setPassword(null);
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+		agentCopy.setPassword("password");
+		
+		//kind null y other kind no null
+		agentCopy.setKind(null);
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+
+		//kind no eq other kind
+		agentCopy.setKind("Entity");
+		assertNotEquals(agent, agentCopy);
 	}
 	
 	@Test
