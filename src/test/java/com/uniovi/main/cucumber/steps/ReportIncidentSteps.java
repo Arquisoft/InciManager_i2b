@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.io.UnsupportedEncodingException;
@@ -37,7 +38,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 @SpringBootTest( classes=InciManagerI2bApplication.class )
-public class SensorIncidentSteps {
+public class ReportIncidentSteps {
 	
     @Mock
     private AgentsService agentsService;
@@ -57,8 +58,9 @@ public class SensorIncidentSteps {
     private MockMvc mockMvc;
     private MockHttpServletResponse result;
     private List<Incident> incidents;
+    private AgentInfo aInfo;
     
-	@Given("^a list of sensors:$")
+	@Given("^a list of users:$")
     public void a_list_of_sensors(List<AgentInfo> agents) {
 		incidents = new ArrayList<Incident>();
 		
@@ -75,6 +77,39 @@ public class SensorIncidentSteps {
     		
     		this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
+	
+	@Given("^an agent with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\"$")
+	public void an_agent_with_username_password_and_kind(String username, String password, String kind) throws Throwable {
+		aInfo = new AgentInfo(username, password, kind);
+	}
+	
+    @When("^the agent logs in$")
+    public void the_agent_logs_in() throws Exception {
+    		mockMvc.perform(get("/agentform"));
+    		MockHttpServletRequestBuilder request = post("/agentform").param("username", aInfo.getUsername())
+    				.param("password", aInfo.getPassword()).param("kind", aInfo.getKind());
+    		
+    		result = mockMvc.perform(request).andReturn().getResponse();
+    }
+
+    @When("^the agent accesses \"(.+)\"$")
+    public void the_user_accesses(String url) throws Exception {
+    		mockMvc.perform(get(url));
+    }
+	
+    @When("^the agent posts an incident$")
+    public void the_agent_posts_an_incident() throws Exception {
+    	    	
+    		String payload = String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
+					+ "\"kind\": \"%s\"}, \"inciName\": \"Test\", \"location\": {\"lat\": 50.2, "
+					+ "\"lon\": 12.2}, \"tags\": [], \"moreInfo\": [], \"properties\": {}}",
+					aInfo.getUsername(), aInfo.getPassword(), aInfo.getKind());
+    	
+    		MockHttpServletRequestBuilder request = post("/incident/create")
+    				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
+    		
+    		result = mockMvc.perform(request).andReturn().getResponse();
+    }
     
     @When("^the sensor with username \"([^\"]*)\" and password \"([^\"]*)\" posts an incident$")
     public void the_sensor_with_username_and_password_posts_an_incident(String username,
@@ -90,18 +125,19 @@ public class SensorIncidentSteps {
     		result = mockMvc.perform(request).andReturn().getResponse();
     }
     
-    @Then("^the sensor receives status code of (\\d+)$")
-	public void the_sensor_receives_status_code_of(int status) {
+    @Then("^the agent receives status code of (\\d+)$")
+	public void the_agent_receives_status_code_of(int status) {
     		assertThat(result.getStatus(), is(status));
     }
     
-    @Then("^the sensor receives the string \"([^\"]*)\"$")
-    public void the_sensor_receives_the_string(String message) throws UnsupportedEncodingException {
+    @Then("^the agent receives the string \"([^\"]*)\"$")
+    public void the_agent_receives_the_string(String message) throws UnsupportedEncodingException {
     		assertTrue(message.equals(result.getContentAsString()));
     }
     
     @Then("^the incident is stored$")
     public void the_incident_is_stored() {
+    	System.err.println(incidents.size());
     		assertTrue(incidents.size() == 1);
     }
     

@@ -60,6 +60,39 @@ public class AgentInfoTest {
 	}
 	
 	@Test
+	public void testEquals2() {
+		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
+		AgentInfo agentCopy = new AgentInfo("agentA", "password", "Person");
+		AgentInfo agentNull = null;
+		
+		assertEquals(agent, agentCopy);
+		
+		//param null
+		assertNotEquals(agent, agentNull);
+		
+		//username null y username param no null
+		agentCopy.setUsername(null);
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+		agentCopy.setUsername("agentA");
+		
+		//password null y password param no null
+		agentCopy.setPassword(null);
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+		agentCopy.setPassword("password");
+		
+		//kind null y other kind no null
+		agentCopy.setKind(null);
+		assertNotEquals(agent, agentCopy);
+		assertNotEquals(agentCopy, agent);
+
+		//kind no eq other kind
+		agentCopy.setKind("Entity");
+		assertNotEquals(agent, agentCopy);
+	}
+	
+	@Test
 	public void testToString() {
 		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
 		String str = "AgentInfo [id=null, username=agentA, password=password, kind=Person]";
