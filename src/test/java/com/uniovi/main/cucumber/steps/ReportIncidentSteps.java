@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.io.UnsupportedEncodingException;
@@ -79,6 +80,7 @@ public class ReportIncidentSteps {
     @When("^the agent logs in with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\"$")
     public void the_user_logs_in_with_username_password_and_kind(String username,
     			String password, String kind) throws Exception {
+    		mockMvc.perform(get("/agentform"));
     		MockHttpServletRequestBuilder request = post("/agentform").param("username", username)
     				.param("password", password).param("kind", kind);
     		
@@ -86,8 +88,32 @@ public class ReportIncidentSteps {
     }
 
 	
-    @When("^the agent with username \"([^\"]*)\" and password \"([^\"]*)\" posts an incident$")
+    @When("^the agent with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\" posts an incident$")
     public void the_agent_with_username_and_password_posts_an_incident(String username,
+    			String password, String kind) throws Exception {
+    	
+//    		//Login
+//    		the_user_logs_in_with_username_password_and_kind(username, password, kind);
+//    		the_agent_receives_status_code_of(302);
+//    		
+//    		//Access incidentform
+//    		mockMvc.perform(get("/incident/create?method=form"));
+//    		the_agent_receives_status_code_of(200);
+    	
+    		//Send post method
+    		String payload = String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
+					+ "\"kind\": \"%s\"}, \"inciName\": \"Test\", \"location\": {\"lat\": 50.2, "
+					+ "\"lon\": 12.2}, \"tags\": [], \"moreInfo\": [], \"properties\": {}}",
+					username, password, kind);
+    	
+    		MockHttpServletRequestBuilder request = post("/incident/create")
+    				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
+    		
+    		result = mockMvc.perform(request).andReturn().getResponse();
+    }
+    
+    @When("^the sensor with username \"([^\"]*)\" and password \"([^\"]*)\" posts an incident$")
+    public void the_sensor_with_username_and_password_posts_an_incident(String username,
     			String password) throws Exception {
     		String payload = String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
 					+ "\"kind\": \"Sensor\"}, \"inciName\": \"Test\", \"location\": {\"lat\": 50.2, "
@@ -112,6 +138,7 @@ public class ReportIncidentSteps {
     
     @Then("^the incident is stored$")
     public void the_incident_is_stored() {
+    	System.err.println(incidents.size());
     		assertTrue(incidents.size() == 1);
     }
     

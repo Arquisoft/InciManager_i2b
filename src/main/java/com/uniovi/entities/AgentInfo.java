@@ -90,6 +90,11 @@ public class AgentInfo {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (kind == null) {
+			if (other.kind != null)
+				return false;
+		} else if (!kind.equals(other.kind))
+			return false;
 		return true;
 	}
 
