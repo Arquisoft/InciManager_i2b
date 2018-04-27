@@ -60,6 +60,17 @@ public class AgentInfoTest {
 	}
 	
 	@Test
+	public void testEquals2() {
+		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
+		AgentInfo agent2 = new AgentInfo("agentA", "password1", "Person");
+		AgentInfo agent3 = new AgentInfo("agentB", "password", "Entity");
+		
+		assertNotEquals(agent, agent2);
+		assertNotEquals(agent, agent3);
+		assertNotEquals(agent2, agent3);
+	}
+	
+	@Test
 	public void testToString() {
 		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
 		String str = "AgentInfo [id=null, username=agentA, password=password, kind=Person]";
