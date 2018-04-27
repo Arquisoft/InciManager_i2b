@@ -64,10 +64,21 @@ public class AgentInfoTest {
 		AgentInfo agent = new AgentInfo("agentA", "password", "Person");
 		AgentInfo agent2 = new AgentInfo("agentA", "password1", "Person");
 		AgentInfo agent3 = new AgentInfo("agentB", "password", "Entity");
+		AgentInfo agent4 = new AgentInfo("agentA", null, "Person");
 		
 		assertNotEquals(agent, agent2);
 		assertNotEquals(agent, agent3);
 		assertNotEquals(agent2, agent3);
+		
+		agent2.setPassword(null);
+		assertNotEquals(agent, agent2);
+		assertEquals(agent2, agent4);
+		
+		agent3.setKind(null);
+		assertNotEquals(agent, agent3);
+		agent4.setPassword("password");
+		agent3.setPassword("password");
+		assertEquals(agent4, agent);
 	}
 	
 	@Test

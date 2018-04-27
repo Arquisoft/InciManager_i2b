@@ -58,6 +58,7 @@ public class ReportIncidentSteps {
     private MockMvc mockMvc;
     private MockHttpServletResponse result;
     private List<Incident> incidents;
+    private AgentInfo aInfo;
     
 	@Given("^a list of users:$")
     public void a_list_of_sensors(List<AgentInfo> agents) {
@@ -76,35 +77,33 @@ public class ReportIncidentSteps {
     		
     		this.mockMvc = MockMvcBuilders.standaloneSetup(incidentController).build();
     }
-    
-    @When("^the agent logs in with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\"$")
-    public void the_user_logs_in_with_username_password_and_kind(String username,
-    			String password, String kind) throws Exception {
+	
+	@Given("^an agent with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\"$")
+	public void an_agent_with_username_password_and_kind(String username, String password, String kind) throws Throwable {
+		aInfo = new AgentInfo(username, password, kind);
+	}
+	
+    @When("^the agent logs in$")
+    public void the_agent_logs_in() throws Exception {
     		mockMvc.perform(get("/agentform"));
-    		MockHttpServletRequestBuilder request = post("/agentform").param("username", username)
-    				.param("password", password).param("kind", kind);
+    		MockHttpServletRequestBuilder request = post("/agentform").param("username", aInfo.getUsername())
+    				.param("password", aInfo.getPassword()).param("kind", aInfo.getKind());
     		
     		result = mockMvc.perform(request).andReturn().getResponse();
     }
 
+    @When("^the agent accesses \"(.+)\"$")
+    public void the_user_accesses(String url) throws Exception {
+    		mockMvc.perform(get(url));
+    }
 	
-    @When("^the agent with username \"([^\"]*)\" password \"([^\"]*)\" and kind \"([^\"]*)\" posts an incident$")
-    public void the_agent_with_username_and_password_posts_an_incident(String username,
-    			String password, String kind) throws Exception {
-    	
-//    		//Login
-//    		the_user_logs_in_with_username_password_and_kind(username, password, kind);
-//    		the_agent_receives_status_code_of(302);
-//    		
-//    		//Access incidentform
-//    		mockMvc.perform(get("/incident/create?method=form"));
-//    		the_agent_receives_status_code_of(200);
-    	
-    		//Send post method
+    @When("^the agent posts an incident$")
+    public void the_agent_posts_an_incident() throws Exception {
+    	    	
     		String payload = String.format("{\"agent\": {\"username\": \"%s\", \"password\": \"%s\", "
 					+ "\"kind\": \"%s\"}, \"inciName\": \"Test\", \"location\": {\"lat\": 50.2, "
 					+ "\"lon\": 12.2}, \"tags\": [], \"moreInfo\": [], \"properties\": {}}",
-					username, password, kind);
+					aInfo.getUsername(), aInfo.getPassword(), aInfo.getKind());
     	
     		MockHttpServletRequestBuilder request = post("/incident/create")
     				.contentType(MediaType.APPLICATION_JSON).content(payload.getBytes());
