@@ -20,7 +20,7 @@ import com.uniovi.util.IncidentPropertiesConverter;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class IncidentPropertiesConverterTest {
 
-	IncidentPropertiesConverter converter;
+	private IncidentPropertiesConverter converter;
 	
 	@Before
 	public void setUp() {
