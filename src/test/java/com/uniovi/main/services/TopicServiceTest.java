@@ -36,6 +36,7 @@ public class TopicServiceTest {
 	public void testListSize() {
 		assertTrue(topicsService.getTopicsOf(inciSensor).size() == 3);
 		assertTrue(topicsService.getTopicsOf(inciPerson).size() == 2);
+		inciOperator.addProperty("random", "whatever");
 		inciOperator.addProperty("Operators", "Operators");
 		assertTrue(topicsService.getTopicsOf(inciOperator).size() == 3);
 	}
