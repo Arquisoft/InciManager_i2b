@@ -83,6 +83,14 @@ public class Operator {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public ObjectId getId() {
+		return this.id;
+	}
+	
+	public void setId(ObjectId id) {
+		this.id = id;
+	}
 
 	public String getOperatorname() {
 		return operatorname;
