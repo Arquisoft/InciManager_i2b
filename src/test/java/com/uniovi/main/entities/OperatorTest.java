@@ -2,6 +2,7 @@ package com.uniovi.main.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -51,8 +52,16 @@ public class OperatorTest {
 		
 		assertNotEquals(op5, new Incident());
 		assertNotEquals(null, op5);
+		assertNotEquals(op5, null);
 		
 		op2.setEmail(null);
+		assertNotEquals(op2, op4);
+		
+		op2.setEmail(op4.getEmail());
+		op2.setId(new ObjectId());
+		op4.setId(new ObjectId());
+		assertNotEquals(op2, op4);
+		op2.setId(null);
 		assertNotEquals(op2, op4);
 	}
 	
@@ -82,5 +91,24 @@ public class OperatorTest {
 		assertEquals(2, op2.getNumNotifications());
 		op2.setNumNotifications(5);
 		assertEquals(5, op2.getNumNotifications());
+	}
+	
+	@Test
+	public void testPassword() {
+		Operator op2 = new Operator("cleopatra@gob.eg", "cleo", true);
+		assertNull(op2.getPassword());
+		op2.setPassword("password");
+		assertEquals("password", op2.getPassword());
+		op2.setPassword(null);
+		assertNull(op2.getPassword());
+	}
+	
+	@Test
+	public void testId() {
+		Operator op2 = new Operator("eleven@dashboard.com", "twelve", true);
+		assertNull(op2.getId());
+		ObjectId id = new ObjectId();
+		op2.setId(id);
+		assertEquals(id, op2.getId());
 	}
 }

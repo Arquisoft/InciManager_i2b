@@ -25,7 +25,7 @@ public class KafkaService {
 	private TopicService topicService;
 
 	public void sendToKafka(Incident incident) {
-		String message = this.toKafkaMessage(incident);
+		String message = this.toKafkaMessage(incident, new ObjectMapper());
 		List<String> topics = topicService.getTopicsOf(incident);
         for (String topic : topics) {
     			LOG.info("sending message='{}' to topic='{}'", message, topic);
@@ -33,8 +33,7 @@ public class KafkaService {
         }
 	}
 
-	public String toKafkaMessage(Incident incident) {
-		ObjectMapper mapper = new ObjectMapper();
+	public String toKafkaMessage(Incident incident, ObjectMapper mapper) {
 		String result = "";
 		try {
 			result = mapper.writeValueAsString(incident);

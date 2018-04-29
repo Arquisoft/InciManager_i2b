@@ -1,11 +1,13 @@
-package com.uniovi.main.repositories;
+package com.uniovi.main.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 
 import org.json.JSONException;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.uniovi.entities.AgentInfo;
@@ -19,7 +21,14 @@ public class DataToSaveTest {
 	private AgentInfo agent2 = new AgentInfo("agent2", "pruebas456", "Entity");
 	private AgentInfo agent3 = new AgentInfo("agent3", "pruebas789", "Sensor");
 
-	private IncidentSelector selector = new IncidentSelector();
+	private IncidentSelector selector;
+	private IncidentSelector wrongValuesSelector;
+	
+	@Before
+	public void setUp() {
+		this.selector = new IncidentSelector();
+		this.wrongValuesSelector = new IncidentSelector("src/test/resources/dataToSaveTest.json");
+	}
 	
 	@Test
 	public void testKindSelector() throws FileNotFoundException, JSONException {
@@ -52,5 +61,21 @@ public class DataToSaveTest {
 		
 		incidentTemperature.getProperties().put("temperature", 35.0);
 		assertTrue(selector.isRelevant(incidentTemperature));
+	}
+	
+	@Test
+	public void testWrongValuesSelector() {
+		Incident incidentTemperature = new Incident("incident", new LatLng(15,12), agent3);
+		incidentTemperature.getProperties().put("temperature", 23.0);
+		assertFalse(wrongValuesSelector.isRelevant(incidentTemperature));
+		
+		incidentTemperature.getProperties().put("temperature", 30005.0);
+		assertFalse(wrongValuesSelector.isRelevant(incidentTemperature));
+	}
+	
+	@Test
+	public void testConfPath() {
+		assertEquals("src/test/resources/dataToSaveTest.json", wrongValuesSelector.getConfPath());
+		assertEquals("src/main/resources/dataToSave.json", selector.getConfPath());
 	}
 }

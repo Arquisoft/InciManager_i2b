@@ -1,0 +1,11 @@
+{
+    "random": {
+    		"hello": 2
+    },
+    "kind": {
+    		"type": "invented"
+    },
+    "temperature": {
+    		"type": "invented2"
+    }
+}

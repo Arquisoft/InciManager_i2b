@@ -1,26 +1,35 @@
 package com.uniovi.util;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.function.Function;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniovi.entities.Incident;
 
 public class IncidentSelector {
 
-	private final String confPath="src/main/resources/dataToSave.json";
+	private String confPath;
+	private List<Function<Incident, Boolean>> conditions;
+	
+	public IncidentSelector() {
+		this("src/main/resources/dataToSave.json");
+	}
+	
+	public IncidentSelector(String confPath) {
+		this.confPath = confPath;
+		this.conditions = new ArrayList<Function<Incident, Boolean>>();
+		this.relevanceConditions(); // init conditions list
+	}
 	
 	public boolean isRelevant(Incident incident) {
-		for (Function<Incident, Boolean> condition : relevanceConditions()) {
+		for (Function<Incident, Boolean> condition : this.conditions) {
 			if (condition.apply(incident))
 				return true;
 		}
@@ -28,65 +37,61 @@ public class IncidentSelector {
 	}
 
 	private List<Function<Incident, Boolean>> relevanceConditions() {
-		
-		List<Function<Incident, Boolean>> conditions = new ArrayList<Function<Incident, Boolean>>();
-		
-		Reader reader = null;
-		JSONParser parser = new JSONParser();
+		byte[] jsonData = null;
+		ObjectMapper mapper = new ObjectMapper();
 
-			try {
-				reader = new FileReader(confPath);
-				JSONObject jsonObject = (JSONObject) parser.parse(reader);
-				for (Object obj : jsonObject.keySet()) {
-					obtainCondition(conditions, jsonObject, (String) obj);
-				}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
+		try {
+			jsonData = Files.readAllBytes(Paths.get(confPath));
+			JsonNode root = mapper.readTree(jsonData);
+			
+			Iterator<Entry<String, JsonNode>> nodes = root.fields();
+			while (nodes.hasNext()) {
+				Entry<String, JsonNode> currentNode = nodes.next();
+				obtainCondition(currentNode.getValue(), currentNode.getKey());
 			}
+		} catch (IOException e) { e.printStackTrace(); }
+		
 		return conditions;
 	}
 
-	private void obtainCondition(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String key) {
+	private void obtainCondition(JsonNode jsonObject, String key) {
 		if ("kind".equals(key))
-			conditionsKind(conditions, jsonObject);
+			conditionsKind(jsonObject);
 		else if ("temperature".equals(key))
-			conditionsSensor(conditions, jsonObject, key);
+			conditionsSensor(jsonObject, key);
 		else if ("pollution".equals(key))
-			conditionsSensor(conditions, jsonObject, key);
+			conditionsSensor(jsonObject, key);
 	}
 	
-	private void conditionsKind(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject) {
-		
-		JSONObject kindContents = (JSONObject) jsonObject.get("kind");
-		if (kindContents.get("type").equals("values")){
-			JSONArray kinds = (JSONArray) kindContents.get("important");
-			for (int j = 0; j < kinds.size(); j++) {
-				Integer index = j;
-				Function<Incident, Boolean> function = i -> i.getAgent().getKind().equals(kinds.get(index));
+	private void conditionsKind(JsonNode jsonObject) {
+		if (jsonObject.get("type").asText().equals("values")){
+			Iterator<JsonNode> kinds = jsonObject.get("important").elements();
+			while (kinds.hasNext()) {
+				JsonNode currentKind = kinds.next();
+				Function<Incident, Boolean> function = i -> i.getAgent().getKind().equals(currentKind.asText());
 				conditions.add(function);
 			}
 		}
 	}
 	
-	private void conditionsSensor(List<Function<Incident, Boolean>> conditions, JSONObject jsonObject, String sensorType) {
-		JSONObject jsonContents = (JSONObject) jsonObject.get(sensorType);
-		if (jsonContents.get("type").equals("range"))
-			conditionRange(sensorType, conditions, jsonContents);		
+	private void conditionsSensor(JsonNode jsonObject, String sensorType) {
+		if (jsonObject.get("type").asText().equals("range"))
+			conditionRange(sensorType, jsonObject);		
 	}
 	
-	private void conditionRange(String sensorType, List<Function<Incident, Boolean>> conditions, JSONObject jsonObject) {
-		Long min =  (Long) jsonObject.get("min");
-		Long max =  (Long) jsonObject.get("max");
+	private void conditionRange(String sensorType, JsonNode jsonObject) {
+		Long min =  jsonObject.get("min").asLong();
+		Long max =  jsonObject.get("max").asLong();
 		
 		Function<Incident, Boolean> func = 
 				i -> i.getProperties().containsKey(sensorType)
 						&& (((Double) i.getProperties().get(sensorType)) < min 
 								|| ((Double) i.getProperties().get(sensorType)) > max );
 						
-		conditions.add(func);
+		this.conditions.add(func);
+	}
+	
+	public String getConfPath() {
+		return this.confPath;
 	}
 }
