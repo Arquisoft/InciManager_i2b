@@ -9,7 +9,6 @@
 ## Authors
 - Alejandro González Hevia (@alejgh)
 - Carmen Sors González (@carmee-en)
-- Alvaro Tejido Jardón (@tejido18)
 - Eduardo Ulibarri Toledo (@uo251436)
 
 ## How to execute the module
@@ -126,7 +125,7 @@ The output format will be as follows:
 }
 ```
 ### Web interface
-For a more visual output, you may also sent a get request to http://localhost:8081/agentform that will lead you to a sample form where you must specify the agent's username, password and kind:
+For a more visual output, you may also send a get request to http://localhost:8081/agentform that will lead you to a sample form where you must specify the agent's username, password and kind:
 
 ![Filling web form](img/agentform.png)
 
