@@ -45,7 +45,7 @@ public class PersonQueryIncidentsSteps {
     private AgentInfo person;
     
 	@Given("^a person with username \"([^\"]*)\" and password \"([^\"]*)\"$")
-    public void a_person_with_usrname_and_password(String username, String password) {
+    public void a_person_with_username_and_password(String username, String password) {
 		person = new AgentInfo(username, password, "Person");
     }
     
