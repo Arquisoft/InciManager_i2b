@@ -1,0 +1,23 @@
+{
+  "agent": {
+    "username": "sonny",
+    "password": "pass123",
+    "kind": "Person"
+  },
+  "inciName": "incidentName",
+  "location": {
+    "lat": 1,
+    "lon": 1
+  },
+  "tags": [
+    "tag1",
+    "tag2"
+  ],
+  "moreInfo": [
+    "moreInfo1",
+    "moreInfo2"
+  ],
+  "properties": {
+    
+  }
+}

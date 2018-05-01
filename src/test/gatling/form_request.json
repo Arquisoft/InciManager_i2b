@@ -1,0 +1,19 @@
+{
+  "inciName": "prueba",
+  "agent": {
+    "username": "sonny",
+    "password": "pass123",
+    "kind": "Person"
+  },
+  "location": {
+    "lat": 12,
+    "lon": 34
+  },
+  "tags": [
+    "emergency"
+  ],
+  "moreInfo": [
+    "aprox time 18:00"
+  ],
+  "properties": {}
+}

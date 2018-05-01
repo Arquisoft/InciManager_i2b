@@ -9,7 +9,7 @@ import io.gatling.jdbc.Predef._
 class ChatSimulation extends Simulation {
 
 	val httpProtocol = http
-		.baseURL("http://192.168.99.100:8081")
+		.baseURL("http://178.62.52.250:8081")
 		.inferHtmlResources()
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 		.acceptEncodingHeader("gzip, deflate")
@@ -19,11 +19,6 @@ class ChatSimulation extends Simulation {
 	val headers_0 = Map("Upgrade-Insecure-Requests" -> "1")
 
 	val headers_2 = Map("Accept" -> "text/css,*/*;q=0.1")
-
-	val headers_9 = Map(
-		"Accept" -> "*/*",
-		"Content-Type" -> "application/json; charset=utf-8",
-		"X-Requested-With" -> "XMLHttpRequest")
 
 	val scn = scenario("ChatSimulation")
 		.exec(http("Home")
@@ -48,8 +43,8 @@ class ChatSimulation extends Simulation {
 		.pause(40)
 		.exec(http("Post /incident/create")
 			.post("/incident/create")
-			.headers(headers_9)
-			.body(RawFileBody("ChatSimulation_0009_request.txt")))
+			.header("Content-Type", "application/json")
+			.body(RawFileBody("chat_request.json")).asJSON)
 
 	setUp(scn.inject(rampUsers(1000) over(60 seconds))).protocols(httpProtocol)
 }
