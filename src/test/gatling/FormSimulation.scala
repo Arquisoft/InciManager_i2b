@@ -9,7 +9,7 @@ import io.gatling.jdbc.Predef._
 class FormSimulation extends Simulation {
 
 	val httpProtocol = http
-		.baseURL("http://192.168.99.100:8081")
+		.baseURL("http://178.62.52.250:8081")
 		.inferHtmlResources()
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 		.acceptEncodingHeader("gzip, deflate")
@@ -20,11 +20,6 @@ class FormSimulation extends Simulation {
 
 	val headers_8 = Map("Accept" -> "*/*")
 
-	val headers_9 = Map(
-		"Accept" -> "*/*",
-		"Content-Type" -> "application/json; charset=utf-8",
-		"X-Requested-With" -> "XMLHttpRequest")
-
 	val scn = scenario("FormSimulation")
 		.exec(http("Home")
 			.get("/")
@@ -34,11 +29,13 @@ class FormSimulation extends Simulation {
 		.pause(8)
 		.exec(http("Post agentform")
 			.post("/agentform")
+			.headers(headers_0)
 			.formParam("username", "sonny")
 			.formParam("password", "pass123")
 			.formParam("kind", "Person")
 			.resources(http("Resources /incidents ")
-			.get("/incidents")))
+			.get("/incidents")
+			.headers(headers_0)))
 		.pause(8)
 		.exec(http("Get incident form")
 			.get("/incident/create?method=form")
@@ -49,10 +46,8 @@ class FormSimulation extends Simulation {
 		.pause(45)
 		.exec(http("Post /incident/create")
 			.post("/incident/create")
-			.headers(headers_9)
-			.body(RawFileBody("FormSimulation_0009_request.txt"))
-			.resources(http("Resources /incident")
-			.get("/incidents")))
+			.header("Content-Type", "application/json")
+			.body(RawFileBody("form_request.json")).asJSON)
 
 	setUp(scn.inject(rampUsers(1000) over(60 seconds))).protocols(httpProtocol)
 }
