@@ -22,12 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.uniovi.controllers.IncidentController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.LatLng;
 import com.uniovi.entities.Operator;
 import com.uniovi.kafka.KafkaService;
 import com.uniovi.main.InciManagerI2bApplication;
+import com.uniovi.manager.IncidentController;
 import com.uniovi.services.AgentsService;
 import com.uniovi.services.IncidentsService;
 import com.uniovi.services.OperatorsService;

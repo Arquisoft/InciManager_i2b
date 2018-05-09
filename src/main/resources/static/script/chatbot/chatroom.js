@@ -55,7 +55,7 @@ class ChatRoom {
      * from the textarea, appended to the end of the chat
      * history, and sent to the bot for its processing.
      */
-    onNewUserMessage() {
+    chat() {
         var message = $("textarea").val();
         if (message !== "") {
             this.createUserMessage(message);
