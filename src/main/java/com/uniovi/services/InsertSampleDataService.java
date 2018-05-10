@@ -39,10 +39,10 @@ public class InsertSampleDataService {
 		Incident incident2 = new Incident("inci2", new LatLng(37.5665, 126.9780), agent2);
 		incident2.addTag("earthquake").addTag("unassigned");
 		Incident incident3 = new Incident("inci3", new LatLng(15, 12), agent3);
-		incident3.getProperties().put("pollution", 20.0);
+		incident3.getProperties().put("pollution", "20.0");
 		Incident incident4 = new Incident("inci4", new LatLng(100, 200), agent1);
 		Incident incident5 = new Incident("inci5", new LatLng(52, 42), agent3);
-		incident5.getProperties().put("temperature", 35.0);
+		incident5.getProperties().put("temperature", "35.0");
 
 		operatorsService.addOperator(op);
 		operatorsService.addOperator(op2);

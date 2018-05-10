@@ -58,10 +58,10 @@ public class IncidentsServiceTest {
 		agentsService.addAgent(testInfo3);
 
 		Incident inciTest1 = new Incident("inciTest1", new LatLng(10, 12), testInfo1);
-		inciTest1.getProperties().put("pollution", 15.0);
+		inciTest1.getProperties().put("pollution", "15.0");
 
 		Incident inciTest2 = new Incident("inciTest2", new LatLng(52, 42), testInfo2);
-		inciTest2.getProperties().put("temperature", 29.3);
+		inciTest2.getProperties().put("temperature", "29.3");
 		
 		Incident inciTest3 = new Incident("inciTest3", new LatLng(25, 25), testInfo3);
 
