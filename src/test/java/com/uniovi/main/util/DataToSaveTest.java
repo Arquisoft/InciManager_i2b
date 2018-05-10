@@ -46,30 +46,30 @@ public class DataToSaveTest {
 	@Test
 	public void testPollutionSelector() throws FileNotFoundException, JSONException {
 		Incident incidentPollution = new Incident("inci1", new LatLng(15, 12), agent3);
-		incidentPollution.getProperties().put("pollution", 20.0);
+		incidentPollution.getProperties().put("pollution", "20.0");
 		assertTrue(selector.isRelevant(incidentPollution));
 		
-		incidentPollution.getProperties().put("pollution", 56.0);
+		incidentPollution.getProperties().put("pollution", "56.0");
 		assertFalse(selector.isRelevant(incidentPollution));
 	}
 	
 	@Test
 	public void testTemperatureSelector() throws FileNotFoundException, JSONException {
 		Incident incidentTemperature = new Incident("incident", new LatLng(15,12), agent3);
-		incidentTemperature.getProperties().put("temperature", 23.0);
+		incidentTemperature.getProperties().put("temperature", "23.0");
 		assertFalse(selector.isRelevant(incidentTemperature));
 		
-		incidentTemperature.getProperties().put("temperature", 35.0);
+		incidentTemperature.getProperties().put("temperature", "35.0");
 		assertTrue(selector.isRelevant(incidentTemperature));
 	}
 	
 	@Test
 	public void testWrongValuesSelector() {
 		Incident incidentTemperature = new Incident("incident", new LatLng(15,12), agent3);
-		incidentTemperature.getProperties().put("temperature", 23.0);
+		incidentTemperature.getProperties().put("temperature", "23.0");
 		assertFalse(wrongValuesSelector.isRelevant(incidentTemperature));
 		
-		incidentTemperature.getProperties().put("temperature", 30005.0);
+		incidentTemperature.getProperties().put("temperature", "30005.0");
 		assertFalse(wrongValuesSelector.isRelevant(incidentTemperature));
 	}
 	
