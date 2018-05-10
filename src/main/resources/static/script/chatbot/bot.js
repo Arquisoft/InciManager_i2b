@@ -79,10 +79,10 @@ class ChatBot {
                 this.incident.inciName = data.result.parameters.name;
                 break;
 
-            case "incident_scan_location":
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    this.incident.location.lat = position.coords.latitude;
-                    this.incident.location.lon = position.coords.longitude;
+ 			case "incident_scan_location":
+                jQuery.post("https://www.googleapis.com/geolocation/v1/geolocate?$
+                    this.incident.location.lat = position.location.lat;
+                    this.incident.location.lon = position.location.lng;
 
                     this.chatRoom.createBotMessage("Location scanned. Lat: "
                             + this.incident.location.lat + " - Lon: "
@@ -91,10 +91,8 @@ class ChatBot {
 
                     this.chatRoom.createBotMessage("Now you can introduce some"
                             + " tags for the incident.");
-                }.bind(this), function(error) {
-                    this.processAnswer(data);
                 }.bind(this));
-                break;
+                return;
 
             case "incident_latitude_given":
                 this.incident.location.lat = data.result.parameters.latitude;
