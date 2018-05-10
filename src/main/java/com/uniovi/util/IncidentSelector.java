@@ -85,8 +85,8 @@ public class IncidentSelector {
 		
 		Function<Incident, Boolean> func = 
 				i -> i.getProperties().containsKey(sensorType)
-						&& (((Double) i.getProperties().get(sensorType)) < min 
-								|| ((Double) i.getProperties().get(sensorType)) > max );
+						&& ((Double.parseDouble(((String) i.getProperties().get(sensorType)))) < min 
+								|| (Double.parseDouble(((String) i.getProperties().get(sensorType))) > max ));
 						
 		this.conditions.add(func);
 	}
