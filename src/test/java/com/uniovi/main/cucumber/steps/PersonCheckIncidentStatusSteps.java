@@ -19,11 +19,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.uniovi.controllers.IncidentsInfoController;
 import com.uniovi.entities.AgentInfo;
 import com.uniovi.entities.Incident;
 import com.uniovi.entities.IncidentState;
 import com.uniovi.main.InciManagerI2bApplication;
+import com.uniovi.manager.IncidentsInfoController;
 import com.uniovi.services.IncidentsService;
 
 import cucumber.api.java.en.Given;

@@ -1,4 +1,4 @@
-package com.uniovi.controllers;
+package com.uniovi.manager;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,7 +49,7 @@ public class IncidentController {
 	@ResponseBody
 	public String createIncident(@RequestBody Incident incident) throws AgentNotFoundException {
 		if (!agentsService.existsAgent(incident.getAgent())) {
-			throw new AgentNotFoundException();
+			notifyError();
 		}
 
 		agentsService.addAgent(incident.getAgent());
@@ -58,7 +58,7 @@ public class IncidentController {
 		kafkaService.sendToKafka(incident);
 		return "Incident correctly sent!";
 	}
-
+	
 	/**
 	 * Entry point for a GET request for an agent that wants
 	 * to create an incident using a web interface. The agent
@@ -83,6 +83,10 @@ public class IncidentController {
 			return "incidentForm";
 		else
 			return "chatroom";
+	}
+
+	public void notifyError() {
+		throw new AgentNotFoundException();
 	}
 
 }

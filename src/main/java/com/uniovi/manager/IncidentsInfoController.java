@@ -1,4 +1,4 @@
-package com.uniovi.controllers;
+package com.uniovi.manager;
 
 import java.io.IOException;
 import java.util.List;
