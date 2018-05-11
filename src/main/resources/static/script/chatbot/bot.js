@@ -80,7 +80,8 @@ class ChatBot {
                 break;
 
  			case "incident_scan_location":
-                jQuery.post("https://www.googleapis.com/geolocation/v1/geolocate?$
+                
+jQuery.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAKrSmT3e-WZKXcNZs7yQ0zwpJvUq1CVO8", function(position) {
                     this.incident.location.lat = position.location.lat;
                     this.incident.location.lon = position.location.lng;
 
